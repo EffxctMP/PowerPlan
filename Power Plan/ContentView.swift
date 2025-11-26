@@ -65,15 +65,15 @@ enum ThemeColor: String, CaseIterable, Identifiable {
     var displayName: String {
         switch self {
         case .electricBlue:
-            NSLocalizedString("theme.electricBlue", comment: "Electric blue accent")
+            NSLocalizedString("theme.blue", comment: "Blue accent")
         case .forestGreen:
-            NSLocalizedString("theme.forestGreen", comment: "Forest green accent")
+            NSLocalizedString("theme.green", comment: "Green accent")
         case .solarOrange:
-            NSLocalizedString("theme.solarOrange", comment: "Solar orange accent")
+            NSLocalizedString("theme.orange", comment: "Orange accent")
         case .midnightIndigo:
-            NSLocalizedString("theme.midnightIndigo", comment: "Midnight indigo accent")
+            NSLocalizedString("theme.indigo", comment: "Indigo accent")
         case .violetPulse:
-            NSLocalizedString("theme.violetPulse", comment: "Violet pulse accent")
+            NSLocalizedString("theme.purple", comment: "Purple accent")
         }
     }
 }
@@ -676,32 +676,7 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section(header: Text(L10n.appearance)) {
-                Picker(L10n.settingsThemeLabel, selection: $appearanceMode) {
-                    ForEach(AppearanceMode.allCases) { mode in
-                        Text(mode.displayName).tag(mode)
-                    }
-                }
-                .pickerStyle(.segmented)
-                Text(L10n.settingsThemeDescription)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-
-                Picker(L10n.settingsThemeColorLabel, selection: $themeColor) {
-                    ForEach(ThemeColor.allCases) { theme in
-                        HStack(spacing: 12) {
-                            Capsule()
-                                .fill(theme.color.gradient)
-                                .frame(width: 42, height: 18)
-                            Text(theme.displayName)
-                        }
-                        .tag(theme)
-                    }
-                }
-                Text(L10n.settingsThemeColorDescription)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
+            AppearanceSettingsSection(appearanceMode: $appearanceMode, themeColor: $themeColor)
 
             Section(header: Text(L10n.language)) {
                 Picker(L10n.languageLabel, selection: $languagePreference) {
@@ -715,6 +690,40 @@ struct SettingsView: View {
             }
         }
         .navigationTitle(L10n.settingsHeader)
+    }
+}
+
+private struct AppearanceSettingsSection: View {
+    @Binding var appearanceMode: AppearanceMode
+    @Binding var themeColor: ThemeColor
+
+    var body: some View {
+        Section(header: Text(L10n.appearance)) {
+            Picker(L10n.settingsThemeLabel, selection: $appearanceMode) {
+                ForEach(AppearanceMode.allCases) { mode in
+                    Text(mode.displayName).tag(mode)
+                }
+            }
+            .pickerStyle(.segmented)
+            Text(L10n.settingsThemeDescription)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+
+            Picker(L10n.settingsThemeColorLabel, selection: $themeColor) {
+                ForEach(ThemeColor.allCases) { theme in
+                    HStack(spacing: 12) {
+                        Capsule()
+                            .fill(theme.color.gradient)
+                            .frame(width: 42, height: 18)
+                        Text(theme.displayName)
+                    }
+                    .tag(theme)
+                }
+            }
+            Text(L10n.settingsThemeColorDescription)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
     }
 }
 
