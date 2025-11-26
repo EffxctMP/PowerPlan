@@ -84,8 +84,16 @@
 
 "settings.theme.description" = "Kies Systeem om de apparaatweergave te volgen of forceer Licht/Donker.";
 "settings.theme.label" = "Thema";
+"settings.theme.color.label" = "Accentkleur";
+"settings.theme.color.description" = "Kies een accentkleur om het dashboard en de knoppen te personaliseren.";
 "settings.language.label" = "App-taal";
 "settings.language.description" = "Schakel naar Nederlands om de interface in het Nederlands te bekijken.";
+
+"theme.electricBlue" = "Elektrisch blauw";
+"theme.forestGreen" = "Bosgroen";
+"theme.solarOrange" = "Zonne-oranje";
+"theme.midnightIndigo" = "Middernacht-indigo";
+"theme.violetPulse" = "Violetpuls";
 
 "reference.copper" = "Koperresistiviteit: 0,0175 Ω·mm²/m";
 "reference.pfRange" = "Vermogensfactor typisch bereik: 0,8 - 1,0";
