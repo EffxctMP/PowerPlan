@@ -38,6 +38,46 @@ enum AppearanceMode: String, CaseIterable, Identifiable {
     }
 }
 
+enum ThemeColor: String, CaseIterable, Identifiable {
+    case electricBlue
+    case forestGreen
+    case solarOrange
+    case midnightIndigo
+    case violetPulse
+
+    var id: String { rawValue }
+
+    var color: Color {
+        switch self {
+        case .electricBlue:
+            Color(red: 0.15, green: 0.49, blue: 0.96)
+        case .forestGreen:
+            Color(red: 0.0, green: 0.6, blue: 0.35)
+        case .solarOrange:
+            Color(red: 0.98, green: 0.47, blue: 0.12)
+        case .midnightIndigo:
+            Color(red: 0.26, green: 0.27, blue: 0.6)
+        case .violetPulse:
+            Color(red: 0.58, green: 0.28, blue: 0.88)
+        }
+    }
+
+    var displayName: String {
+        switch self {
+        case .electricBlue:
+            NSLocalizedString("theme.electricBlue", comment: "Electric blue accent")
+        case .forestGreen:
+            NSLocalizedString("theme.forestGreen", comment: "Forest green accent")
+        case .solarOrange:
+            NSLocalizedString("theme.solarOrange", comment: "Solar orange accent")
+        case .midnightIndigo:
+            NSLocalizedString("theme.midnightIndigo", comment: "Midnight indigo accent")
+        case .violetPulse:
+            NSLocalizedString("theme.violetPulse", comment: "Violet pulse accent")
+        }
+    }
+}
+
 enum LanguageOption: String, CaseIterable, Identifiable {
     case system
     case english = "en"
@@ -145,6 +185,8 @@ private enum L10n {
     static let openSettings = NSLocalizedString("nav.settings.button", comment: "Open settings label")
     static let settingsThemeDescription = NSLocalizedString("settings.theme.description", comment: "Theme description")
     static let settingsThemeLabel = NSLocalizedString("settings.theme.label", comment: "Theme picker label")
+    static let settingsThemeColorLabel = NSLocalizedString("settings.theme.color.label", comment: "Theme color picker label")
+    static let settingsThemeColorDescription = NSLocalizedString("settings.theme.color.description", comment: "Theme color description")
     static let languageLabel = NSLocalizedString("settings.language.label", comment: "Language picker label")
     static let languageDescription = NSLocalizedString("settings.language.description", comment: "Language description")
 
@@ -170,6 +212,7 @@ private enum L10n {
 struct ContentView: View {
     @AppStorage("appearanceMode") private var appearanceMode: AppearanceMode = .system
     @AppStorage("languagePreference") private var languagePreference: LanguageOption = .system
+    @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
 
     private var resolvedLocale: Locale {
         languagePreference.locale ?? .autoupdatingCurrent
@@ -188,12 +231,16 @@ struct ContentView: View {
         }
         .preferredColorScheme(appearanceMode.colorScheme)
         .environment(\.locale, resolvedLocale)
+        .tint(themeColor.color)
     }
 }
 
 struct DashboardView: View {
     @AppStorage("appearanceMode") private var appearanceMode: AppearanceMode = .system
     @AppStorage("languagePreference") private var languagePreference: LanguageOption = .system
+    @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
+
+    private var accentColor: Color { themeColor.color }
 
     var body: some View {
         NavigationStack {
@@ -206,7 +253,7 @@ struct DashboardView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.accentColor.opacity(0.1))
+                                .background(accentColor.opacity(0.1))
                                 .cornerRadius(12)
                         }
                     }
@@ -216,7 +263,7 @@ struct DashboardView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.accentColor.opacity(0.1))
+                                .background(accentColor.opacity(0.1))
                             .cornerRadius(12)
                         }
                     }
@@ -226,7 +273,7 @@ struct DashboardView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.accentColor.opacity(0.1))
+                                .background(accentColor.opacity(0.1))
                                 .cornerRadius(12)
                         }
                     }
@@ -236,7 +283,7 @@ struct DashboardView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.accentColor.opacity(0.1))
+                                .background(accentColor.opacity(0.1))
                                 .cornerRadius(12)
                         }
                     }
@@ -246,7 +293,7 @@ struct DashboardView: View {
             .navigationTitle(L10n.appTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: SettingsView(appearanceMode: $appearanceMode, languagePreference: $languagePreference)) {
+                    NavigationLink(destination: SettingsView(appearanceMode: $appearanceMode, languagePreference: $languagePreference, themeColor: $themeColor)) {
                         Label(L10n.openSettings, systemImage: "gearshape")
                     }
                 }
@@ -256,10 +303,12 @@ struct DashboardView: View {
 }
 
 struct HeroHeader: View {
+    @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
+
     var body: some View {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 24)
-                .fill(LinearGradient(colors: [.accentColor.opacity(0.85), .blue.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing))
+                .fill(LinearGradient(colors: [themeColor.color.opacity(0.9), themeColor.color.opacity(0.6)], startPoint: .topLeading, endPoint: .bottomTrailing))
             VStack(alignment: .leading, spacing: 8) {
                 Label(L10n.heroTitle, systemImage: "bolt.circle.fill")
                     .foregroundStyle(.white)
@@ -287,6 +336,7 @@ struct CalculationCard<Content: View>: View {
     let subtitle: String
     let icon: String
     let content: Content
+    @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
 
     init(title: String, subtitle: String, icon: String, @ViewBuilder content: () -> Content) {
         self.title = title
@@ -300,9 +350,9 @@ struct CalculationCard<Content: View>: View {
             HStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.title2)
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(themeColor.color)
                     .frame(width: 36, height: 36)
-                    .background(Color.accentColor.opacity(0.12))
+                    .background(themeColor.color.opacity(0.12))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
@@ -622,6 +672,7 @@ struct ReferenceView: View {
 struct SettingsView: View {
     @Binding var appearanceMode: AppearanceMode
     @Binding var languagePreference: LanguageOption
+    @Binding var themeColor: ThemeColor
 
     var body: some View {
         Form {
@@ -633,6 +684,21 @@ struct SettingsView: View {
                 }
                 .pickerStyle(.segmented)
                 Text(L10n.settingsThemeDescription)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                Picker(L10n.settingsThemeColorLabel, selection: $themeColor) {
+                    ForEach(ThemeColor.allCases) { theme in
+                        HStack(spacing: 12) {
+                            Capsule()
+                                .fill(theme.color.gradient)
+                                .frame(width: 42, height: 18)
+                            Text(theme.displayName)
+                        }
+                        .tag(theme)
+                    }
+                }
+                Text(L10n.settingsThemeColorDescription)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
