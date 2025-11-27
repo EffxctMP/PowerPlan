@@ -107,106 +107,106 @@ enum LanguageOption: String, CaseIterable, Identifiable {
 }
 
 private enum L10n {
-    static let calculators = NSLocalizedString("tab.calculators", comment: "Calculators tab title")
-    static let reference = NSLocalizedString("tab.reference", comment: "Reference tab title")
-    static let appTitle = NSLocalizedString("nav.title", comment: "Main navigation title")
+    static var calculators: String { NSLocalizedString("tab.calculators", comment: "Calculators tab title") }
+    static var reference: String { NSLocalizedString("tab.reference", comment: "Reference tab title") }
+    static var appTitle: String { NSLocalizedString("nav.title", comment: "Main navigation title") }
 
-    static let heroTitle = NSLocalizedString("hero.title", comment: "Hero title")
-    static let heroSubtitle = NSLocalizedString("hero.subtitle", comment: "Hero subtitle")
-    static let heroOffline = NSLocalizedString("hero.offline", comment: "Offline badge")
-    static let heroFormulas = NSLocalizedString("hero.formulas", comment: "Pro formulas badge")
+    static var heroTitle: String { NSLocalizedString("hero.title", comment: "Hero title") }
+    static var heroSubtitle: String { NSLocalizedString("hero.subtitle", comment: "Hero subtitle") }
+    static var heroOffline: String { NSLocalizedString("hero.offline", comment: "Offline badge") }
+    static var heroFormulas: String { NSLocalizedString("hero.formulas", comment: "Pro formulas badge") }
 
-    static let ohmsTitle = NSLocalizedString("card.ohms.title", comment: "Ohm's law card title")
-    static let ohmsSubtitle = NSLocalizedString("card.ohms.subtitle", comment: "Ohm's law card subtitle")
-    static let ohmsButton = NSLocalizedString("card.ohms.button", comment: "Open ohms calculator")
+    static var ohmsTitle: String { NSLocalizedString("card.ohms.title", comment: "Ohm's law card title") }
+    static var ohmsSubtitle: String { NSLocalizedString("card.ohms.subtitle", comment: "Ohm's law card subtitle") }
+    static var ohmsButton: String { NSLocalizedString("card.ohms.button", comment: "Open ohms calculator") }
 
-    static let powerTitle = NSLocalizedString("card.power.title", comment: "Power card title")
-    static let powerSubtitle = NSLocalizedString("card.power.subtitle", comment: "Power card subtitle")
-    static let powerButton = NSLocalizedString("card.power.button", comment: "Open power calculator")
+    static var powerTitle: String { NSLocalizedString("card.power.title", comment: "Power card title") }
+    static var powerSubtitle: String { NSLocalizedString("card.power.subtitle", comment: "Power card subtitle") }
+    static var powerButton: String { NSLocalizedString("card.power.button", comment: "Open power calculator") }
 
-    static let wattTitle = NSLocalizedString("card.watt.title", comment: "Watt card title")
-    static let wattSubtitle = NSLocalizedString("card.watt.subtitle", comment: "Watt card subtitle")
-    static let wattButton = NSLocalizedString("card.watt.button", comment: "Open watt calculator")
+    static var wattTitle: String { NSLocalizedString("card.watt.title", comment: "Watt card title") }
+    static var wattSubtitle: String { NSLocalizedString("card.watt.subtitle", comment: "Watt card subtitle") }
+    static var wattButton: String { NSLocalizedString("card.watt.button", comment: "Open watt calculator") }
 
-    static let dropTitle = NSLocalizedString("card.drop.title", comment: "Voltage drop title")
-    static let dropSubtitle = NSLocalizedString("card.drop.subtitle", comment: "Voltage drop subtitle")
-    static let dropButton = NSLocalizedString("card.drop.button", comment: "Open voltage drop")
+    static var dropTitle: String { NSLocalizedString("card.drop.title", comment: "Voltage drop title") }
+    static var dropSubtitle: String { NSLocalizedString("card.drop.subtitle", comment: "Voltage drop subtitle") }
+    static var dropButton: String { NSLocalizedString("card.drop.button", comment: "Open voltage drop") }
 
-    static let inputs = NSLocalizedString("section.inputs", comment: "Inputs section")
-    static let results = NSLocalizedString("section.results", comment: "Results section")
-    static let circuit = NSLocalizedString("section.circuit", comment: "Circuit section title")
-    static let load = NSLocalizedString("section.load", comment: "Load section title")
-    static let run = NSLocalizedString("section.run", comment: "Run section title")
-    static let appearance = NSLocalizedString("section.appearance", comment: "Appearance section title")
-    static let language = NSLocalizedString("section.language", comment: "Language section title")
+    static var inputs: String { NSLocalizedString("section.inputs", comment: "Inputs section") }
+    static var results: String { NSLocalizedString("section.results", comment: "Results section") }
+    static var circuit: String { NSLocalizedString("section.circuit", comment: "Circuit section title") }
+    static var load: String { NSLocalizedString("section.load", comment: "Load section title") }
+    static var run: String { NSLocalizedString("section.run", comment: "Run section title") }
+    static var appearance: String { NSLocalizedString("section.appearance", comment: "Appearance section title") }
+    static var language: String { NSLocalizedString("section.language", comment: "Language section title") }
 
-    static let ohmsHeader = NSLocalizedString("nav.ohms", comment: "Ohm's law navigation title")
-    static let powerHeader = NSLocalizedString("nav.power", comment: "Power calculator title")
-    static let wattHeader = NSLocalizedString("nav.watt", comment: "Watt calculator title")
-    static let dropHeader = NSLocalizedString("nav.drop", comment: "Voltage drop title")
-    static let referenceHeader = NSLocalizedString("nav.reference", comment: "Reference title")
-    static let settingsHeader = NSLocalizedString("nav.settings", comment: "Settings title")
+    static var ohmsHeader: String { NSLocalizedString("nav.ohms", comment: "Ohm's law navigation title") }
+    static var powerHeader: String { NSLocalizedString("nav.power", comment: "Power calculator title") }
+    static var wattHeader: String { NSLocalizedString("nav.watt", comment: "Watt calculator title") }
+    static var dropHeader: String { NSLocalizedString("nav.drop", comment: "Voltage drop title") }
+    static var referenceHeader: String { NSLocalizedString("nav.reference", comment: "Reference title") }
+    static var settingsHeader: String { NSLocalizedString("nav.settings", comment: "Settings title") }
 
-    static let provideTwo = NSLocalizedString("ohms.prompt", comment: "Prompt for Ohm's law inputs")
-    static let enterTwo = NSLocalizedString("ohms.validation", comment: "Validation for two values")
+    static var provideTwo: String { NSLocalizedString("ohms.prompt", comment: "Prompt for Ohm's law inputs") }
+    static var enterTwo: String { NSLocalizedString("ohms.validation", comment: "Validation for two values") }
     static func voltage(_ value: String) -> String { String(format: NSLocalizedString("ohms.result.voltage", comment: "Voltage result"), value) }
     static func current(_ value: String) -> String { String(format: NSLocalizedString("ohms.result.current", comment: "Current result"), value) }
     static func resistance(_ value: String) -> String { String(format: NSLocalizedString("ohms.result.resistance", comment: "Resistance result"), value) }
     static func power(_ value: String) -> String { String(format: NSLocalizedString("ohms.result.power", comment: "Power result"), value) }
     static func ohmsCalculateButton() -> String { NSLocalizedString("ohms.button.calculate", comment: "Calculate button label") }
 
-    static let phase = NSLocalizedString("power.phase", comment: "Phase label")
-    static let singlePhase = NSLocalizedString("power.singlePhase", comment: "Single phase option")
-    static let threePhase = NSLocalizedString("power.threePhase", comment: "Three phase option")
-    static let powerFactor = NSLocalizedString("power.factor", comment: "Power factor label")
-    static let powerFactorInfo = NSLocalizedString("power.factor.info", comment: "Power factor info description")
+    static var phase: String { NSLocalizedString("power.phase", comment: "Phase label") }
+    static var singlePhase: String { NSLocalizedString("power.singlePhase", comment: "Single phase option") }
+    static var threePhase: String { NSLocalizedString("power.threePhase", comment: "Three phase option") }
+    static var powerFactor: String { NSLocalizedString("power.factor", comment: "Power factor label") }
+    static var powerFactorInfo: String { NSLocalizedString("power.factor.info", comment: "Power factor info description") }
     static func estimatePower() -> String { NSLocalizedString("power.button.estimate", comment: "Estimate power button") }
-    static let enterCircuit = NSLocalizedString("power.prompt", comment: "Prompt for circuit inputs")
-    static let invalidPowerInputs = NSLocalizedString("power.validation", comment: "Invalid power inputs message")
+    static var enterCircuit: String { NSLocalizedString("power.prompt", comment: "Prompt for circuit inputs") }
+    static var invalidPowerInputs: String { NSLocalizedString("power.validation", comment: "Invalid power inputs message") }
     static func powerResult(_ watts: Double, _ kw: Double) -> String { String(format: NSLocalizedString("power.result.power", comment: "Power result"), watts, kw) }
     static func breakerResult(_ amps: Double) -> String { String(format: NSLocalizedString("power.result.breaker", comment: "Breaker sizing"), amps) }
     static func apparentResult(_ va: Double) -> String { String(format: NSLocalizedString("power.result.apparent", comment: "Apparent power"), va) }
 
-    static let calculateWatts = NSLocalizedString("watt.button.calculate", comment: "Calculate watts button")
-    static let enterWattPrompt = NSLocalizedString("watt.prompt", comment: "Prompt for watt inputs")
-    static let invalidWattInputs = NSLocalizedString("watt.validation", comment: "Invalid watt inputs")
+    static var calculateWatts: String { NSLocalizedString("watt.button.calculate", comment: "Calculate watts button") }
+    static var enterWattPrompt: String { NSLocalizedString("watt.prompt", comment: "Prompt for watt inputs") }
+    static var invalidWattInputs: String { NSLocalizedString("watt.validation", comment: "Invalid watt inputs") }
     static func realPower(_ watts: Double, _ kw: Double) -> String { String(format: NSLocalizedString("watt.result.real", comment: "Real power"), watts, kw) }
     static func assumingPF(_ pf: Double) -> String { String(format: NSLocalizedString("watt.result.pf", comment: "Assuming power factor"), pf) }
 
-    static let estimateDrop = NSLocalizedString("drop.button.estimate", comment: "Estimate drop button")
-    static let enterDropPrompt = NSLocalizedString("drop.prompt", comment: "Prompt for drop inputs")
-    static let invalidDropInputs = NSLocalizedString("drop.validation", comment: "Invalid drop inputs")
+    static var estimateDrop: String { NSLocalizedString("drop.button.estimate", comment: "Estimate drop button") }
+    static var enterDropPrompt: String { NSLocalizedString("drop.prompt", comment: "Prompt for drop inputs") }
+    static var invalidDropInputs: String { NSLocalizedString("drop.validation", comment: "Invalid drop inputs") }
     static func dropResult(_ volts: Double) -> String { String(format: NSLocalizedString("drop.result.voltage", comment: "Voltage drop result"), volts) }
     static func dropPercent(_ percent: Double) -> String { String(format: NSLocalizedString("drop.result.percent", comment: "Percent drop"), percent) }
     static func dropResistance(_ resistance: Double) -> String { String(format: NSLocalizedString("drop.result.resistance", comment: "Loop resistance"), resistance) }
 
-    static let offlineReady = NSLocalizedString("badge.offline", comment: "Offline badge")
-    static let proFormulas = NSLocalizedString("badge.formulas", comment: "Pro formulas badge")
+    static var offlineReady: String { NSLocalizedString("badge.offline", comment: "Offline badge") }
+    static var proFormulas: String { NSLocalizedString("badge.formulas", comment: "Pro formulas badge") }
 
-    static let openSettings = NSLocalizedString("nav.settings.button", comment: "Open settings label")
-    static let settingsThemeDescription = NSLocalizedString("settings.theme.description", comment: "Theme description")
-    static let settingsThemeLabel = NSLocalizedString("settings.theme.label", comment: "Theme picker label")
-    static let settingsThemeColorLabel = NSLocalizedString("settings.theme.color.label", comment: "Theme color picker label")
-    static let settingsThemeColorDescription = NSLocalizedString("settings.theme.color.description", comment: "Theme color description")
-    static let languageLabel = NSLocalizedString("settings.language.label", comment: "Language picker label")
-    static let languageDescription = NSLocalizedString("settings.language.description", comment: "Language description")
+    static var openSettings: String { NSLocalizedString("nav.settings.button", comment: "Open settings label") }
+    static var settingsThemeDescription: String { NSLocalizedString("settings.theme.description", comment: "Theme description") }
+    static var settingsThemeLabel: String { NSLocalizedString("settings.theme.label", comment: "Theme picker label") }
+    static var settingsThemeColorLabel: String { NSLocalizedString("settings.theme.color.label", comment: "Theme color picker label") }
+    static var settingsThemeColorDescription: String { NSLocalizedString("settings.theme.color.description", comment: "Theme color description") }
+    static var languageLabel: String { NSLocalizedString("settings.language.label", comment: "Language picker label") }
+    static var languageDescription: String { NSLocalizedString("settings.language.description", comment: "Language description") }
 
-    static let copperResistivity = NSLocalizedString("reference.copper", comment: "Copper resistivity")
-    static let pfRange = NSLocalizedString("reference.pfRange", comment: "Power factor range")
-    static let threePhaseMultiplier = NSLocalizedString("reference.multiplier", comment: "Three phase multiplier")
-    static let quickConstants = NSLocalizedString("reference.quick", comment: "Quick constants header")
-    static let tipsHeader = NSLocalizedString("reference.tips", comment: "Usage tips header")
-    static let tipOhms = NSLocalizedString("reference.tip.ohms", comment: "Ohms tip")
-    static let tipBreaker = NSLocalizedString("reference.tip.breaker", comment: "Breaker tip")
-    static let tipDrop = NSLocalizedString("reference.tip.drop", comment: "Voltage drop tip")
+    static var copperResistivity: String { NSLocalizedString("reference.copper", comment: "Copper resistivity") }
+    static var pfRange: String { NSLocalizedString("reference.pfRange", comment: "Power factor range") }
+    static var threePhaseMultiplier: String { NSLocalizedString("reference.multiplier", comment: "Three phase multiplier") }
+    static var quickConstants: String { NSLocalizedString("reference.quick", comment: "Quick constants header") }
+    static var tipsHeader: String { NSLocalizedString("reference.tips", comment: "Usage tips header") }
+    static var tipOhms: String { NSLocalizedString("reference.tip.ohms", comment: "Ohms tip") }
+    static var tipBreaker: String { NSLocalizedString("reference.tip.breaker", comment: "Breaker tip") }
+    static var tipDrop: String { NSLocalizedString("reference.tip.drop", comment: "Voltage drop tip") }
 
-    static let ohmsVoltageField = NSLocalizedString("field.voltage", comment: "Voltage field label")
-    static let ohmsCurrentField = NSLocalizedString("field.current", comment: "Current field label")
-    static let resistanceField = NSLocalizedString("field.resistance", comment: "Resistance field label")
-    static let powerField = NSLocalizedString("field.power", comment: "Power field label")
-    static let lengthField = NSLocalizedString("field.length", comment: "Length field label")
-    static let loadCurrentField = NSLocalizedString("field.loadCurrent", comment: "Load current field label")
-    static let supplyVoltageField = NSLocalizedString("field.supplyVoltage", comment: "Supply voltage field label")
+    static var ohmsVoltageField: String { NSLocalizedString("field.voltage", comment: "Voltage field label") }
+    static var ohmsCurrentField: String { NSLocalizedString("field.current", comment: "Current field label") }
+    static var resistanceField: String { NSLocalizedString("field.resistance", comment: "Resistance field label") }
+    static var powerField: String { NSLocalizedString("field.power", comment: "Power field label") }
+    static var lengthField: String { NSLocalizedString("field.length", comment: "Length field label") }
+    static var loadCurrentField: String { NSLocalizedString("field.loadCurrent", comment: "Load current field label") }
+    static var supplyVoltageField: String { NSLocalizedString("field.supplyVoltage", comment: "Supply voltage field label") }
     static func conductorArea(_ value: Double) -> String { String(format: NSLocalizedString("field.conductorArea", comment: "Conductor area slider"), value) }
 }
 
