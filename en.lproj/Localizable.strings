@@ -59,6 +59,7 @@
 "power.singlePhase" = "Single-phase";
 "power.threePhase" = "Three-phase";
 "power.factor" = "Power factor";
+"power.factor.info" = "Power factor expresses how effectively current converts to real power (0.00 - 1.00).";
 "power.button.estimate" = "Estimate Power";
 "power.prompt" = "Enter circuit details and tap Estimate.";
 "power.validation" = "Please enter valid voltage and current.";
@@ -84,12 +85,12 @@
 
 "settings.theme.description" = "Choose System to follow device appearance or force Light/Dark modes.";
 "settings.theme.label" = "Dark mode";
-"settings.theme.color.label" = "Theme colors";
+"settings.theme.color.label" = "Theme";
 "settings.theme.color.description" = "Pick a highlight color to personalize the dashboard and buttons.";
 "settings.language.label" = "App language";
 "settings.language.description" = "Switch to Dutch to view the interface in Nederlands.";
 
-"theme.blue" = "Blue";
+"theme.blue" = "Blue (Default)";
 "theme.green" = "Green";
 "theme.orange" = "Orange";
 "theme.indigo" = "Indigo";

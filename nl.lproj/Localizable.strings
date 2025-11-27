@@ -59,6 +59,7 @@
 "power.singlePhase" = "Enkelfase";
 "power.threePhase" = "Driefase";
 "power.factor" = "Vermogensfactor";
+"power.factor.info" = "Vermogensfactor geeft aan hoe efficiënt stroom wordt omgezet in werkelijk vermogen (0,00 - 1,00).";
 "power.button.estimate" = "Schat vermogen";
 "power.prompt" = "Vul de circuitgegevens in en tik op Schat.";
 "power.validation" = "Geef geldige spanning en stroom in.";
@@ -84,12 +85,12 @@
 
 "settings.theme.description" = "Kies Systeem om de apparaatweergave te volgen of forceer Licht/Donker.";
 "settings.theme.label" = "Donkere modus";
-"settings.theme.color.label" = "Themakleuren";
+"settings.theme.color.label" = "Thema";
 "settings.theme.color.description" = "Kies een accentkleur om het dashboard en de knoppen te personaliseren.";
 "settings.language.label" = "App-taal";
 "settings.language.description" = "Schakel naar Nederlands om de interface in het Nederlands te bekijken.";
 
-"theme.blue" = "Blauw";
+"theme.blue" = "Blauw (Standaard)";
 "theme.green" = "Groen";
 "theme.orange" = "Oranje";
 "theme.indigo" = "Indigo";

@@ -159,6 +159,7 @@ private enum L10n {
     static let singlePhase = NSLocalizedString("power.singlePhase", comment: "Single phase option")
     static let threePhase = NSLocalizedString("power.threePhase", comment: "Three phase option")
     static let powerFactor = NSLocalizedString("power.factor", comment: "Power factor label")
+    static let powerFactorInfo = NSLocalizedString("power.factor.info", comment: "Power factor info description")
     static func estimatePower() -> String { NSLocalizedString("power.button.estimate", comment: "Estimate power button") }
     static let enterCircuit = NSLocalizedString("power.prompt", comment: "Prompt for circuit inputs")
     static let invalidPowerInputs = NSLocalizedString("power.validation", comment: "Invalid power inputs message")
@@ -374,6 +375,34 @@ struct CalculationCard<Content: View>: View {
     }
 }
 
+struct CardContainer<Content: View>: View {
+    let title: String?
+    let content: Content
+    @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
+
+    init(title: String? = nil, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if let title {
+                Text(title)
+                    .font(.headline)
+            }
+            content
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(RoundedRectangle(cornerRadius: 16).fill(.ultraThinMaterial))
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(themeColor.color.opacity(0.15), lineWidth: 1)
+        )
+    }
+}
+
 struct OhmsLawCalculatorView: View {
     @State private var voltage: String = ""
     @State private var current: String = ""
@@ -382,25 +411,28 @@ struct OhmsLawCalculatorView: View {
     @State private var resultMessage: String = L10n.provideTwo
 
     var body: some View {
-        Form {
-            Section(header: Text(L10n.inputs)) {
-                NumericField(title: L10n.ohmsVoltageField, value: $voltage)
-                NumericField(title: L10n.ohmsCurrentField, value: $current)
-                NumericField(title: L10n.resistanceField, value: $resistance)
-                NumericField(title: L10n.powerField, value: $power)
-            }
+        ScrollView {
+            VStack(spacing: 16) {
+                CardContainer(title: L10n.inputs) {
+                    NumericField(title: L10n.ohmsVoltageField, value: $voltage)
+                    NumericField(title: L10n.ohmsCurrentField, value: $current)
+                    NumericField(title: L10n.resistanceField, value: $resistance)
+                    NumericField(title: L10n.powerField, value: $power)
+                }
 
-            Section {
-                Button(action: computeOhmsLaw) {
-                    Label(L10n.ohmsCalculateButton(), systemImage: "equal")
-                        .frame(maxWidth: .infinity)
+                CardContainer {
+                    Button(action: computeOhmsLaw) {
+                        Label(L10n.ohmsCalculateButton(), systemImage: "equal")
+                            .frame(maxWidth: .infinity)
+                    }
+                }
+
+                CardContainer(title: L10n.results) {
+                    Text(resultMessage)
+                        .font(.body)
                 }
             }
-
-            Section(header: Text(L10n.results)) {
-                Text(resultMessage)
-                    .font(.body)
-            }
+            .padding()
         }
         .navigationTitle(L10n.ohmsHeader)
     }
@@ -480,41 +512,49 @@ struct PowerCalculatorView: View {
     @State private var estimatedPower: String = ""
 
     var body: some View {
-        Form {
-            Section(header: Text(L10n.circuit)) {
-                Picker(L10n.phase, selection: $phase) {
-                    ForEach(Phase.allCases) { option in
-                        Text(option.displayTitle).tag(option)
+        ScrollView {
+            VStack(spacing: 16) {
+                CardContainer(title: L10n.circuit) {
+                    Picker(L10n.phase, selection: $phase) {
+                        ForEach(Phase.allCases) { option in
+                            Text(option.displayTitle).tag(option)
+                        }
                     }
-                }
-                .pickerStyle(.segmented)
-                NumericField(title: L10n.ohmsVoltageField, value: $voltage)
-                NumericField(title: L10n.ohmsCurrentField, value: $current)
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(L10n.powerFactor)
-                            .font(.subheadline)
-                        Text(String(format: "%.2f", powerFactor))
+                    .pickerStyle(.segmented)
+                    NumericField(title: L10n.ohmsVoltageField, value: $voltage)
+                    NumericField(title: L10n.ohmsCurrentField, value: $current)
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(L10n.powerFactor)
+                                    .font(.subheadline)
+                                Text(String(format: "%.2f", powerFactor))
+                                    .foregroundStyle(.secondary)
+                            }
+                            Slider(value: $powerFactor, in: 0.5...1.0, step: 0.01)
+                        }
+                        Label(L10n.powerFactorInfo, systemImage: "info.circle")
+                            .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
-                    Slider(value: $powerFactor, in: 0.5...1.0, step: 0.01)
                 }
-            }
 
-            Section {
-                Button(action: calculatePower) {
-                    Label(L10n.estimatePower(), systemImage: "bolt.fill")
-                        .frame(maxWidth: .infinity)
+                CardContainer {
+                    Button(action: calculatePower) {
+                        Label(L10n.estimatePower(), systemImage: "bolt.fill")
+                            .frame(maxWidth: .infinity)
+                    }
                 }
-            }
 
-            Section(header: Text(L10n.results)) {
-                if estimatedPower.isEmpty {
-                    Text(L10n.enterCircuit)
-                } else {
-                    Text(estimatedPower)
+                CardContainer(title: L10n.results) {
+                    if estimatedPower.isEmpty {
+                        Text(L10n.enterCircuit)
+                    } else {
+                        Text(estimatedPower)
+                    }
                 }
             }
+            .padding()
         }
         .navigationTitle(L10n.powerHeader)
     }
@@ -545,35 +585,43 @@ struct WattCalculatorView: View {
     @State private var result: String = ""
 
     var body: some View {
-        Form {
-            Section(header: Text(L10n.load)) {
-                NumericField(title: L10n.ohmsVoltageField, value: $voltage)
-                NumericField(title: L10n.ohmsCurrentField, value: $current)
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(L10n.powerFactor)
-                            .font(.subheadline)
-                        Text(String(format: "%.2f", powerFactor))
+        ScrollView {
+            VStack(spacing: 16) {
+                CardContainer(title: L10n.load) {
+                    NumericField(title: L10n.ohmsVoltageField, value: $voltage)
+                    NumericField(title: L10n.ohmsCurrentField, value: $current)
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(L10n.powerFactor)
+                                    .font(.subheadline)
+                                Text(String(format: "%.2f", powerFactor))
+                                    .foregroundStyle(.secondary)
+                            }
+                            Slider(value: $powerFactor, in: 0.5...1.0, step: 0.01)
+                        }
+                        Label(L10n.powerFactorInfo, systemImage: "info.circle")
+                            .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
-                    Slider(value: $powerFactor, in: 0.5...1.0, step: 0.01)
                 }
-            }
 
-            Section {
-                Button(action: computeWattage) {
-                    Label(L10n.calculateWatts, systemImage: "wand.and.sparkles")
-                        .frame(maxWidth: .infinity)
+                CardContainer {
+                    Button(action: computeWattage) {
+                        Label(L10n.calculateWatts, systemImage: "wand.and.sparkles")
+                            .frame(maxWidth: .infinity)
+                    }
                 }
-            }
 
-            Section(header: Text(L10n.results)) {
-                if result.isEmpty {
-                    Text(L10n.enterWattPrompt)
-                } else {
-                    Text(result)
+                CardContainer(title: L10n.results) {
+                    if result.isEmpty {
+                        Text(L10n.enterWattPrompt)
+                    } else {
+                        Text(result)
+                    }
                 }
             }
+            .padding()
         }
         .navigationTitle(L10n.wattHeader)
     }
@@ -602,31 +650,34 @@ struct VoltageDropView: View {
     @State private var resultText: String = ""
 
     var body: some View {
-        Form {
-            Section(header: Text(L10n.run)) {
-                NumericField(title: L10n.lengthField, value: $lengthMeters)
-                NumericField(title: L10n.loadCurrentField, value: $loadCurrent)
-                NumericField(title: L10n.supplyVoltageField, value: $supplyVoltage)
-                VStack(alignment: .leading) {
-                    Text(L10n.conductorArea(conductorArea))
-                    Slider(value: $conductorArea, in: 1.5...35, step: 0.5)
+        ScrollView {
+            VStack(spacing: 16) {
+                CardContainer(title: L10n.run) {
+                    NumericField(title: L10n.lengthField, value: $lengthMeters)
+                    NumericField(title: L10n.loadCurrentField, value: $loadCurrent)
+                    NumericField(title: L10n.supplyVoltageField, value: $supplyVoltage)
+                    VStack(alignment: .leading) {
+                        Text(L10n.conductorArea(conductorArea))
+                        Slider(value: $conductorArea, in: 1.5...35, step: 0.5)
+                    }
                 }
-            }
 
-            Section {
-                Button(action: estimateDrop) {
-                    Label(L10n.estimateDrop, systemImage: "arrow.triangle.2.circlepath")
-                        .frame(maxWidth: .infinity)
+                CardContainer {
+                    Button(action: estimateDrop) {
+                        Label(L10n.estimateDrop, systemImage: "arrow.triangle.2.circlepath")
+                            .frame(maxWidth: .infinity)
+                    }
                 }
-            }
 
-            Section(header: Text(L10n.results)) {
-                if resultText.isEmpty {
-                    Text(L10n.enterDropPrompt)
-                } else {
-                    Text(resultText)
+                CardContainer(title: L10n.results) {
+                    if resultText.isEmpty {
+                        Text(L10n.enterDropPrompt)
+                    } else {
+                        Text(resultText)
+                    }
                 }
             }
+            .padding()
         }
         .navigationTitle(L10n.dropHeader)
     }
@@ -676,7 +727,11 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            AppearanceSettingsSection(appearanceMode: $appearanceMode, themeColor: $themeColor)
+            Section(header: Text(L10n.appearance)) {
+                NavigationLink(destination: AppearanceSettingsView(appearanceMode: $appearanceMode, themeColor: $themeColor)) {
+                    Label(L10n.appearance, systemImage: "paintbrush")
+                }
+            }
 
             Section(header: Text(L10n.language)) {
                 Picker(L10n.languageLabel, selection: $languagePreference) {
@@ -690,6 +745,18 @@ struct SettingsView: View {
             }
         }
         .navigationTitle(L10n.settingsHeader)
+    }
+}
+
+private struct AppearanceSettingsView: View {
+    @Binding var appearanceMode: AppearanceMode
+    @Binding var themeColor: ThemeColor
+
+    var body: some View {
+        Form {
+            AppearanceSettingsSection(appearanceMode: $appearanceMode, themeColor: $themeColor)
+        }
+        .navigationTitle(L10n.appearance)
     }
 }
 
@@ -735,6 +802,7 @@ struct NumericField: View {
         TextField(title, text: $value)
             .keyboardType(.decimalPad)
             .textInputAutocapitalization(.never)
+            .textFieldStyle(.roundedBorder)
     }
 }
 
