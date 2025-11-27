@@ -113,3 +113,4 @@
 "field.loadCurrent" = "Belastingsstroom (A)";
 "field.supplyVoltage" = "Voedingsspanning (V)";
 "field.conductorArea" = "Geleiderdoorsnede: %.1f mm²";
+

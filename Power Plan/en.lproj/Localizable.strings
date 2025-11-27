@@ -86,6 +86,7 @@
 "settings.theme.label" = "Theme";
 "settings.language.label" = "App language";
 "settings.language.description" = "Switch to Dutch to view the interface in Nederlands.";
+"settings.theme.color.description" = "Choose an accent color to personalize the dashboard and the buttons.";
 
 "reference.copper" = "Copper resistivity: 0.0175 Ω·mm²/m";
 "reference.pfRange" = "Power factor typical range: 0.8 - 1.0";
@@ -104,3 +105,10 @@
 "field.loadCurrent" = "Load current (A)";
 "field.supplyVoltage" = "Supply voltage (V)";
 "field.conductorArea" = "Conductor area: %.1f mm²";
+
+"settings.theme.color.label" = "Theme";
+"theme.blue" = "Blue";
+"theme.green" = "Green";
+"theme.orange" = "Orange";
+"theme.purple" = "Purple";
+"theme.indigo" = "Indigo";
