@@ -347,14 +347,20 @@ struct CalculationCard<Content: View>: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
             HStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.title2)
                     .foregroundStyle(themeColor.color)
-                    .frame(width: 36, height: 36)
-                    .background(themeColor.color.opacity(0.12))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .frame(width: 38, height: 38)
+                    .background(
+                        LinearGradient(
+                            colors: [themeColor.color.opacity(0.18), themeColor.color.opacity(0.1)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.headline)
@@ -366,12 +372,23 @@ struct CalculationCard<Content: View>: View {
             }
             content
         }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 16).fill(.ultraThinMaterial))
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.gray.opacity(0.15), lineWidth: 1)
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(.ultraThinMaterial)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        colors: [themeColor.color.opacity(0.2), Color.gray.opacity(0.08)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+        .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 8)
     }
 }
 
@@ -802,7 +819,23 @@ struct NumericField: View {
         TextField(title, text: $value)
             .keyboardType(.decimalPad)
             .textInputAutocapitalization(.never)
-            .textFieldStyle(.roundedBorder)
+            .textFieldStyle(FilledRoundedTextFieldStyle())
+    }
+}
+
+struct FilledRoundedTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<_Label>) -> some View {
+        configuration
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(Color(.secondarySystemBackground))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+            )
     }
 }
 
