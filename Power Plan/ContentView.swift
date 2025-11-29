@@ -1014,51 +1014,47 @@ struct ProjectsView: View {
                             .foregroundStyle(.secondary)
                     } else {
                         ForEach($projects) { $project in
+                            let projectValue = project.wrappedValue
+
                             DisclosureGroup {
                                 VStack(alignment: .leading, spacing: 8) {
-                                    if !project.voltage.isEmpty {
-                                        Label(project.voltage, systemImage: "bolt")
+                                    if !projectValue.voltage.isEmpty {
+                                        Label(projectValue.voltage, systemImage: "bolt")
                                             .font(.subheadline)
                                             .foregroundStyle(.secondary)
                                     }
-                                    if !project.notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                        Text(project.notes)
+                                    if !projectValue.notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        Text(projectValue.notes)
                                             .font(.footnote)
                                             .foregroundStyle(.secondary)
                                     }
                                     Section(header: Text(L10n.projectEquipmentHeader)) {
-                                        if project.equipment.isEmpty {
+                                        if project.equipment.wrappedValue.isEmpty {
                                             Text(L10n.projectEquipmentProjectEmpty)
                                                 .foregroundStyle(.secondary)
                                         } else {
-                                            ForEach($project.equipment) { $item in
-                                                EquipmentRow(item: $item, tint: themeColor.color)
+                                            ForEach(project.equipment.wrappedValue.indices, id: \.self) { index in
+                                                EquipmentRow(item: $project.equipment[index], tint: themeColor.color)
                                                     .swipeActions {
-                                                        if let index = project.equipment.firstIndex(where: { $0.id == item.id }) {
-                                                            Button(role: .destructive) {
-                                                                project.equipment.remove(at: index)
-                                                            } label: {
-                                                                Label(L10n.delete, systemImage: "trash")
-                                                            }
-                                                        }
+                                                        project.equipment.wrappedValue.remove(at: index)
                                                     }
                                             }
                                         }
                                     }
 
                                     EquipmentDraftForm(
-                                        draft: bindingForProjectDraft(project.id),
+                                        draft: bindingForProjectDraft(projectValue.id),
                                         tint: themeColor.color
                                     ) { newItem in
-                                        project.equipment.append(newItem)
+                                        project.equipment.wrappedValue.append(newItem)
                                     }
                                 }
                             } label: {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(project.name)
+                                    Text(projectValue.name)
                                         .font(.headline)
-                                    if !project.voltage.isEmpty {
-                                        Text(project.voltage)
+                                    if !projectValue.voltage.isEmpty {
+                                        Text(projectValue.voltage)
                                             .font(.subheadline)
                                             .foregroundStyle(.secondary)
                                     }
