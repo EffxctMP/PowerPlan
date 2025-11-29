@@ -118,6 +118,7 @@ struct EquipmentDraftForm: View {
         guard draft.canSave else { return }
 
         let item = ProjectsView.EquipmentItem(
+            name: draft.displayName,
             category: draft.category,
             primary: draft.primaryDescription,
             secondary: draft.secondaryDescription,
