@@ -859,28 +859,6 @@ struct ProjectsView: View {
                     }
                     .disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
-
-                Section(header: Text(L10n.equipmentChecklist)) {
-                    if equipmentItems.isEmpty {
-                        Text(L10n.equipmentEmpty)
-                            .foregroundStyle(.secondary)
-                    } else {
-                        ForEach($equipmentItems) { $item in
-                            Toggle(isOn: $item.isChecked) {
-                                Text(item.name)
-                            }
-                            .toggleStyle(SwitchToggleStyle(tint: themeColor.color))
-                        }
-                    }
-
-                    HStack {
-                        TextField(L10n.equipmentPlaceholder, text: $newEquipmentName)
-                        Button(action: addEquipmentItem) {
-                            Label(L10n.equipmentAdd, systemImage: "plus")
-                        }
-                        .disabled(newEquipmentName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    }
-                }
             }
             .navigationTitle(L10n.projectsHeader)
         }
@@ -927,32 +905,15 @@ struct EquipmentDraftSection: View {
                 Text(L10n.projectEquipmentEmpty)
                     .foregroundStyle(.secondary)
             } else {
-                ForEach(equipmentItems) { item in
-                    HStack(alignment: .top, spacing: 12) {
-                        Image(systemName: "checkmark.circle")
-                            .foregroundStyle(tint)
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(item.title)
-                            if !item.detailLine.isEmpty {
-                                Text(item.detailLine)
-                                    .font(.footnote)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        Spacer()
-                        Text(L10n.equipmentQuantityValue(item.quantity))
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-                    .swipeActions {
-                        if let index = equipmentItems.firstIndex(where: { $0.id == item.id }) {
+                ForEach(Array($equipmentItems.enumerated()), id: \.element.id) { index, $item in
+                    EquipmentRow(item: $item, tint: tint)
+                        .swipeActions {
                             Button(role: .destructive) {
                                 equipmentItems.remove(at: index)
                             } label: {
                                 Label(L10n.delete, systemImage: "trash")
                             }
                         }
-                    }
                 }
             }
             EquipmentDraftForm(draft: $draft, tint: tint) { item in
