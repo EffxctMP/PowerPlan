@@ -7,7 +7,7 @@ struct ProjectDisclosureRow: View {
 
     var body: some View {
         DisclosureGroup {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 12) {
                 if !project.voltage.isEmpty {
                     Label(project.voltage, systemImage: "bolt")
                         .font(.subheadline)
@@ -19,6 +19,8 @@ struct ProjectDisclosureRow: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
+
+                Divider()
 
                 Section(header: Text(L10n.projectEquipmentHeader)) {
                     if project.equipment.isEmpty {
@@ -37,6 +39,8 @@ struct ProjectDisclosureRow: View {
                         }
                     }
                 }
+
+                Divider()
 
                 EquipmentDraftForm(
                     draft: draft,
