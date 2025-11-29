@@ -678,24 +678,6 @@ struct VoltageDropView: View {
     }
 }
 
-struct ReferenceView: View {
-    var body: some View {
-        List {
-            Section(header: Text(L10n.quickConstants)) {
-                Label(L10n.copperResistivity, systemImage: "atom")
-                Label(L10n.pfRange, systemImage: "bolt.horizontal.circle")
-                Label(L10n.threePhaseMultiplier, systemImage: "function")
-            }
-            Section(header: Text(L10n.tipsHeader)) {
-                Text(L10n.tipOhms)
-                Text(L10n.tipBreaker)
-                Text(L10n.tipDrop)
-            }
-        }
-        .navigationTitle(L10n.referenceHeader)
-    }
-}
-
 struct ProjectsView: View {
     struct Project: Identifiable {
         let id = UUID()
@@ -1269,34 +1251,6 @@ private struct AppearanceSettingsSection: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
-    }
-}
-
-struct NumericField: View {
-    let title: String
-    @Binding var value: String
-
-    var body: some View {
-        TextField(title, text: $value)
-            .keyboardType(.decimalPad)
-            .textInputAutocapitalization(.never)
-            .textFieldStyle(FilledRoundedTextFieldStyle())
-    }
-}
-
-struct FilledRoundedTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<_Label>) -> some View {
-        configuration
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(Color(.secondarySystemBackground))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-            )
     }
 }
 
