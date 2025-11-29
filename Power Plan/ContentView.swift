@@ -1013,8 +1013,9 @@ struct ProjectsView: View {
                         Text(L10n.projectsEmpty)
                             .foregroundStyle(.secondary)
                     } else {
-                        ForEach($projects) { $project in
-                            let projectValue = project.wrappedValue
+                        ForEach(projects.indices, id: \.self) { index in
+                            let projectBinding = $projects[index]
+                            let projectValue = projects[index]
 
                             DisclosureGroup {
                                 VStack(alignment: .leading, spacing: 8) {
@@ -1029,14 +1030,14 @@ struct ProjectsView: View {
                                             .foregroundStyle(.secondary)
                                     }
                                     Section(header: Text(L10n.projectEquipmentHeader)) {
-                                        if project.equipment.wrappedValue.isEmpty {
+                                        if projectBinding.equipment.wrappedValue.isEmpty {
                                             Text(L10n.projectEquipmentProjectEmpty)
                                                 .foregroundStyle(.secondary)
                                         } else {
-                                            ForEach(project.equipment.wrappedValue.indices, id: \.self) { index in
-                                                EquipmentRow(item: $project.equipment[index], tint: themeColor.color)
+                                            ForEach(projectBinding.equipment.wrappedValue.indices, id: \.self) { equipmentIndex in
+                                                EquipmentRow(item: $projects[index].equipment[equipmentIndex], tint: themeColor.color)
                                                     .swipeActions {
-                                                        project.equipment.wrappedValue.remove(at: index)
+                                                        projects[index].equipment.remove(at: equipmentIndex)
                                                     }
                                             }
                                         }
@@ -1046,7 +1047,7 @@ struct ProjectsView: View {
                                         draft: bindingForProjectDraft(projectValue.id),
                                         tint: themeColor.color
                                     ) { newItem in
-                                        project.equipment.wrappedValue.append(newItem)
+                                        projects[index].equipment.append(newItem)
                                     }
                                 }
                             } label: {
