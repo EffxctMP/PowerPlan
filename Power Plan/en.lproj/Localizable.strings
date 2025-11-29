@@ -92,6 +92,12 @@
 "settings.theme.color.label" = "Theme";
 "settings.theme.color.description" = "Choose an accent color to personalize the dashboard and the buttons.";
 
+"theme.blue" = "Blue (Standaard)";
+"theme.green" = "Green";
+"theme.orange" = "Orange";
+"theme.indigo" = "Indigo";
+"theme.purple" = "Purple";
+
 "reference.copper" = "Copper resistivity: 0.0175 Ω·mm²/m";
 "reference.pfRange" = "Power factor typical range: 0.8 - 1.0";
 "reference.multiplier" = "3ϕ power multiplier: √3";
