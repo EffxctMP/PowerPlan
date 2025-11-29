@@ -525,7 +525,7 @@ struct WattCalculatorView: View {
 
                 CardContainer {
                     Button(action: computeWattage) {
-                        Label(L10n.calculateWatts, systemImage: "wand.and.sparkles")
+                        Label(L10n.calculateWatts(), systemImage: "wand.and.sparkles")
                             .frame(maxWidth: .infinity)
                     }
                 }
@@ -581,7 +581,7 @@ struct VoltageDropView: View {
 
                 CardContainer {
                     Button(action: estimateDrop) {
-                        Label(L10n.estimateDrop, systemImage: "arrow.triangle.2.circlepath")
+                        Label(L10n.estimateDrop(), systemImage: "arrow.triangle.2.circlepath")
                             .frame(maxWidth: .infinity)
                     }
                 }

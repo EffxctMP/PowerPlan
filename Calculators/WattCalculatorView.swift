@@ -30,7 +30,7 @@ struct WattCalculatorView: View {
 
                 CardContainer {
                     Button(action: calc) {
-                        Label(L10n.calculateWatts, systemImage: "wand.and.sparkles")
+                        Label(L10n.calculateWatts(), systemImage: "wand.and.sparkles")
                             .frame(maxWidth: .infinity)
                     }
                 }
