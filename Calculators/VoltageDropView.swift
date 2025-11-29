@@ -24,7 +24,7 @@ struct VoltageDropView: View {
 
                 CardContainer {
                     Button(action: calc) {
-                        Label(L10n.estimateDrop, systemImage: "arrow.triangle.2.circlepath")
+                        Label(L10n.estimateDrop(), systemImage: "arrow.triangle.2.circlepath")
                             .frame(maxWidth: .infinity)
                     }
                 }
