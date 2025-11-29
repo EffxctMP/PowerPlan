@@ -823,7 +823,7 @@ struct ProjectsView: View {
                             Toggle(isOn: $item.isChecked) {
                                 Text(item.name)
                             }
-                            .toggleStyle(.checkbox)
+                            .toggleStyle(SwitchToggleStyle(tint: themeColor.color))
                         }
                     }
 
