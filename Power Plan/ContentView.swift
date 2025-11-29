@@ -832,7 +832,6 @@ struct ProjectsView: View {
     @State private var newName: String = ""
     @State private var newVoltage: String = ""
     @State private var newNotes: String = ""
-    @State private var newEquipmentName: String = ""
     @State private var equipmentItems: [EquipmentItem] = []
     @State private var equipmentDraft = EquipmentDraft()
     @State private var projectDrafts: [Project.ID: EquipmentDraft] = [:]
@@ -872,34 +871,6 @@ struct ProjectsView: View {
                     .disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
 
-                Section(header: Text(L10n.equipmentChecklist)) {
-                    if equipmentItems.isEmpty {
-                        Text(L10n.equipmentEmpty)
-                            .foregroundStyle(.secondary)
-                    } else {
-                        ForEach($equipmentItems) { $item in
-                            Toggle(isOn: $item.acquired) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(item.title)
-                                    if !item.detailLine.isEmpty {
-                                        Text(item.detailLine)
-                                            .font(.footnote)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-                            }
-                            .toggleStyle(SwitchToggleStyle(tint: themeColor.color))
-                        }
-                    }
-
-                    HStack {
-                        TextField(L10n.equipmentPlaceholder, text: $newEquipmentName)
-                        Button(action: addEquipmentItem) {
-                            Label(L10n.equipmentAdd, systemImage: "plus")
-                        }
-                        .disabled(newEquipmentName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    }
-                }
             }
             .navigationTitle(L10n.projectsHeader)
         }
@@ -923,27 +894,8 @@ struct ProjectsView: View {
         newName = ""
         newVoltage = ""
         newNotes = ""
-        newEquipmentName = ""
         equipmentItems.removeAll()
         equipmentDraft.reset()
-    }
-
-    private func addEquipmentItem() {
-        let trimmed = newEquipmentName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
-
-        let newItem = EquipmentItem(
-            name: trimmed,
-            category: .custom,
-            primary: trimmed,
-            secondary: nil,
-            details: "",
-            quantity: 1,
-            acquired: false
-        )
-
-        equipmentItems.append(newItem)
-        newEquipmentName = ""
     }
 
     private func bindingForProjectDraft(_ projectID: Project.ID) -> Binding<EquipmentDraft> {
@@ -975,6 +927,8 @@ struct EquipmentDraftSection: View {
                             }
                         }
                 }
+
+                Divider()
             }
             EquipmentDraftForm(draft: $draft, tint: tint) { item in
                 equipmentItems.append(item)
