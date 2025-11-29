@@ -1124,7 +1124,7 @@ struct EquipmentRow: View {
         Button(action: { item.acquired.toggle() }) {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: item.acquired ? "checkmark.circle.fill" : "circle")
-                    .foregroundStyle(item.acquired ? tint : .tertiary)
+                    .foregroundStyle(item.acquired ? tint : Color.secondary)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(item.title)
                         .font(.body)
