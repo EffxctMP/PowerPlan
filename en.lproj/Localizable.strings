@@ -8,6 +8,7 @@
 
 "tab.calculators" = "Calculators";
 "tab.reference" = "Reference";
+"tab.projects" = "Projects";
 
 "nav.title" = "Power Plan";
 "nav.ohms" = "Ohm's Law";
@@ -16,6 +17,7 @@
 "nav.drop" = "Voltage Drop";
 "nav.reference" = "Reference";
 "nav.settings" = "Settings";
+"nav.projects" = "Projects";
 "nav.settings.button" = "Settings";
 
 "hero.title" = "Electrician Toolkit";
@@ -59,7 +61,7 @@
 "power.singlePhase" = "Single-phase";
 "power.threePhase" = "Three-phase";
 "power.factor" = "Power factor";
-"power.factor.info" = "Power factor expresses how effectively current converts to real power (0.00 - 1.00).";
+"power.factor.info" = "Power factor shows how efficiently current turns into real power (0.00 - 1.00).";
 "power.button.estimate" = "Estimate Power";
 "power.prompt" = "Enter circuit details and tap Estimate.";
 "power.validation" = "Please enter valid voltage and current.";
@@ -84,17 +86,11 @@
 "badge.formulas" = "Pro formulas";
 
 "settings.theme.description" = "Choose System to follow device appearance or force Light/Dark modes.";
-"settings.theme.label" = "Dark mode";
-"settings.theme.color.label" = "Theme";
-"settings.theme.color.description" = "Pick a highlight color to personalize the dashboard and buttons.";
+"settings.theme.label" = "Theme";
 "settings.language.label" = "App language";
 "settings.language.description" = "Switch to Dutch to view the interface in Nederlands.";
-
-"theme.blue" = "Blue (Default)";
-"theme.green" = "Green";
-"theme.orange" = "Orange";
-"theme.indigo" = "Indigo";
-"theme.purple" = "Purple";
+"settings.theme.color.label" = "Theme";
+"settings.theme.color.description" = "Choose an accent color to personalize the dashboard and the buttons.";
 
 "reference.copper" = "Copper resistivity: 0.0175 Ω·mm²/m";
 "reference.pfRange" = "Power factor typical range: 0.8 - 1.0";
@@ -113,3 +109,62 @@
 "field.loadCurrent" = "Load current (A)";
 "field.supplyVoltage" = "Supply voltage (V)";
 "field.conductorArea" = "Conductor area: %.1f mm²";
+
+"projects.existing" = "Industrial projects";
+"projects.new" = "Add a project";
+"projects.empty" = "No projects yet. Add your first job to start tracking notes.";
+"projects.name" = "Project name";
+"projects.voltage" = "Supply voltage (e.g. 400 V)";
+"projects.notes" = "Notes, equipment, location";
+"projects.add" = "Add project";
+"projects.equipment" = "Board equipment";
+"projects.equipment.empty" = "No equipment added for this project yet.";
+"projects.equipment.empty.project" = "No equipment logged for this project.";
+"projects.equipment.add.title" = "Add equipment item";
+"projects.equipment.type" = "Equipment type";
+"projects.equipment.info" = "Additional information (optional)";
+"projects.equipment.quantity" = "Quantity: %d";
+"projects.equipment.save" = "Add equipment";
+"projects.equipment.checklist" = "Equipment checklist";
+
+"equipment.breaker" = "Automatic Circuit Breaker";
+"equipment.breaker.amps" = "Rated current (1-1000 A)";
+"equipment.breaker.curve" = "Trip curve (B, C, D, K, Z)";
+"equipment.contactor" = "Contactor";
+"equipment.contactor.amps" = "Rated current (A)";
+"equipment.poles" = "Number of poles";
+"equipment.thermal" = "Thermal Protection (Motor Protection)";
+"equipment.thermal.setting" = "Setting (A)";
+"equipment.transformer" = "Transformer";
+"equipment.transformer.watts" = "Power (W)";
+"equipment.socket" = "Board Socket";
+"equipment.socket.option" = "Socket option (e.g. 16 A, 32 A)";
+"equipment.switch" = "Switch";
+"equipment.switch.positions" = "Number of positions";
+"equipment.relay" = "Relay";
+"equipment.relay.voltage" = "Coil voltage (12-230 V AC/DC)";
+"equipment.relay.type" = "Coil type";
+"equipment.kwh" = "kWh Meter";
+"equipment.kwh.option" = "Configuration";
+"equipment.kwh.single" = "Single-phase";
+"equipment.kwh.three" = "Three-phase";
+"equipment.plc" = "Cards (PLC)";
+"equipment.plc.brand" = "Brand";
+"equipment.plc.type" = "Type/model";
+"equipment.terminals" = "Circuit Terminals";
+"equipment.terminals.type" = "Terminal type";
+"equipment.custom" = "Custom item";
+"equipment.custom.label" = "Custom label";
+"equipment.option.note" = "Option notes / remarks";
+"equipment.mark" = "Tap to mark as on-hand";
+"equipment.quantity" = "Qty %d";
+"equipment.value.amps" = "%d A";
+"equipment.value.poles" = "%d poles";
+"equipment.value.watts" = "%d W";
+"equipment.value.positions" = "%d positions";
+"equipment.value.voltage" = "%d V";
+"equipment.placeholder" = "Equipment name";
+"equipment.add" = "Add equipment";
+"equipment.empty" = "No equipment added yet.";
+
+"action.delete" = "Delete";
