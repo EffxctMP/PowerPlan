@@ -38,6 +38,61 @@ enum AppearanceMode: String, CaseIterable, Identifiable {
     }
 }
 
+struct ProjectDisclosureRow: View {
+    @Binding var project: ProjectsView.Project
+    var draft: Binding<ProjectsView.EquipmentDraft>
+    var tint: Color
+
+    var body: some View {
+        DisclosureGroup {
+            VStack(alignment: .leading, spacing: 8) {
+                if !project.voltage.isEmpty {
+                    Label(project.voltage, systemImage: "bolt")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+
+                if !project.notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    Text(project.notes)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+
+                Section(header: Text(L10n.projectEquipmentHeader)) {
+                    if project.equipment.isEmpty {
+                        Text(L10n.projectEquipmentProjectEmpty)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(project.equipment.indices, id: \.self) { equipmentIndex in
+                            EquipmentRow(item: $project.equipment[equipmentIndex], tint: tint)
+                                .swipeActions {
+                                    project.equipment.remove(at: equipmentIndex)
+                                }
+                        }
+                    }
+                }
+
+                EquipmentDraftForm(
+                    draft: draft,
+                    tint: tint
+                ) { newItem in
+                    project.equipment.append(newItem)
+                }
+            }
+        } label: {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(project.name)
+                    .font(.headline)
+                if !project.voltage.isEmpty {
+                    Text(project.voltage)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+    }
+}
+
 enum ThemeColor: String, CaseIterable, Identifiable {
     case electricBlue
     case forestGreen
@@ -1013,54 +1068,12 @@ struct ProjectsView: View {
                         Text(L10n.projectsEmpty)
                             .foregroundStyle(.secondary)
                     } else {
-                        ForEach(projects.indices, id: \.self) { index in
-                            let projectBinding = $projects[index]
-                            let projectValue = projects[index]
-
-                            DisclosureGroup {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    if !projectValue.voltage.isEmpty {
-                                        Label(projectValue.voltage, systemImage: "bolt")
-                                            .font(.subheadline)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                    if !projectValue.notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                        Text(projectValue.notes)
-                                            .font(.footnote)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                    Section(header: Text(L10n.projectEquipmentHeader)) {
-                                        if projectBinding.equipment.wrappedValue.isEmpty {
-                                            Text(L10n.projectEquipmentProjectEmpty)
-                                                .foregroundStyle(.secondary)
-                                        } else {
-                                            ForEach(projectBinding.equipment.wrappedValue.indices, id: \.self) { equipmentIndex in
-                                                EquipmentRow(item: $projects[index].equipment[equipmentIndex], tint: themeColor.color)
-                                                    .swipeActions {
-                                                        projects[index].equipment.remove(at: equipmentIndex)
-                                                    }
-                                            }
-                                        }
-                                    }
-
-                                    EquipmentDraftForm(
-                                        draft: bindingForProjectDraft(projectValue.id),
-                                        tint: themeColor.color
-                                    ) { newItem in
-                                        projects[index].equipment.append(newItem)
-                                    }
-                                }
-                            } label: {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(projectValue.name)
-                                        .font(.headline)
-                                    if !projectValue.voltage.isEmpty {
-                                        Text(projectValue.voltage)
-                                            .font(.subheadline)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-                            }
+                        ForEach($projects) { $project in
+                            ProjectDisclosureRow(
+                                project: $project,
+                                draft: bindingForProjectDraft(project.id),
+                                tint: themeColor.color
+                            )
                         }
                     }
                 }
