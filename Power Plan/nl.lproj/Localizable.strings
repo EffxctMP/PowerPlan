@@ -123,4 +123,8 @@
 "projects.voltage" = "Voedingsspanning (bv. 400 V)";
 "projects.notes" = "Notities, materiaal, locatie";
 "projects.add" = "Project toevoegen";
+"projects.equipment" = "Checklist bordmateriaal";
+"projects.equipment.placeholder" = "Materiaal toevoegen (bv. hoofdautomaat)";
+"projects.equipment.empty" = "Nog geen materiaal toegevoegd.";
+"projects.equipment.add" = "Toevoegen";
 

@@ -123,3 +123,7 @@
 "projects.voltage" = "Supply voltage (e.g. 400 V)";
 "projects.notes" = "Notes, equipment, location";
 "projects.add" = "Add project";
+"projects.equipment" = "Board equipment checklist";
+"projects.equipment.placeholder" = "Add equipment (e.g. main breaker)";
+"projects.equipment.empty" = "No equipment added yet.";
+"projects.equipment.add" = "Add";

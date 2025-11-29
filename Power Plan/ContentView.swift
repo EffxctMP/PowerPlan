@@ -189,6 +189,10 @@ private enum L10n {
     static var projectVoltage: String { NSLocalizedString("projects.voltage", comment: "Project voltage field") }
     static var projectNotes: String { NSLocalizedString("projects.notes", comment: "Project notes field") }
     static var projectAdd: String { NSLocalizedString("projects.add", comment: "Add project button") }
+    static var equipmentChecklist: String { NSLocalizedString("projects.equipment", comment: "Equipment checklist header") }
+    static var equipmentPlaceholder: String { NSLocalizedString("projects.equipment.placeholder", comment: "Equipment placeholder") }
+    static var equipmentEmpty: String { NSLocalizedString("projects.equipment.empty", comment: "Empty checklist state") }
+    static var equipmentAdd: String { NSLocalizedString("projects.equipment.add", comment: "Add equipment button") }
 
     static var offlineReady: String { NSLocalizedString("badge.offline", comment: "Offline badge") }
     static var proFormulas: String { NSLocalizedString("badge.formulas", comment: "Pro formulas badge") }
@@ -759,10 +763,18 @@ struct ProjectsView: View {
         let notes: String
     }
 
+    struct EquipmentItem: Identifiable {
+        let id = UUID()
+        let name: String
+        var isChecked: Bool
+    }
+
     @State private var projects: [Project] = []
     @State private var newName: String = ""
     @State private var newVoltage: String = ""
     @State private var newNotes: String = ""
+    @State private var equipmentItems: [EquipmentItem] = []
+    @State private var newEquipmentName: String = ""
 
     var body: some View {
         NavigationStack {
@@ -801,6 +813,28 @@ struct ProjectsView: View {
                     }
                     .disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
+
+                Section(header: Text(L10n.equipmentChecklist)) {
+                    if equipmentItems.isEmpty {
+                        Text(L10n.equipmentEmpty)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach($equipmentItems) { $item in
+                            Toggle(isOn: $item.isChecked) {
+                                Text(item.name)
+                            }
+                            .toggleStyle(.checkbox)
+                        }
+                    }
+
+                    HStack {
+                        TextField(L10n.equipmentPlaceholder, text: $newEquipmentName)
+                        Button(action: addEquipmentItem) {
+                            Label(L10n.equipmentAdd, systemImage: "plus")
+                        }
+                        .disabled(newEquipmentName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    }
+                }
             }
             .navigationTitle(L10n.projectsHeader)
         }
@@ -823,6 +857,14 @@ struct ProjectsView: View {
         newName = ""
         newVoltage = ""
         newNotes = ""
+    }
+
+    private func addEquipmentItem() {
+        let trimmedName = newEquipmentName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { return }
+
+        equipmentItems.append(EquipmentItem(name: trimmedName, isChecked: false))
+        newEquipmentName = ""
     }
 }
 
