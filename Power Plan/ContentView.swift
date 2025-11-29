@@ -1000,7 +1000,7 @@ struct ProjectsView: View {
     @State private var newName: String = ""
     @State private var newVoltage: String = ""
     @State private var newNotes: String = ""
-    @State private var draftEquipment: [EquipmentItem] = []
+    @State private var equipmentItems: [EquipmentItem] = []
     @State private var equipmentDraft = EquipmentDraft()
     @State private var projectDrafts: [Project.ID: EquipmentDraft] = [:]
     @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
@@ -1071,7 +1071,7 @@ struct ProjectsView: View {
                     TextField(L10n.projectNotes, text: $newNotes, axis: .vertical)
                         .lineLimit(2, reservesSpace: true)
 
-                    EquipmentDraftSection(draftEquipment: $draftEquipment, draft: $equipmentDraft, tint: themeColor.color)
+                    EquipmentDraftSection(equipmentItems: $equipmentItems, draft: $equipmentDraft, tint: themeColor.color)
 
                     Button(action: addProject) {
                         Label(L10n.projectAdd, systemImage: "plus")
@@ -1117,14 +1117,14 @@ struct ProjectsView: View {
             name: trimmedName,
             voltage: trimmedVoltage.isEmpty ? "" : trimmedVoltage,
             notes: notes,
-            equipment: draftEquipment
+            equipment: equipmentItems
         )
         projects.append(project)
 
         newName = ""
         newVoltage = ""
         newNotes = ""
-        draftEquipment.removeAll()
+        equipmentItems.removeAll()
         equipmentDraft.reset()
     }
 
@@ -1167,17 +1167,17 @@ struct EquipmentRow: View {
 }
 
 struct EquipmentDraftSection: View {
-    @Binding var draftEquipment: [ProjectsView.EquipmentItem]
+    @Binding var equipmentItems: [ProjectsView.EquipmentItem]
     @Binding var draft: ProjectsView.EquipmentDraft
     var tint: Color
 
     var body: some View {
         Section(header: Text(L10n.projectEquipmentHeader)) {
-            if draftEquipment.isEmpty {
+            if equipmentItems.isEmpty {
                 Text(L10n.projectEquipmentEmpty)
                     .foregroundStyle(.secondary)
             } else {
-                ForEach(draftEquipment) { item in
+                ForEach(equipmentItems) { item in
                     HStack(alignment: .top, spacing: 12) {
                         Image(systemName: "checkmark.circle")
                             .foregroundStyle(tint)
@@ -1195,9 +1195,9 @@ struct EquipmentDraftSection: View {
                             .foregroundStyle(.secondary)
                     }
                     .swipeActions {
-                        if let index = draftEquipment.firstIndex(where: { $0.id == item.id }) {
+                        if let index = equipmentItems.firstIndex(where: { $0.id == item.id }) {
                             Button(role: .destructive) {
-                                draftEquipment.remove(at: index)
+                                equipmentItems.remove(at: index)
                             } label: {
                                 Label(L10n.delete, systemImage: "trash")
                             }
@@ -1206,7 +1206,7 @@ struct EquipmentDraftSection: View {
                 }
             }
             EquipmentDraftForm(draft: $draft, tint: tint) { item in
-                draftEquipment.append(item)
+                equipmentItems.append(item)
             }
         }
     }
