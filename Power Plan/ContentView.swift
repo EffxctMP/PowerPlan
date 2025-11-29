@@ -66,7 +66,11 @@ struct ProjectDisclosureRow: View {
                         ForEach(project.equipment.indices, id: \.self) { equipmentIndex in
                             EquipmentRow(item: $project.equipment[equipmentIndex], tint: tint)
                                 .swipeActions {
-                                    project.equipment.remove(at: equipmentIndex)
+                                    Button(role: .destructive) {
+                                        project.equipment.remove(at: equipmentIndex)
+                                    } label: {
+                                        Label(L10n.delete, systemImage: "trash")
+                                    }
                                 }
                         }
                     }
