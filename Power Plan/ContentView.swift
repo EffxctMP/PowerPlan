@@ -775,6 +775,7 @@ struct ProjectsView: View {
     @State private var newNotes: String = ""
     @State private var equipmentItems: [EquipmentItem] = []
     @State private var newEquipmentName: String = ""
+    @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
 
     var body: some View {
         NavigationStack {
