@@ -189,10 +189,53 @@ private enum L10n {
     static var projectVoltage: String { NSLocalizedString("projects.voltage", comment: "Project voltage field") }
     static var projectNotes: String { NSLocalizedString("projects.notes", comment: "Project notes field") }
     static var projectAdd: String { NSLocalizedString("projects.add", comment: "Add project button") }
-    static var equipmentChecklist: String { NSLocalizedString("projects.equipment", comment: "Equipment checklist header") }
-    static var equipmentPlaceholder: String { NSLocalizedString("projects.equipment.placeholder", comment: "Equipment placeholder") }
-    static var equipmentEmpty: String { NSLocalizedString("projects.equipment.empty", comment: "Empty checklist state") }
-    static var equipmentAdd: String { NSLocalizedString("projects.equipment.add", comment: "Add equipment button") }
+    static var projectEquipmentHeader: String { NSLocalizedString("projects.equipment", comment: "Equipment header") }
+    static var projectEquipmentEmpty: String { NSLocalizedString("projects.equipment.empty", comment: "No equipment for draft") }
+    static var projectEquipmentProjectEmpty: String { NSLocalizedString("projects.equipment.empty.project", comment: "No equipment for saved project") }
+    static var projectEquipmentAddTitle: String { NSLocalizedString("projects.equipment.add.title", comment: "Add equipment title") }
+    static var projectEquipmentType: String { NSLocalizedString("projects.equipment.type", comment: "Equipment type picker") }
+    static var projectEquipmentInfo: String { NSLocalizedString("projects.equipment.info", comment: "Equipment info field") }
+    static func projectEquipmentQuantity(_ qty: Int) -> String { String(format: NSLocalizedString("projects.equipment.quantity", comment: "Quantity"), qty) }
+    static var projectEquipmentSave: String { NSLocalizedString("projects.equipment.save", comment: "Save equipment") }
+
+    static var equipmentBreaker: String { NSLocalizedString("equipment.breaker", comment: "Breaker label") }
+    static var equipmentBreakerAmps: String { NSLocalizedString("equipment.breaker.amps", comment: "Breaker amp picker") }
+    static var equipmentBreakerCurve: String { NSLocalizedString("equipment.breaker.curve", comment: "Breaker curve") }
+    static var equipmentContactor: String { NSLocalizedString("equipment.contactor", comment: "Contactor label") }
+    static var equipmentContactorAmps: String { NSLocalizedString("equipment.contactor.amps", comment: "Contactor amps") }
+    static var equipmentPolesLabel: String { NSLocalizedString("equipment.poles", comment: "Poles label") }
+    static var equipmentThermal: String { NSLocalizedString("equipment.thermal", comment: "Thermal protection") }
+    static var equipmentThermalSetting: String { NSLocalizedString("equipment.thermal.setting", comment: "Thermal setting") }
+    static var equipmentTransformer: String { NSLocalizedString("equipment.transformer", comment: "Transformer") }
+    static var equipmentTransformerPower: String { NSLocalizedString("equipment.transformer.watts", comment: "Transformer watts") }
+    static var equipmentBoardSocket: String { NSLocalizedString("equipment.socket", comment: "Board socket") }
+    static var equipmentBoardSocketOption: String { NSLocalizedString("equipment.socket.option", comment: "Board socket option") }
+    static var equipmentSwitch: String { NSLocalizedString("equipment.switch", comment: "Switch") }
+    static var equipmentSwitchPositions: String { NSLocalizedString("equipment.switch.positions", comment: "Switch positions") }
+    static var equipmentRelay: String { NSLocalizedString("equipment.relay", comment: "Relay") }
+    static var equipmentRelayVoltage: String { NSLocalizedString("equipment.relay.voltage", comment: "Relay voltage") }
+    static var equipmentRelayType: String { NSLocalizedString("equipment.relay.type", comment: "Relay coil type") }
+    static var equipmentKwh: String { NSLocalizedString("equipment.kwh", comment: "kWh meter") }
+    static var equipmentKwhOption: String { NSLocalizedString("equipment.kwh.option", comment: "kWh option") }
+    static var equipmentKwhSingle: String { NSLocalizedString("equipment.kwh.single", comment: "Single phase") }
+    static var equipmentKwhThree: String { NSLocalizedString("equipment.kwh.three", comment: "Three phase") }
+    static var equipmentPlc: String { NSLocalizedString("equipment.plc", comment: "PLC cards") }
+    static var equipmentPlcBrand: String { NSLocalizedString("equipment.plc.brand", comment: "PLC brand") }
+    static var equipmentPlcType: String { NSLocalizedString("equipment.plc.type", comment: "PLC type") }
+    static var equipmentTerminals: String { NSLocalizedString("equipment.terminals", comment: "Circuit terminals") }
+    static var equipmentTerminalType: String { NSLocalizedString("equipment.terminals.type", comment: "Terminal type") }
+    static var equipmentCustom: String { NSLocalizedString("equipment.custom", comment: "Custom equipment") }
+    static var equipmentCustomLabel: String { NSLocalizedString("equipment.custom.label", comment: "Custom label") }
+    static var equipmentOptionNote: String { NSLocalizedString("equipment.option.note", comment: "Option note") }
+    static var equipmentMarkHint: String { NSLocalizedString("equipment.mark", comment: "Tap to mark on hand") }
+    static func equipmentQuantityValue(_ qty: Int) -> String { String(format: NSLocalizedString("equipment.quantity", comment: "Quantity value"), qty) }
+    static func equipmentAmpsValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.amps", comment: "Amps value"), value) }
+    static func equipmentPolesValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.poles", comment: "Poles value"), value) }
+    static func equipmentWattsValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.watts", comment: "Watts value"), value) }
+    static func equipmentPositionsValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.positions", comment: "Positions value"), value) }
+    static func equipmentVoltageValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.voltage", comment: "Voltage value"), value) }
+
+    static var delete: String { NSLocalizedString("action.delete", comment: "Delete button") }
 
     static var offlineReady: String { NSLocalizedString("badge.offline", comment: "Offline badge") }
     static var proFormulas: String { NSLocalizedString("badge.formulas", comment: "Pro formulas badge") }
@@ -758,23 +801,207 @@ struct ReferenceView: View {
 struct ProjectsView: View {
     struct Project: Identifiable {
         let id = UUID()
-        let name: String
-        let voltage: String
-        let notes: String
+        var name: String
+        var voltage: String
+        var notes: String
+        var equipment: [EquipmentItem]
     }
 
     struct EquipmentItem: Identifiable {
         let id = UUID()
-        let name: String
-        var isChecked: Bool
+        var category: EquipmentCategory
+        var primary: String
+        var secondary: String?
+        var details: String
+        var quantity: Int
+        var acquired: Bool
+
+        var title: String { category.title }
+
+        var detailLine: String {
+            let optionText = [primary, secondary].compactMap { $0 }.joined(separator: " · ")
+            if details.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return optionText
+            }
+            if optionText.isEmpty {
+                return details
+            }
+            return "\(optionText) — \(details)"
+        }
+    }
+
+    enum EquipmentCategory: String, CaseIterable, Identifiable {
+        case breaker
+        case contactor
+        case thermalProtection
+        case transformer
+        case boardSocket
+        case switchPositions
+        case relay
+        case kwhMeter
+        case plcCard
+        case circuitTerminal
+        case custom
+
+        var id: String { rawValue }
+
+        var title: String {
+            switch self {
+            case .breaker:
+                return L10n.equipmentBreaker
+            case .contactor:
+                return L10n.equipmentContactor
+            case .thermalProtection:
+                return L10n.equipmentThermal
+            case .transformer:
+                return L10n.equipmentTransformer
+            case .boardSocket:
+                return L10n.equipmentBoardSocket
+            case .switchPositions:
+                return L10n.equipmentSwitch
+            case .relay:
+                return L10n.equipmentRelay
+            case .kwhMeter:
+                return L10n.equipmentKwh
+            case .plcCard:
+                return L10n.equipmentPlc
+            case .circuitTerminal:
+                return L10n.equipmentTerminals
+            case .custom:
+                return L10n.equipmentCustom
+            }
+        }
+    }
+
+    enum BreakerCurve: String, CaseIterable, Identifiable {
+        case b = "B"
+        case c = "C"
+        case d = "D"
+        case k = "K"
+        case z = "Z"
+
+        var id: String { rawValue }
+    }
+
+    enum RelayCoilType: String, CaseIterable, Identifiable {
+        case ac = "AC"
+        case dc = "DC"
+
+        var id: String { rawValue }
+    }
+
+    struct EquipmentDraft {
+        var category: EquipmentCategory = .breaker
+        var amps: Int = 63
+        var curve: BreakerCurve = .c
+        var poles: Int = 3
+        var transformerWatts: Int = 100
+        var switchPositions: Int = 2
+        var relayVoltage: Int = 24
+        var relayCoil: RelayCoilType = .ac
+        var kwhConfiguration: Int = 1
+        var quantity: Int = 1
+        var additionalInfo: String = ""
+        var customLabel: String = ""
+        var optionNote: String = ""
+        var brand: String = ""
+        var model: String = ""
+        var terminalType: String = ""
+
+        var primaryDescription: String {
+            switch category {
+            case .breaker:
+                return L10n.equipmentAmpsValue(amps)
+            case .contactor:
+                return [L10n.equipmentPolesValue(poles), L10n.equipmentAmpsValue(amps)].joined(separator: " · ")
+            case .thermalProtection:
+                return L10n.equipmentAmpsValue(amps)
+            case .transformer:
+                return L10n.equipmentWattsValue(transformerWatts)
+            case .boardSocket:
+                return optionNote.trimmingCharacters(in: .whitespacesAndNewlines)
+            case .switchPositions:
+                return L10n.equipmentPositionsValue(switchPositions)
+            case .relay:
+                return L10n.equipmentVoltageValue(relayVoltage)
+            case .kwhMeter:
+                return kwhConfiguration == 1 ? L10n.equipmentKwhSingle : L10n.equipmentKwhThree
+            case .plcCard:
+                let brandComponent = brand.trimmingCharacters(in: .whitespacesAndNewlines)
+                let modelComponent = model.trimmingCharacters(in: .whitespacesAndNewlines)
+                return [brandComponent, modelComponent].filter { !$0.isEmpty }.joined(separator: " · ")
+            case .circuitTerminal:
+                return terminalType.trimmingCharacters(in: .whitespacesAndNewlines)
+            case .custom:
+                return customLabel.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+        }
+
+        var secondaryDescription: String? {
+            switch category {
+            case .breaker:
+                return curve.rawValue
+            case .contactor:
+                return nil
+            case .thermalProtection:
+                return nil
+            case .transformer:
+                return nil
+            case .boardSocket:
+                return nil
+            case .switchPositions:
+                return nil
+            case .relay:
+                return relayCoil.rawValue
+            case .kwhMeter:
+                return optionNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : optionNote
+            case .plcCard:
+                return optionNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : optionNote
+            case .circuitTerminal:
+                return optionNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : optionNote
+            case .custom:
+                return optionNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : optionNote
+            }
+        }
+
+        var canSave: Bool {
+            let primaryValue = primaryDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+            switch category {
+            case .plcCard:
+                return !brand.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !model.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            case .circuitTerminal, .custom:
+                return !primaryValue.isEmpty
+            default:
+                return !primaryValue.isEmpty
+            }
+        }
+
+        mutating func reset() {
+            category = .breaker
+            amps = 63
+            curve = .c
+            poles = 3
+            transformerWatts = 100
+            switchPositions = 2
+            relayVoltage = 24
+            relayCoil = .ac
+            kwhConfiguration = 1
+            quantity = 1
+            additionalInfo = ""
+            customLabel = ""
+            optionNote = ""
+            brand = ""
+            model = ""
+            terminalType = ""
+        }
     }
 
     @State private var projects: [Project] = []
     @State private var newName: String = ""
     @State private var newVoltage: String = ""
     @State private var newNotes: String = ""
-    @State private var equipmentItems: [EquipmentItem] = []
-    @State private var newEquipmentName: String = ""
+    @State private var draftEquipment: [EquipmentItem] = []
+    @State private var equipmentDraft = EquipmentDraft()
     @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
 
     var body: some View {
@@ -785,16 +1012,39 @@ struct ProjectsView: View {
                         Text(L10n.projectsEmpty)
                             .foregroundStyle(.secondary)
                     } else {
-                        ForEach(projects) { project in
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text(project.name)
-                                    .font(.headline)
-                                Text(project.voltage)
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                                if !project.notes.isEmpty {
-                                    Text(project.notes)
-                                        .font(.footnote)
+                        ForEach($projects) { $project in
+                            DisclosureGroup {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    if !project.voltage.isEmpty {
+                                        Label(project.voltage, systemImage: "bolt")
+                                            .font(.subheadline)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    if !project.notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        Text(project.notes)
+                                            .font(.footnote)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    Section(header: Text(L10n.projectEquipmentHeader)) {
+                                        if project.equipment.isEmpty {
+                                            Text(L10n.projectEquipmentProjectEmpty)
+                                                .foregroundStyle(.secondary)
+                                        } else {
+                                            ForEach($project.equipment) { $item in
+                                                EquipmentRow(item: $item, tint: themeColor.color)
+                                            }
+                                        }
+                                    }
+                                }
+                            } label: {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(project.name)
+                                        .font(.headline)
+                                    if !project.voltage.isEmpty {
+                                        Text(project.voltage)
+                                            .font(.subheadline)
+                                            .foregroundStyle(.secondary)
+                                    }
                                 }
                             }
                         }
@@ -807,6 +1057,8 @@ struct ProjectsView: View {
                         .textInputAutocapitalization(.never)
                     TextField(L10n.projectNotes, text: $newNotes, axis: .vertical)
                         .lineLimit(2, reservesSpace: true)
+
+                    EquipmentDraftSection(draftEquipment: $draftEquipment, draft: $equipmentDraft, tint: themeColor.color)
 
                     Button(action: addProject) {
                         Label(L10n.projectAdd, systemImage: "plus")
@@ -851,21 +1103,210 @@ struct ProjectsView: View {
         let project = Project(
             name: trimmedName,
             voltage: trimmedVoltage.isEmpty ? "" : trimmedVoltage,
-            notes: notes
+            notes: notes,
+            equipment: draftEquipment
         )
         projects.append(project)
 
         newName = ""
         newVoltage = ""
         newNotes = ""
+        draftEquipment.removeAll()
+        equipmentDraft.reset()
+    }
+}
+
+struct EquipmentRow: View {
+    @Binding var item: ProjectsView.EquipmentItem
+    var tint: Color
+
+    var body: some View {
+        Button(action: { item.acquired.toggle() }) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: item.acquired ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(item.acquired ? tint : .tertiary)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(item.title)
+                        .font(.body)
+                    if !item.detailLine.isEmpty {
+                        Text(item.detailLine)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                Spacer()
+                Text(L10n.equipmentQuantityValue(item.quantity))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(item.title)
+        .accessibilityHint(L10n.equipmentMarkHint)
+    }
+}
+
+struct EquipmentDraftSection: View {
+    @Binding var draftEquipment: [ProjectsView.EquipmentItem]
+    @Binding var draft: ProjectsView.EquipmentDraft
+    var tint: Color
+
+    private var breakerAmps: [Int] { Array(1...1000) }
+    private var transformerOptions: [Int] { stride(from: 50, through: 1000, by: 50).map { $0 } + stride(from: 1200, through: 5000, by: 200).map { $0 } }
+    private var relayVoltages: [Int] { [12, 24, 48, 110, 120, 230] }
+
+    var body: some View {
+        Section(header: Text(L10n.projectEquipmentHeader)) {
+            if draftEquipment.isEmpty {
+                Text(L10n.projectEquipmentEmpty)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(draftEquipment) { item in
+                    HStack(alignment: .top, spacing: 12) {
+                        Image(systemName: "checkmark.circle")
+                            .foregroundStyle(tint)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(item.title)
+                            if !item.detailLine.isEmpty {
+                                Text(item.detailLine)
+                                    .font(.footnote)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        Spacer()
+                        Text(L10n.equipmentQuantityValue(item.quantity))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    .swipeActions {
+                        if let index = draftEquipment.firstIndex(where: { $0.id == item.id }) {
+                            Button(role: .destructive) {
+                                draftEquipment.remove(at: index)
+                            } label: {
+                                Label(L10n.delete, systemImage: "trash")
+                            }
+                        }
+                    }
+                }
+            }
+
+            DisclosureGroup(L10n.projectEquipmentAddTitle) {
+                Picker(L10n.projectEquipmentType, selection: $draft.category) {
+                    ForEach(ProjectsView.EquipmentCategory.allCases) { category in
+                        Text(category.title).tag(category)
+                    }
+                }
+
+                switch draft.category {
+                case .breaker:
+                    Picker(L10n.equipmentBreakerAmps, selection: $draft.amps) {
+                        ForEach(breakerAmps, id: \.self) { value in
+                            Text(L10n.equipmentAmpsValue(value)).tag(value)
+                        }
+                    }
+                    Picker(L10n.equipmentBreakerCurve, selection: $draft.curve) {
+                        ForEach(ProjectsView.BreakerCurve.allCases) { curve in
+                            Text(curve.rawValue).tag(curve)
+                        }
+                    }
+                case .contactor:
+                    Picker(L10n.equipmentPolesLabel, selection: $draft.poles) {
+                        ForEach(1...6, id: \.self) { value in
+                            Text(L10n.equipmentPolesValue(value)).tag(value)
+                        }
+                    }
+                    Picker(L10n.equipmentContactorAmps, selection: $draft.amps) {
+                        ForEach(breakerAmps, id: \.self) { value in
+                            Text(L10n.equipmentAmpsValue(value)).tag(value)
+                        }
+                    }
+                case .thermalProtection:
+                    Picker(L10n.equipmentThermalSetting, selection: $draft.amps) {
+                        ForEach(breakerAmps, id: \.self) { value in
+                            Text(L10n.equipmentAmpsValue(value)).tag(value)
+                        }
+                    }
+                case .transformer:
+                    Picker(L10n.equipmentTransformerPower, selection: $draft.transformerWatts) {
+                        ForEach(transformerOptions, id: \.self) { value in
+                            Text(L10n.equipmentWattsValue(value)).tag(value)
+                        }
+                    }
+                case .boardSocket:
+                    TextField(L10n.equipmentBoardSocketOption, text: $draft.optionNote)
+                        .textInputAutocapitalization(.never)
+                case .switchPositions:
+                    Picker(L10n.equipmentSwitchPositions, selection: $draft.switchPositions) {
+                        ForEach(2...6, id: \.self) { value in
+                            Text(L10n.equipmentPositionsValue(value)).tag(value)
+                        }
+                    }
+                case .relay:
+                    Picker(L10n.equipmentRelayVoltage, selection: $draft.relayVoltage) {
+                        ForEach(relayVoltages, id: \.self) { value in
+                            Text(L10n.equipmentVoltageValue(value)).tag(value)
+                        }
+                    }
+                    Picker(L10n.equipmentRelayType, selection: $draft.relayCoil) {
+                        ForEach(ProjectsView.RelayCoilType.allCases) { type in
+                            Text(type.rawValue).tag(type)
+                        }
+                    }
+                case .kwhMeter:
+                    Picker(L10n.equipmentKwhOption, selection: $draft.kwhConfiguration) {
+                        Text(L10n.equipmentKwhSingle).tag(1)
+                        Text(L10n.equipmentKwhThree).tag(3)
+                    }
+                    TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
+                        .textInputAutocapitalization(.never)
+                case .plcCard:
+                    TextField(L10n.equipmentPlcBrand, text: $draft.brand)
+                        .textInputAutocapitalization(.words)
+                    TextField(L10n.equipmentPlcType, text: $draft.model)
+                        .textInputAutocapitalization(.words)
+                    TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
+                        .textInputAutocapitalization(.sentences)
+                case .circuitTerminal:
+                    TextField(L10n.equipmentTerminalType, text: $draft.terminalType)
+                        .textInputAutocapitalization(.words)
+                    TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
+                        .textInputAutocapitalization(.sentences)
+                case .custom:
+                    TextField(L10n.equipmentCustomLabel, text: $draft.customLabel)
+                        .textInputAutocapitalization(.sentences)
+                    TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
+                        .textInputAutocapitalization(.sentences)
+                }
+
+                Stepper(value: $draft.quantity, in: 1...500) {
+                    Text(L10n.projectEquipmentQuantity(draft.quantity))
+                }
+
+                TextField(L10n.projectEquipmentInfo, text: $draft.additionalInfo, axis: .vertical)
+                    .lineLimit(2, reservesSpace: true)
+
+                Button(action: addItem) {
+                    Label(L10n.projectEquipmentSave, systemImage: "plus")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+                .disabled(!draft.canSave)
+                .tint(tint)
+            }
+        }
     }
 
-    private func addEquipmentItem() {
-        let trimmedName = newEquipmentName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedName.isEmpty else { return }
-
-        equipmentItems.append(EquipmentItem(name: trimmedName, isChecked: false))
-        newEquipmentName = ""
+    private func addItem() {
+        guard draft.canSave else { return }
+        let item = ProjectsView.EquipmentItem(
+            category: draft.category,
+            primary: draft.primaryDescription,
+            secondary: draft.secondaryDescription,
+            details: draft.additionalInfo.trimmingCharacters(in: .whitespacesAndNewlines),
+            quantity: draft.quantity,
+            acquired: false
+        )
+        draftEquipment.append(item)
+        draft.reset()
     }
 }
 
