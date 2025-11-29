@@ -8,6 +8,7 @@
 
 "tab.calculators" = "Rekenmachines";
 "tab.reference" = "Referentie";
+"tab.projects" = "Projecten";
 
 "nav.title" = "Power Plan";
 "nav.ohms" = "Wet van Ohm";
@@ -16,6 +17,7 @@
 "nav.drop" = "Spanningsval";
 "nav.reference" = "Referentie";
 "nav.settings" = "Instellingen";
+"nav.projects" = "Projecten";
 "nav.settings.button" = "Instellingen";
 
 "hero.title" = "Elektricienspakket";
@@ -113,4 +115,16 @@
 "field.loadCurrent" = "Belastingsstroom (A)";
 "field.supplyVoltage" = "Voedingsspanning (V)";
 "field.conductorArea" = "Geleiderdoorsnede: %.1f mm²";
+
+"projects.existing" = "Industriële projecten";
+"projects.new" = "Project toevoegen";
+"projects.empty" = "Nog geen projecten. Voeg je eerste opdracht toe om notities bij te houden.";
+"projects.name" = "Projectnaam";
+"projects.voltage" = "Voedingsspanning (bv. 400 V)";
+"projects.notes" = "Notities, materiaal, locatie";
+"projects.add" = "Project toevoegen";
+"projects.equipment" = "Checklist bordmateriaal";
+"projects.equipment.placeholder" = "Materiaal toevoegen (bv. hoofdautomaat)";
+"projects.equipment.empty" = "Nog geen materiaal toegevoegd.";
+"projects.equipment.add" = "Toevoegen";
 

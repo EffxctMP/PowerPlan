@@ -109,6 +109,7 @@ enum LanguageOption: String, CaseIterable, Identifiable {
 private enum L10n {
     static var calculators: String { NSLocalizedString("tab.calculators", comment: "Calculators tab title") }
     static var reference: String { NSLocalizedString("tab.reference", comment: "Reference tab title") }
+    static var projects: String { NSLocalizedString("tab.projects", comment: "Projects tab title") }
     static var appTitle: String { NSLocalizedString("nav.title", comment: "Main navigation title") }
 
     static var heroTitle: String { NSLocalizedString("hero.title", comment: "Hero title") }
@@ -146,6 +147,7 @@ private enum L10n {
     static var dropHeader: String { NSLocalizedString("nav.drop", comment: "Voltage drop title") }
     static var referenceHeader: String { NSLocalizedString("nav.reference", comment: "Reference title") }
     static var settingsHeader: String { NSLocalizedString("nav.settings", comment: "Settings title") }
+    static var projectsHeader: String { NSLocalizedString("nav.projects", comment: "Projects title") }
 
     static var provideTwo: String { NSLocalizedString("ohms.prompt", comment: "Prompt for Ohm's law inputs") }
     static var enterTwo: String { NSLocalizedString("ohms.validation", comment: "Validation for two values") }
@@ -179,6 +181,18 @@ private enum L10n {
     static func dropResult(_ volts: Double) -> String { String(format: NSLocalizedString("drop.result.voltage", comment: "Voltage drop result"), volts) }
     static func dropPercent(_ percent: Double) -> String { String(format: NSLocalizedString("drop.result.percent", comment: "Percent drop"), percent) }
     static func dropResistance(_ resistance: Double) -> String { String(format: NSLocalizedString("drop.result.resistance", comment: "Loop resistance"), resistance) }
+
+    static var projectsExisting: String { NSLocalizedString("projects.existing", comment: "Existing projects header") }
+    static var projectsNew: String { NSLocalizedString("projects.new", comment: "New project header") }
+    static var projectsEmpty: String { NSLocalizedString("projects.empty", comment: "No projects message") }
+    static var projectName: String { NSLocalizedString("projects.name", comment: "Project name field") }
+    static var projectVoltage: String { NSLocalizedString("projects.voltage", comment: "Project voltage field") }
+    static var projectNotes: String { NSLocalizedString("projects.notes", comment: "Project notes field") }
+    static var projectAdd: String { NSLocalizedString("projects.add", comment: "Add project button") }
+    static var equipmentChecklist: String { NSLocalizedString("projects.equipment", comment: "Equipment checklist header") }
+    static var equipmentPlaceholder: String { NSLocalizedString("projects.equipment.placeholder", comment: "Equipment placeholder") }
+    static var equipmentEmpty: String { NSLocalizedString("projects.equipment.empty", comment: "Empty checklist state") }
+    static var equipmentAdd: String { NSLocalizedString("projects.equipment.add", comment: "Add equipment button") }
 
     static var offlineReady: String { NSLocalizedString("badge.offline", comment: "Offline badge") }
     static var proFormulas: String { NSLocalizedString("badge.formulas", comment: "Pro formulas badge") }
@@ -224,6 +238,10 @@ struct ContentView: View {
             DashboardView()
                 .tabItem {
                     Label(L10n.calculators, systemImage: "bolt.fill")
+                }
+            ProjectsView()
+                .tabItem {
+                    Label(L10n.projects, systemImage: "folder.fill")
                 }
             ReferenceView()
                 .tabItem {
@@ -734,6 +752,119 @@ struct ReferenceView: View {
             }
         }
         .navigationTitle(L10n.referenceHeader)
+    }
+}
+
+struct ProjectsView: View {
+    struct Project: Identifiable {
+        let id = UUID()
+        let name: String
+        let voltage: String
+        let notes: String
+    }
+
+    struct EquipmentItem: Identifiable {
+        let id = UUID()
+        let name: String
+        var isChecked: Bool
+    }
+
+    @State private var projects: [Project] = []
+    @State private var newName: String = ""
+    @State private var newVoltage: String = ""
+    @State private var newNotes: String = ""
+    @State private var equipmentItems: [EquipmentItem] = []
+    @State private var newEquipmentName: String = ""
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section(header: Text(L10n.projectsExisting)) {
+                    if projects.isEmpty {
+                        Text(L10n.projectsEmpty)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(projects) { project in
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(project.name)
+                                    .font(.headline)
+                                Text(project.voltage)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                if !project.notes.isEmpty {
+                                    Text(project.notes)
+                                        .font(.footnote)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Section(header: Text(L10n.projectsNew)) {
+                    TextField(L10n.projectName, text: $newName)
+                    TextField(L10n.projectVoltage, text: $newVoltage)
+                        .textInputAutocapitalization(.never)
+                    TextField(L10n.projectNotes, text: $newNotes, axis: .vertical)
+                        .lineLimit(2, reservesSpace: true)
+
+                    Button(action: addProject) {
+                        Label(L10n.projectAdd, systemImage: "plus")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+
+                Section(header: Text(L10n.equipmentChecklist)) {
+                    if equipmentItems.isEmpty {
+                        Text(L10n.equipmentEmpty)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach($equipmentItems) { $item in
+                            Toggle(isOn: $item.isChecked) {
+                                Text(item.name)
+                            }
+                            .toggleStyle(.checkbox)
+                        }
+                    }
+
+                    HStack {
+                        TextField(L10n.equipmentPlaceholder, text: $newEquipmentName)
+                        Button(action: addEquipmentItem) {
+                            Label(L10n.equipmentAdd, systemImage: "plus")
+                        }
+                        .disabled(newEquipmentName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    }
+                }
+            }
+            .navigationTitle(L10n.projectsHeader)
+        }
+    }
+
+    private func addProject() {
+        let trimmedName = newName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedVoltage = newVoltage.trimmingCharacters(in: .whitespacesAndNewlines)
+        let notes = newNotes.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !trimmedName.isEmpty else { return }
+
+        let project = Project(
+            name: trimmedName,
+            voltage: trimmedVoltage.isEmpty ? "" : trimmedVoltage,
+            notes: notes
+        )
+        projects.append(project)
+
+        newName = ""
+        newVoltage = ""
+        newNotes = ""
+    }
+
+    private func addEquipmentItem() {
+        let trimmedName = newEquipmentName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { return }
+
+        equipmentItems.append(EquipmentItem(name: trimmedName, isChecked: false))
+        newEquipmentName = ""
     }
 }
 

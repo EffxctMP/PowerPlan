@@ -8,6 +8,7 @@
 
 "tab.calculators" = "Calculators";
 "tab.reference" = "Reference";
+"tab.projects" = "Projects";
 
 "nav.title" = "Power Plan";
 "nav.ohms" = "Ohm's Law";
@@ -16,6 +17,7 @@
 "nav.drop" = "Voltage Drop";
 "nav.reference" = "Reference";
 "nav.settings" = "Settings";
+"nav.projects" = "Projects";
 "nav.settings.button" = "Settings";
 
 "hero.title" = "Electrician Toolkit";
@@ -59,6 +61,7 @@
 "power.singlePhase" = "Single-phase";
 "power.threePhase" = "Three-phase";
 "power.factor" = "Power factor";
+"power.factor.info" = "Power factor shows how efficiently current turns into real power (0.00 - 1.00).";
 "power.button.estimate" = "Estimate Power";
 "power.prompt" = "Enter circuit details and tap Estimate.";
 "power.validation" = "Please enter valid voltage and current.";
@@ -112,3 +115,15 @@
 "theme.orange" = "Orange";
 "theme.purple" = "Purple";
 "theme.indigo" = "Indigo";
+
+"projects.existing" = "Industrial projects";
+"projects.new" = "Add a project";
+"projects.empty" = "No projects yet. Add your first job to start tracking notes.";
+"projects.name" = "Project name";
+"projects.voltage" = "Supply voltage (e.g. 400 V)";
+"projects.notes" = "Notes, equipment, location";
+"projects.add" = "Add project";
+"projects.equipment" = "Board equipment checklist";
+"projects.equipment.placeholder" = "Add equipment (e.g. main breaker)";
+"projects.equipment.empty" = "No equipment added yet.";
+"projects.equipment.add" = "Add";
