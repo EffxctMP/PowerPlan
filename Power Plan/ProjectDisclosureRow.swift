@@ -5,6 +5,9 @@ struct ProjectDisclosureRow: View {
     var draft: Binding<ProjectsView.EquipmentDraft>
     @Binding var isEditing: Bool
     var tint: Color
+    var isSelecting: Bool = false
+    var isSelected: Bool = false
+    var toggleSelection: () -> Void = {}
 
     var body: some View {
         DisclosureGroup {
@@ -33,17 +36,18 @@ struct ProjectDisclosureRow: View {
                     TextField(L10n.projectNotes, text: $project.notes, axis: .vertical)
                         .lineLimit(2, reservesSpace: true)
                 } else {
-                    LabeledContent(L10n.projectName) {
-                        Text(project.name.isEmpty ? "—" : project.name)
-                    }
+                    VStack(alignment: .leading, spacing: 10) {
+                        infoRow(
+                            title: L10n.projectVoltage,
+                            value: project.voltage,
+                            systemImage: "bolt"
+                        )
 
-                    LabeledContent(L10n.projectVoltage) {
-                        Text(project.voltage.isEmpty ? "—" : project.voltage)
-                    }
-
-                    LabeledContent(L10n.projectNotes) {
-                        Text(project.notes.isEmpty ? "—" : project.notes)
-                            .multilineTextAlignment(.leading)
+                        infoRow(
+                            title: L10n.projectNotes,
+                            value: project.notes,
+                            systemImage: "text.alignleft"
+                        )
                     }
                 }
 
@@ -75,15 +79,39 @@ struct ProjectDisclosureRow: View {
                 }
             }
         } label: {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(project.name)
-                    .font(.headline)
-                if !project.voltage.isEmpty {
-                    Text(project.voltage)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+            HStack(alignment: .firstTextBaseline, spacing: 12) {
+                if isSelecting {
+                    Button(action: toggleSelection) {
+                        Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                            .foregroundStyle(isSelected ? tint : .secondary)
+                            .imageScale(.large)
+                    }
+                    .buttonStyle(.plain)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(project.name)
+                        .font(.headline)
+                    if !project.voltage.isEmpty {
+                        Text(project.voltage)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private func infoRow(title: String, value: String, systemImage: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Label(title, systemImage: systemImage)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+            Text(value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "—" : value)
+                .font(.body)
+                .multilineTextAlignment(.leading)
         }
     }
 }

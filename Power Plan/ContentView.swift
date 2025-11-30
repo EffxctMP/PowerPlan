@@ -827,7 +827,7 @@ struct ProjectsView: View {
 
     var body: some View {
         NavigationStack {
-            List(selection: editMode.isEditing ? $selection : .constant(Set<Project.ID>())) {
+            List {
                 Section(header: Text(L10n.projectsExisting)) {
                     if projects.isEmpty {
                         Text(L10n.projectsEmpty)
@@ -838,7 +838,10 @@ struct ProjectsView: View {
                                 project: $project,
                                 draft: bindingForProjectDraft(project.id),
                                 isEditing: bindingForProjectEditing(project.id),
-                                tint: themeColor.color
+                                tint: themeColor.color,
+                                isSelecting: editMode.isEditing,
+                                isSelected: selection.contains(project.id),
+                                toggleSelection: { toggleSelection(for: project.id) }
                             )
                         }
                     }
@@ -986,6 +989,14 @@ struct ProjectsView: View {
         storedProjectsData = encoded
     }
 
+    private func toggleSelection(for projectID: Project.ID) {
+        if selection.contains(projectID) {
+            selection.remove(projectID)
+        } else {
+            selection.insert(projectID)
+        }
+    }
+
     private func toggleSelectionMode() {
         withAnimation {
             if editMode.isEditing {
@@ -993,6 +1004,7 @@ struct ProjectsView: View {
                 selection.removeAll()
             } else {
                 editMode = .active
+                selection.removeAll()
             }
         }
     }
