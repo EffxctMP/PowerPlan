@@ -903,6 +903,15 @@ struct ProjectsView: View {
         }
     }
 
+    @ViewBuilder
+    private var equipmentChecklistSection: some View {
+        EquipmentDraftSection(
+            equipmentItems: $equipmentItems,
+            draft: $equipmentDraft,
+            tint: themeColor.color
+        )
+    }
+
     private func addProject() {
         let trimmedName = newName.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedVoltage = newVoltage.trimmingCharacters(in: .whitespacesAndNewlines)
