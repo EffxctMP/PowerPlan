@@ -57,11 +57,11 @@ struct ProjectDisclosureRow: View {
                     Text(L10n.projectEquipmentProjectEmpty)
                         .foregroundStyle(.secondary)
                 } else {
-                    ForEach(project.equipment.indices, id: \.self) { equipmentIndex in
-                        EquipmentRow(item: $project.equipment[equipmentIndex], tint: tint)
-                            .swipeActions {
+                    ForEach(Array(project.equipment.enumerated()), id: \.element.id) { index, _ in
+                        EquipmentRow(item: $project.equipment[index], tint: tint)
+                            .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
-                                    project.equipment.remove(at: equipmentIndex)
+                                    project.equipment.remove(at: index)
                                 } label: {
                                     Label(L10n.delete, systemImage: "trash")
                                 }
