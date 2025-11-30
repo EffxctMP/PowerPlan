@@ -158,6 +158,7 @@
 "equipment.relay" = "Relais";
 "equipment.relay.voltage" = "Spoelspanning (12-230 V AC/DC)";
 "equipment.relay.type" = "Spoeltype";
+"equipment.tag.label" = "Stickerlabel (bv. 3F1)";
 "equipment.kwh" = "kWh-meter";
 "equipment.kwh.option" = "Configuratie";
 "equipment.kwh.single" = "Enkelfase";
@@ -177,6 +178,7 @@
 "equipment.value.watts" = "%d W";
 "equipment.value.positions" = "%d standen";
 "equipment.value.voltage" = "%d V";
+"equipment.value.tag" = "Label %@";
 
 "action.delete" = "Verwijderen";
 "action.cancel" = "Annuleren";

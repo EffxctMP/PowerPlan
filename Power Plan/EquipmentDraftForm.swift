@@ -24,6 +24,12 @@ struct EquipmentDraftForm: View {
 
                 Divider()
 
+                TextField(L10n.equipmentTagLabel, text: $draft.tag)
+                    .textInputAutocapitalization(.allCharacters)
+                    .autocorrectionDisabled()
+
+                Divider()
+
                 Stepper(value: $draft.quantity, in: 1...500) {
                     Text(L10n.projectEquipmentQuantity(draft.quantity))
                 }
@@ -143,6 +149,10 @@ struct EquipmentDraftForm: View {
         let item = ProjectsView.EquipmentItem(
             name: draft.displayName,
             category: draft.category,
+            tag: {
+                let cleaned = draft.tag.trimmingCharacters(in: .whitespacesAndNewlines)
+                return cleaned.isEmpty ? nil : cleaned
+            }(),
             primary: draft.primaryDescription,
             secondary: draft.secondaryDescription,
             details: draft.additionalInfo.trimmingCharacters(in: .whitespacesAndNewlines),

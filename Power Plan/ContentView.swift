@@ -641,6 +641,7 @@ struct ProjectsView: View {
     struct EquipmentItem: Identifiable, Codable, Equatable {
         var id: UUID = UUID()
         var name: String
+        var tag: String?
         var category: EquipmentCategory
         var primary: String
         var secondary: String?
@@ -652,13 +653,24 @@ struct ProjectsView: View {
 
         var detailLine: String {
             let optionText = [primary, secondary].compactMap { $0 }.joined(separator: " · ")
-            if details.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                return optionText
+            let cleanedDetails = details.trimmingCharacters(in: .whitespacesAndNewlines)
+            let tagText = tag?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+
+            var parts: [String] = []
+
+            if !tagText.isEmpty {
+                parts.append(L10n.equipmentTagValue(tagText))
             }
-            if optionText.isEmpty {
-                return details
+
+            if !optionText.isEmpty {
+                parts.append(optionText)
             }
-            return "\(optionText) — \(details)"
+
+            if !cleanedDetails.isEmpty {
+                parts.append(cleanedDetails)
+            }
+
+            return parts.joined(separator: " — ")
         }
     }
 
@@ -733,6 +745,7 @@ struct ProjectsView: View {
         var relayCoil: RelayCoilType = .ac
         var kwhConfiguration: Int = 1
         var quantity: Int = 1
+        var tag: String = ""
         var additionalInfo: String = ""
         var customLabel: String = ""
         var optionNote: String = ""

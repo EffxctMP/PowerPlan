@@ -122,6 +122,7 @@ enum L10n {
     static var equipmentRelay: String { NSLocalizedString("equipment.relay", comment: "Relay") }
     static var equipmentRelayVoltage: String { NSLocalizedString("equipment.relay.voltage", comment: "Relay voltage") }
     static var equipmentRelayType: String { NSLocalizedString("equipment.relay.type", comment: "Relay coil type") }
+    static var equipmentTagLabel: String { NSLocalizedString("equipment.tag.label", comment: "Sticker tag label") }
     static var equipmentKwh: String { NSLocalizedString("equipment.kwh", comment: "kWh meter") }
     static var equipmentKwhOption: String { NSLocalizedString("equipment.kwh.option", comment: "kWh option") }
     static var equipmentKwhSingle: String { NSLocalizedString("equipment.kwh.single", comment: "Single phase") }
@@ -141,6 +142,7 @@ enum L10n {
     static func equipmentWattsValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.watts", comment: "Watts value"), value) }
     static func equipmentPositionsValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.positions", comment: "Positions value"), value) }
     static func equipmentVoltageValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.voltage", comment: "Voltage value"), value) }
+    static func equipmentTagValue(_ value: String) -> String { String(format: NSLocalizedString("equipment.value.tag", comment: "Equipment tag value"), value) }
 
     static var delete: String { NSLocalizedString("action.delete", comment: "Delete button") }
     static var cancel: String { NSLocalizedString("action.cancel", comment: "Cancel button") }

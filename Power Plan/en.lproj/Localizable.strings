@@ -159,6 +159,7 @@
 "equipment.relay" = "Relay";
 "equipment.relay.voltage" = "Coil voltage (12-230 V AC/DC)";
 "equipment.relay.type" = "Coil type";
+"equipment.tag.label" = "Sticker tag (e.g. 3F1)";
 "equipment.kwh" = "kWh Meter";
 "equipment.kwh.option" = "Configuration";
 "equipment.kwh.single" = "Single-phase";
@@ -178,6 +179,7 @@
 "equipment.value.watts" = "%d W";
 "equipment.value.positions" = "%d positions";
 "equipment.value.voltage" = "%d V";
+"equipment.value.tag" = "Tag %@";
 "equipment.placeholder" = "Equipment name";
 "equipment.add" = "Add equipment";
 "equipment.empty" = "No equipment added yet.";

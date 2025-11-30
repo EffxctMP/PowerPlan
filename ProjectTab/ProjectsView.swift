@@ -14,25 +14,37 @@ struct ProjectsView: View {
 
     struct EquipmentItem: Identifiable {
         let id = UUID()
+        var name: String
         var category: EquipmentCategory
+        var tag: String?
         var primary: String
         var secondary: String?
         var details: String
         var quantity: Int
         var acquired: Bool
 
-        var title: String { category.title }
+        var title: String { name }
 
         var detailLine: String {
             let optionText = [primary, secondary].compactMap { $0 }.joined(separator: " · ")
+            let cleanedDetails = details.trimmingCharacters(in: .whitespacesAndNewlines)
+            let tagText = tag?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
-            if details.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                return optionText
+            var parts: [String] = []
+
+            if !tagText.isEmpty {
+                parts.append(L10n.equipmentTagValue(tagText))
             }
-            if optionText.isEmpty {
-                return details
+
+            if !optionText.isEmpty {
+                parts.append(optionText)
             }
-            return "\(optionText) — \(details)"
+
+            if !cleanedDetails.isEmpty {
+                parts.append(cleanedDetails)
+            }
+
+            return parts.joined(separator: " — ")
         }
     }
 
@@ -83,12 +95,23 @@ struct ProjectsView: View {
         var relayCoil: RelayCoilType = .ac
         var kwhConfiguration: Int = 1
         var quantity: Int = 1
+        var tag: String = ""
         var additionalInfo: String = ""
         var customLabel: String = ""
         var optionNote: String = ""
         var brand: String = ""
         var model: String = ""
         var terminalType: String = ""
+
+        var displayName: String {
+            let custom = customLabel.trimmingCharacters(in: .whitespacesAndNewlines)
+            switch category {
+            case .custom:
+                return custom.isEmpty ? category.title : custom
+            default:
+                return category.title
+            }
+        }
 
         var primaryDescription: String {
             switch category {
@@ -251,7 +274,9 @@ struct ProjectsView: View {
         guard !trimmed.isEmpty else { return }
 
         equipmentItems.append(.init(
+            name: trimmed,
             category: .custom,
+            tag: nil,
             primary: trimmed,
             secondary: nil,
             details: "",
