@@ -717,7 +717,7 @@ struct ProjectsView: View {
         var amps: Int = 63
         var curve: BreakerCurve = .c
         var poles: Int = 3
-        var transformerWatts: Int = 100
+        var transformerWatts: Int = 400
         var switchPositions: Int = 2
         var relayVoltage: Int = 24
         var relayCoil: RelayCoilType = .ac
