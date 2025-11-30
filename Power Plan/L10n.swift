@@ -84,10 +84,13 @@ enum L10n {
     static var projectsSelectionStart: String { NSLocalizedString("projects.selection.start", comment: "Start selecting projects") }
     static var projectsSelectionDone: String { NSLocalizedString("projects.selection.done", comment: "Finish selecting projects") }
     static var projectsDeleteSelected: String { NSLocalizedString("projects.selection.delete", comment: "Delete selected projects") }
+    static var projectsEditingStart: String { NSLocalizedString("projects.editing.start", comment: "Begin editing a project") }
+    static var projectsEditingDone: String { NSLocalizedString("projects.editing.done", comment: "Finish editing a project") }
     static var projectName: String { NSLocalizedString("projects.name", comment: "Project name field") }
     static var projectVoltage: String { NSLocalizedString("projects.voltage", comment: "Project voltage field") }
     static var projectNotes: String { NSLocalizedString("projects.notes", comment: "Project notes field") }
     static var projectAdd: String { NSLocalizedString("projects.add", comment: "Add project button") }
+    static var projectDetails: String { NSLocalizedString("projects.details", comment: "Project details header") }
     static var projectEquipmentHeader: String { NSLocalizedString("projects.equipment", comment: "Equipment header") }
     static var projectEquipmentEmpty: String { NSLocalizedString("projects.equipment.empty", comment: "No equipment for draft") }
     static var projectEquipmentProjectEmpty: String { NSLocalizedString("projects.equipment.empty.project", comment: "No equipment for saved project") }
