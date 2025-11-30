@@ -15,6 +15,7 @@ struct ProjectDetailView: View {
             .padding()
         }
         .navigationTitle(project.name.isEmpty ? L10n.projectDetails : project.name)
+        .groupBoxStyle(.card)
         .toolbar {
             Button {
                 withAnimation { isEditing.toggle() }
