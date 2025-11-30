@@ -30,8 +30,22 @@ struct ComponentDraftForm: View {
 
                 Divider()
 
-                Stepper(value: $draft.quantity, in: 1...500) {
+                VStack(alignment: .leading, spacing: 8) {
                     Text(L10n.projectComponentQuantity(draft.quantity))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+
+                    HStack(spacing: 12) {
+                        TextField("", value: $draft.quantity, format: .number)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 80)
+                        Stepper("", value: $draft.quantity, in: 1...500)
+                            .labelsHidden()
+                    }
+                }
+                .onChange(of: draft.quantity) { value in
+                    draft.quantity = min(max(value, 1), 500)
                 }
 
                 Divider()

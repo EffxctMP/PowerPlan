@@ -20,6 +20,16 @@ struct ProjectDetailView: View {
         .groupBoxStyle(.card)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
+                if isSelectingComponents {
+                    Button(role: .destructive, action: deleteSelectedComponents) {
+                        Image(systemName: "trash")
+                    }
+                    .tint(.red)
+                    .disabled(selectedComponents.isEmpty)
+                }
+            }
+
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button {
                         withAnimation { isEditing.toggle() }
@@ -42,15 +52,6 @@ struct ProjectDetailView: View {
                     Image(systemName: "ellipsis.circle")
                 }
                 .accessibilityLabel(L10n.projectComponentActions)
-            }
-
-            ToolbarItem(placement: .bottomBar) {
-                if isSelectingComponents {
-                    Button(role: .destructive, action: deleteSelectedComponents) {
-                        Label(L10n.componentDeleteSelected, systemImage: "trash")
-                    }
-                    .disabled(selectedComponents.isEmpty)
-                }
             }
         }
     }

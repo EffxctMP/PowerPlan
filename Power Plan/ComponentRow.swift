@@ -12,6 +12,7 @@ struct ComponentRow: View {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: leadingIcon)
                     .foregroundStyle(leadingStyle)
+                    .font(isSelecting ? .title3 : .body)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(item.title)
                         .font(.body)
