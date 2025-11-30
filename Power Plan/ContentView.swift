@@ -823,10 +823,11 @@ struct ProjectsView: View {
     @State private var isPresentingAddProject = false
     @State private var selection = Set<Project.ID>()
     @State private var editMode: EditMode = .inactive
+    @State private var editingProjects = Set<Project.ID>()
 
     var body: some View {
         NavigationStack {
-            List(selection: $selection) {
+            List(selection: editMode.isEditing ? $selection : .constant(Set<Project.ID>())) {
                 Section(header: Text(L10n.projectsExisting)) {
                     if projects.isEmpty {
                         Text(L10n.projectsEmpty)
@@ -836,6 +837,7 @@ struct ProjectsView: View {
                             ProjectDisclosureRow(
                                 project: $project,
                                 draft: bindingForProjectDraft(project.id),
+                                isEditing: bindingForProjectEditing(project.id),
                                 tint: themeColor.color
                             )
                         }
@@ -946,6 +948,19 @@ struct ProjectsView: View {
         )
     }
 
+    private func bindingForProjectEditing(_ projectID: Project.ID) -> Binding<Bool> {
+        Binding(
+            get: { editingProjects.contains(projectID) },
+            set: { isEditing in
+                if isEditing {
+                    editingProjects.insert(projectID)
+                } else {
+                    editingProjects.remove(projectID)
+                }
+            }
+        )
+    }
+
     private func loadProjects() {
         guard !storedProjectsData.isEmpty,
               let decoded = try? JSONDecoder().decode([Project].self, from: storedProjectsData) else {
@@ -974,6 +989,7 @@ struct ProjectsView: View {
         guard !selection.isEmpty else { return }
         withAnimation {
             projects.removeAll { selection.contains($0.id) }
+            editingProjects.subtract(selection)
             selection.removeAll()
             editMode = .inactive
         }

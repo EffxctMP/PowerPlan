@@ -123,10 +123,13 @@
 "projects.selection.start" = "Select projects";
 "projects.selection.done" = "Done selecting";
 "projects.selection.delete" = "Delete selected";
+"projects.editing.start" = "Edit project";
+"projects.editing.done" = "Done editing";
 "projects.name" = "Project name";
 "projects.voltage" = "Supply voltage (e.g. 400 V)";
 "projects.notes" = "Notes, equipment, location";
 "projects.add" = "Add project";
+"projects.details" = "Project details";
 "projects.equipment" = "Board equipment";
 "projects.equipment.empty" = "No equipment added for this project yet.";
 "projects.equipment.empty.project" = "No equipment logged for this project.";

@@ -3,19 +3,49 @@ import SwiftUI
 struct ProjectDisclosureRow: View {
     @Binding var project: ProjectsView.Project
     var draft: Binding<ProjectsView.EquipmentDraft>
+    @Binding var isEditing: Bool
     var tint: Color
 
     var body: some View {
         DisclosureGroup {
             VStack(alignment: .leading, spacing: 12) {
-                TextField(L10n.projectName, text: $project.name)
-                    .textInputAutocapitalization(.words)
+                HStack {
+                    Text(L10n.projectDetails)
+                        .font(.headline)
+                    Spacer()
+                    Button {
+                        withAnimation { isEditing.toggle() }
+                    } label: {
+                        Image(systemName: isEditing ? "checkmark.circle.fill" : "pencil.circle")
+                            .font(.title3)
+                    }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel(isEditing ? L10n.projectsEditingDone : L10n.projectsEditingStart)
+                }
 
-                TextField(L10n.projectVoltage, text: $project.voltage)
-                    .textInputAutocapitalization(.never)
+                if isEditing {
+                    TextField(L10n.projectName, text: $project.name)
+                        .textInputAutocapitalization(.words)
 
-                TextField(L10n.projectNotes, text: $project.notes, axis: .vertical)
-                    .lineLimit(2, reservesSpace: true)
+                    TextField(L10n.projectVoltage, text: $project.voltage)
+                        .textInputAutocapitalization(.never)
+
+                    TextField(L10n.projectNotes, text: $project.notes, axis: .vertical)
+                        .lineLimit(2, reservesSpace: true)
+                } else {
+                    LabeledContent(L10n.projectName) {
+                        Text(project.name.isEmpty ? "—" : project.name)
+                    }
+
+                    LabeledContent(L10n.projectVoltage) {
+                        Text(project.voltage.isEmpty ? "—" : project.voltage)
+                    }
+
+                    LabeledContent(L10n.projectNotes) {
+                        Text(project.notes.isEmpty ? "—" : project.notes)
+                            .multilineTextAlignment(.leading)
+                    }
+                }
 
                 Divider()
 
