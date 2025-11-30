@@ -882,7 +882,7 @@ struct ProjectsView: View {
                 }
             }
             .onAppear(perform: loadProjects)
-            .onChange(of: projects) { _ in
+            .persistProjectsOnChange(projects) {
                 persistProjects()
             }
         }
@@ -935,6 +935,21 @@ struct ProjectsView: View {
     private func persistProjects() {
         guard let encoded = try? JSONEncoder().encode(projects) else { return }
         storedProjectsData = encoded
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func persistProjectsOnChange(_ projects: [Project], action: @escaping () -> Void) -> some View {
+        if #available(iOS 17, *) {
+            onChange(of: projects, initial: false) { _, _ in
+                action()
+            }
+        } else {
+            onChange(of: projects) { _ in
+                action()
+            }
+        }
     }
 }
 
