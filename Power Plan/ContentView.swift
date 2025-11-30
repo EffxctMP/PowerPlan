@@ -44,6 +44,8 @@ enum ThemeColor: String, CaseIterable, Identifiable {
     case solarOrange
     case midnightIndigo
     case violetPulse
+    case blushPink
+    case crimsonRed
 
     var id: String { rawValue }
 
@@ -59,6 +61,10 @@ enum ThemeColor: String, CaseIterable, Identifiable {
             Color(red: 0.26, green: 0.27, blue: 0.6)
         case .violetPulse:
             Color(red: 0.58, green: 0.28, blue: 0.88)
+        case .blushPink:
+            Color(red: 0.94, green: 0.36, blue: 0.65)
+        case .crimsonRed:
+            Color(red: 0.84, green: 0.16, blue: 0.26)
         }
     }
 
@@ -74,6 +80,10 @@ enum ThemeColor: String, CaseIterable, Identifiable {
             NSLocalizedString("theme.indigo", comment: "Indigo accent")
         case .violetPulse:
             NSLocalizedString("theme.purple", comment: "Purple accent")
+        case .blushPink:
+            NSLocalizedString("theme.pink", comment: "Pink accent")
+        case .crimsonRed:
+            NSLocalizedString("theme.red", comment: "Red accent")
         }
     }
 }

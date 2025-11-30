@@ -97,6 +97,8 @@
 "theme.orange" = "Oranje";
 "theme.indigo" = "Indigo";
 "theme.purple" = "Paars";
+"theme.pink" = "Roze";
+"theme.red" = "Rood";
 
 "reference.copper" = "Koperresistiviteit: 0,0175 Ω·mm²/m";
 "reference.pfRange" = "Vermogensfactor typisch bereik: 0,8 - 1,0";

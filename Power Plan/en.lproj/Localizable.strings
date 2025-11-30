@@ -97,6 +97,8 @@
 "theme.orange" = "Orange";
 "theme.indigo" = "Indigo";
 "theme.purple" = "Purple";
+"theme.pink" = "Pink";
+"theme.red" = "Red";
 
 "reference.copper" = "Copper resistivity: 0.0175 Ω·mm²/m";
 "reference.pfRange" = "Power factor typical range: 0.8 - 1.0";
