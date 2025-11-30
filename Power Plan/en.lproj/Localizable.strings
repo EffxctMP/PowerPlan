@@ -119,6 +119,10 @@
 "projects.existing" = "Industrial projects";
 "projects.new" = "Add a project";
 "projects.empty" = "No projects yet. Add your first job to start tracking notes.";
+"projects.actions" = "Project actions";
+"projects.selection.start" = "Select projects";
+"projects.selection.done" = "Done selecting";
+"projects.selection.delete" = "Delete selected";
 "projects.name" = "Project name";
 "projects.voltage" = "Supply voltage (e.g. 400 V)";
 "projects.notes" = "Notes, equipment, location";
@@ -174,3 +178,4 @@
 "equipment.empty" = "No equipment added yet.";
 
 "action.delete" = "Delete";
+"action.cancel" = "Cancel";

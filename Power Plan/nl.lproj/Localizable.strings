@@ -119,6 +119,10 @@
 "projects.existing" = "Industriële projecten";
 "projects.new" = "Project toevoegen";
 "projects.empty" = "Nog geen projecten. Voeg je eerste opdracht toe om notities bij te houden.";
+"projects.actions" = "Projectacties";
+"projects.selection.start" = "Projecten selecteren";
+"projects.selection.done" = "Selectie sluiten";
+"projects.selection.delete" = "Geselecteerde verwijderen";
 "projects.name" = "Projectnaam";
 "projects.voltage" = "Voedingsspanning (bv. 400 V)";
 "projects.notes" = "Notities, materiaal, locatie";
@@ -170,4 +174,5 @@
 "equipment.value.voltage" = "%d V";
 
 "action.delete" = "Verwijderen";
+"action.cancel" = "Annuleren";
 

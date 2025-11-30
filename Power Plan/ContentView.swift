@@ -620,16 +620,16 @@ struct VoltageDropView: View {
 }
 
 struct ProjectsView: View {
-    struct Project: Identifiable {
-        let id = UUID()
+    struct Project: Identifiable, Codable, Equatable {
+        var id: UUID = UUID()
         var name: String
         var voltage: String
         var notes: String
         var equipment: [EquipmentItem]
     }
 
-    struct EquipmentItem: Identifiable {
-        let id = UUID()
+    struct EquipmentItem: Identifiable, Codable, Equatable {
+        var id: UUID = UUID()
         var name: String
         var category: EquipmentCategory
         var primary: String
@@ -652,7 +652,7 @@ struct ProjectsView: View {
         }
     }
 
-    enum EquipmentCategory: String, CaseIterable, Identifiable {
+    enum EquipmentCategory: String, CaseIterable, Identifiable, Codable, Equatable {
         case breaker
         case contactor
         case thermalProtection
@@ -695,7 +695,7 @@ struct ProjectsView: View {
         }
     }
 
-    enum BreakerCurve: String, CaseIterable, Identifiable {
+    enum BreakerCurve: String, CaseIterable, Identifiable, Codable, Equatable {
         case b = "B"
         case c = "C"
         case d = "D"
@@ -705,14 +705,14 @@ struct ProjectsView: View {
         var id: String { rawValue }
     }
 
-    enum RelayCoilType: String, CaseIterable, Identifiable {
+    enum RelayCoilType: String, CaseIterable, Identifiable, Codable, Equatable {
         case ac = "AC"
         case dc = "DC"
 
         var id: String { rawValue }
     }
 
-    struct EquipmentDraft {
+    struct EquipmentDraft: Codable {
         var category: EquipmentCategory = .breaker
         var amps: Int = 63
         var curve: BreakerCurve = .c
@@ -808,26 +808,10 @@ struct ProjectsView: View {
             }
         }
 
-        mutating func reset() {
-            category = .breaker
-            amps = 63
-            curve = .c
-            poles = 3
-            transformerWatts = 100
-            switchPositions = 2
-            relayVoltage = 24
-            relayCoil = .ac
-            kwhConfiguration = 1
-            quantity = 1
-            additionalInfo = ""
-            customLabel = ""
-            optionNote = ""
-            brand = ""
-            model = ""
-            terminalType = ""
-        }
+        mutating func reset() { self = EquipmentDraft() }
     }
 
+    @AppStorage("storedProjects") private var storedProjectsData: Data = Data()
     @State private var projects: [Project] = []
     @State private var newName: String = ""
     @State private var newVoltage: String = ""
@@ -836,10 +820,13 @@ struct ProjectsView: View {
     @State private var equipmentDraft = EquipmentDraft()
     @State private var projectDrafts: [Project.ID: EquipmentDraft] = [:]
     @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
+    @State private var isPresentingAddProject = false
+    @State private var selection = Set<Project.ID>()
+    @State private var editMode: EditMode = .inactive
 
     var body: some View {
         NavigationStack {
-            Form {
+            List(selection: $selection) {
                 Section(header: Text(L10n.projectsExisting)) {
                     if projects.isEmpty {
                         Text(L10n.projectsEmpty)
@@ -854,25 +841,72 @@ struct ProjectsView: View {
                         }
                     }
                 }
-
-                Section(header: Text(L10n.projectsNew)) {
-                    TextField(L10n.projectName, text: $newName)
-                    TextField(L10n.projectVoltage, text: $newVoltage)
-                        .textInputAutocapitalization(.never)
-                    TextField(L10n.projectNotes, text: $newNotes, axis: .vertical)
-                        .lineLimit(2, reservesSpace: true)
-
-                    EquipmentDraftSection(equipmentItems: $equipmentItems, draft: $equipmentDraft, tint: themeColor.color)
-
-                    Button(action: addProject) {
-                        Label(L10n.projectAdd, systemImage: "plus")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                    }
-                    .disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
-
             }
             .navigationTitle(L10n.projectsHeader)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        isPresentingAddProject = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityLabel(L10n.projectAdd)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button {
+                            toggleSelectionMode()
+                        } label: {
+                            Label(editMode.isEditing ? L10n.projectsSelectionDone : L10n.projectsSelectionStart, systemImage: "checklist")
+                        }
+
+                        Button(role: .destructive) {
+                            deleteSelectedProjects()
+                        } label: {
+                            Label(L10n.projectsDeleteSelected, systemImage: "trash")
+                        }
+                        .disabled(selection.isEmpty)
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                    .accessibilityLabel(L10n.projectsMoreActions)
+                }
+            }
+            .sheet(isPresented: $isPresentingAddProject) {
+                NavigationStack {
+                    Form {
+                        Section(header: Text(L10n.projectsNew)) {
+                            TextField(L10n.projectName, text: $newName)
+                            TextField(L10n.projectVoltage, text: $newVoltage)
+                                .textInputAutocapitalization(.never)
+                            TextField(L10n.projectNotes, text: $newNotes, axis: .vertical)
+                                .lineLimit(2, reservesSpace: true)
+
+                            EquipmentDraftSection(equipmentItems: $equipmentItems, draft: $equipmentDraft, tint: themeColor.color)
+
+                            Button(action: addProjectAndDismiss) {
+                                Label(L10n.projectAdd, systemImage: "plus")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .clipShape(Capsule())
+                            .tint(themeColor.color)
+                            .disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        }
+                    }
+                    .presentationDetents([.medium, .large])
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(L10n.cancel) { isPresentingAddProject = false }
+                        }
+                    }
+                }
+            }
+            .onAppear(perform: loadProjects)
+            .persistProjectsOnChange(projects) {
+                persistProjects()
+            }
+            .environment(\.editMode, $editMode)
         }
     }
 
@@ -898,11 +932,66 @@ struct ProjectsView: View {
         equipmentDraft.reset()
     }
 
+    private func addProjectAndDismiss() {
+        guard !newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+
+        addProject()
+        isPresentingAddProject = false
+    }
+
     private func bindingForProjectDraft(_ projectID: Project.ID) -> Binding<EquipmentDraft> {
         Binding(
             get: { projectDrafts[projectID] ?? EquipmentDraft() },
             set: { projectDrafts[projectID] = $0 }
         )
+    }
+
+    private func loadProjects() {
+        guard !storedProjectsData.isEmpty,
+              let decoded = try? JSONDecoder().decode([Project].self, from: storedProjectsData) else {
+            return
+        }
+        projects = decoded
+    }
+
+    private func persistProjects() {
+        guard let encoded = try? JSONEncoder().encode(projects) else { return }
+        storedProjectsData = encoded
+    }
+
+    private func toggleSelectionMode() {
+        withAnimation {
+            if editMode.isEditing {
+                editMode = .inactive
+                selection.removeAll()
+            } else {
+                editMode = .active
+            }
+        }
+    }
+
+    private func deleteSelectedProjects() {
+        guard !selection.isEmpty else { return }
+        withAnimation {
+            projects.removeAll { selection.contains($0.id) }
+            selection.removeAll()
+            editMode = .inactive
+        }
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func persistProjectsOnChange(_ projects: [ProjectsView.Project], action: @escaping () -> Void) -> some View {
+        if #available(iOS 17, *) {
+            onChange(of: projects, initial: false) { _, _ in
+                action()
+            }
+        } else {
+            onChange(of: projects) { _ in
+                action()
+            }
+        }
     }
 }
 

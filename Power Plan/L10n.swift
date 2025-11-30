@@ -80,6 +80,10 @@ enum L10n {
     static var projectsExisting: String { NSLocalizedString("projects.existing", comment: "Existing projects header") }
     static var projectsNew: String { NSLocalizedString("projects.new", comment: "New project header") }
     static var projectsEmpty: String { NSLocalizedString("projects.empty", comment: "Empty projects message") }
+    static var projectsMoreActions: String { NSLocalizedString("projects.actions", comment: "More project actions label") }
+    static var projectsSelectionStart: String { NSLocalizedString("projects.selection.start", comment: "Start selecting projects") }
+    static var projectsSelectionDone: String { NSLocalizedString("projects.selection.done", comment: "Finish selecting projects") }
+    static var projectsDeleteSelected: String { NSLocalizedString("projects.selection.delete", comment: "Delete selected projects") }
     static var projectName: String { NSLocalizedString("projects.name", comment: "Project name field") }
     static var projectVoltage: String { NSLocalizedString("projects.voltage", comment: "Project voltage field") }
     static var projectNotes: String { NSLocalizedString("projects.notes", comment: "Project notes field") }
@@ -136,6 +140,7 @@ enum L10n {
     static func equipmentVoltageValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.voltage", comment: "Voltage value"), value) }
 
     static var delete: String { NSLocalizedString("action.delete", comment: "Delete button") }
+    static var cancel: String { NSLocalizedString("action.cancel", comment: "Cancel button") }
 
     static var offlineReady: String { NSLocalizedString("badge.offline", comment: "Offline badge") }
     static var proFormulas: String { NSLocalizedString("badge.formulas", comment: "Pro formulas badge") }
