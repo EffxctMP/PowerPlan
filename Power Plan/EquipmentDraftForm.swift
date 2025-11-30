@@ -11,7 +11,7 @@ struct EquipmentDraftForm: View {
 
     var body: some View {
         DisclosureGroup(L10n.projectEquipmentAddTitle) {
-            VStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 12) {
                 Picker(L10n.projectEquipmentType, selection: $draft.category) {
                     ForEach(ProjectsView.EquipmentCategory.allCases) { category in
                         Text(category.title).tag(category)
@@ -48,6 +48,8 @@ struct EquipmentDraftForm: View {
                 .tint(tint)
                 .disabled(!draft.canSave)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .pickerStyle(.menu)
         }
     }
 
@@ -60,36 +62,42 @@ struct EquipmentDraftForm: View {
                     Text(L10n.equipmentAmpsValue(value)).tag(value)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
             Picker(L10n.equipmentBreakerCurve, selection: $draft.curve) {
                 ForEach(ProjectsView.BreakerCurve.allCases) { curve in
                     Text(curve.rawValue).tag(curve)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         case .contactor:
             Picker(L10n.equipmentPolesLabel, selection: $draft.poles) {
                 ForEach(1...6, id: \.self) { value in
                     Text(L10n.equipmentPolesValue(value)).tag(value)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
             Picker(L10n.equipmentContactorAmps, selection: $draft.amps) {
                 ForEach(breakerAmps, id: \.self) { value in
                     Text(L10n.equipmentAmpsValue(value)).tag(value)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         case .thermalProtection:
             Picker(L10n.equipmentThermalSetting, selection: $draft.amps) {
                 ForEach(breakerAmps, id: \.self) { value in
                     Text(L10n.equipmentAmpsValue(value)).tag(value)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         case .transformer:
             Picker(L10n.equipmentTransformerPower, selection: $draft.transformerWatts) {
                 ForEach(transformerOptions, id: \.self) { value in
                     Text(L10n.equipmentWattsValue(value)).tag(value)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         case .boardSocket:
             TextField(L10n.equipmentBoardSocketOption, text: $draft.optionNote)
                 .textInputAutocapitalization(.never)
@@ -99,23 +107,27 @@ struct EquipmentDraftForm: View {
                     Text(L10n.equipmentPositionsValue(value)).tag(value)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         case .relay:
             Picker(L10n.equipmentRelayVoltage, selection: $draft.relayVoltage) {
                 ForEach(relayVoltages, id: \.self) { value in
                     Text(L10n.equipmentVoltageValue(value)).tag(value)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
             Picker(L10n.equipmentRelayType, selection: $draft.relayCoil) {
                 ForEach(ProjectsView.RelayCoilType.allCases) { type in
                     Text(type.rawValue).tag(type)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         case .kwhMeter:
             Picker(L10n.equipmentKwhOption, selection: $draft.kwhConfiguration) {
                 Text(L10n.equipmentKwhSingle).tag(1)
                 Text(L10n.equipmentKwhThree).tag(3)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
             TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
                 .textInputAutocapitalization(.never)
