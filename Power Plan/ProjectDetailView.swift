@@ -30,6 +30,16 @@ struct ProjectDetailView: View {
             }
 
             ToolbarItem(placement: .navigationBarTrailing) {
+                if isEditing {
+                    Button {
+                        withAnimation { isEditing = false }
+                    } label: {
+                        Label(L10n.projectsEditingDone, systemImage: "checkmark.circle")
+                    }
+                }
+            }
+
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button {
                         withAnimation { isEditing.toggle() }
