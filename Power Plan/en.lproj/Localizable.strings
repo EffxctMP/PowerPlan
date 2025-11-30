@@ -174,3 +174,4 @@
 "equipment.empty" = "No equipment added yet.";
 
 "action.delete" = "Delete";
+"action.cancel" = "Cancel";

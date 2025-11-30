@@ -170,4 +170,5 @@
 "equipment.value.voltage" = "%d V";
 
 "action.delete" = "Verwijderen";
+"action.cancel" = "Annuleren";
 
