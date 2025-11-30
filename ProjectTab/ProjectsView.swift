@@ -15,8 +15,8 @@ struct ProjectsView: View {
     struct EquipmentItem: Identifiable {
         let id = UUID()
         var name: String
-        var category: EquipmentCategory
         var tag: String?
+        var category: EquipmentCategory
         var primary: String
         var secondary: String?
         var details: String
@@ -275,8 +275,8 @@ struct ProjectsView: View {
 
         equipmentItems.append(.init(
             name: trimmed,
-            category: .custom,
             tag: nil,
+            category: .custom,
             primary: trimmed,
             secondary: nil,
             details: "",

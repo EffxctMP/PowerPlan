@@ -25,7 +25,7 @@ struct EquipmentDraftForm: View {
                 Divider()
 
                 TextField(L10n.equipmentTagLabel, text: $draft.tag)
-                    .textInputAutocapitalization(.allCharacters)
+                    .textInputAutocapitalization(.characters)
                     .autocorrectionDisabled()
 
                 Divider()
@@ -148,11 +148,11 @@ struct EquipmentDraftForm: View {
 
         let item = ProjectsView.EquipmentItem(
             name: draft.displayName,
-            category: draft.category,
             tag: {
                 let cleaned = draft.tag.trimmingCharacters(in: .whitespacesAndNewlines)
                 return cleaned.isEmpty ? nil : cleaned
             }(),
+            category: draft.category,
             primary: draft.primaryDescription,
             secondary: draft.secondaryDescription,
             details: draft.additionalInfo.trimmingCharacters(in: .whitespacesAndNewlines),
