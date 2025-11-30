@@ -620,7 +620,7 @@ struct VoltageDropView: View {
 }
 
 struct ProjectsView: View {
-    struct Project: Identifiable, Codable {
+    struct Project: Identifiable, Codable, Equatable {
         var id: UUID = UUID()
         var name: String
         var voltage: String
@@ -628,7 +628,7 @@ struct ProjectsView: View {
         var equipment: [EquipmentItem]
     }
 
-    struct EquipmentItem: Identifiable, Codable {
+    struct EquipmentItem: Identifiable, Codable, Equatable {
         var id: UUID = UUID()
         var name: String
         var category: EquipmentCategory
@@ -652,7 +652,7 @@ struct ProjectsView: View {
         }
     }
 
-    enum EquipmentCategory: String, CaseIterable, Identifiable, Codable {
+    enum EquipmentCategory: String, CaseIterable, Identifiable, Codable, Equatable {
         case breaker
         case contactor
         case thermalProtection
@@ -695,7 +695,7 @@ struct ProjectsView: View {
         }
     }
 
-    enum BreakerCurve: String, CaseIterable, Identifiable, Codable {
+    enum BreakerCurve: String, CaseIterable, Identifiable, Codable, Equatable {
         case b = "B"
         case c = "C"
         case d = "D"
@@ -705,7 +705,7 @@ struct ProjectsView: View {
         var id: String { rawValue }
     }
 
-    enum RelayCoilType: String, CaseIterable, Identifiable, Codable {
+    enum RelayCoilType: String, CaseIterable, Identifiable, Codable, Equatable {
         case ac = "AC"
         case dc = "DC"
 
