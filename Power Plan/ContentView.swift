@@ -940,7 +940,7 @@ struct ProjectsView: View {
 
 private extension View {
     @ViewBuilder
-    func persistProjectsOnChange(_ projects: [Project], action: @escaping () -> Void) -> some View {
+    func persistProjectsOnChange(_ projects: [ProjectsView.Project], action: @escaping () -> Void) -> some View {
         if #available(iOS 17, *) {
             onChange(of: projects, initial: false) { _, _ in
                 action()
