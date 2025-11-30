@@ -1,46 +1,46 @@
 import SwiftUI
 
-struct EquipmentDraftForm: View {
-    @Binding var draft: ProjectsView.EquipmentDraft
+struct ComponentDraftForm: View {
+    @Binding var draft: ProjectsView.ComponentDraft
     var tint: Color
-    var onAdd: (ProjectsView.EquipmentItem) -> Void
+    var onAdd: (ProjectsView.ComponentItem) -> Void
 
     private var breakerAmps: [Int] { Array(1...1000) }
     private var transformerOptions: [Int] { stride(from: 50, through: 1000, by: 50).map { $0 } + stride(from: 1200, through: 5000, by: 200).map { $0 } }
     private var relayVoltages: [Int] { [12, 24, 48, 110, 120, 230] }
 
     var body: some View {
-        DisclosureGroup(L10n.projectEquipmentAddTitle) {
+        DisclosureGroup(L10n.projectComponentAddTitle) {
             VStack(alignment: .leading, spacing: 12) {
-                Picker(L10n.projectEquipmentType, selection: $draft.category) {
-                    ForEach(ProjectsView.EquipmentCategory.allCases) { category in
+                Picker(L10n.projectComponentType, selection: $draft.category) {
+                    ForEach(ProjectsView.ComponentCategory.allCases) { category in
                         Text(category.title).tag(category)
                     }
                 }
 
                 Divider()
 
-                equipmentOptions
+                componentOptions
 
                 Divider()
 
-                TextField(L10n.equipmentTagLabel, text: $draft.tag)
+                TextField(L10n.componentTagLabel, text: $draft.tag)
                     .textInputAutocapitalization(.characters)
                     .autocorrectionDisabled()
 
                 Divider()
 
                 Stepper(value: $draft.quantity, in: 1...500) {
-                    Text(L10n.projectEquipmentQuantity(draft.quantity))
+                    Text(L10n.projectComponentQuantity(draft.quantity))
                 }
 
                 Divider()
 
-                TextField(L10n.projectEquipmentInfo, text: $draft.additionalInfo, axis: .vertical)
+                TextField(L10n.projectComponentInfo, text: $draft.additionalInfo, axis: .vertical)
                     .lineLimit(2, reservesSpace: true)
 
                 Button(action: saveItem) {
-                    Label(L10n.projectEquipmentSave, systemImage: "plus")
+                    Label(L10n.projectComponentSave, systemImage: "plus")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .buttonStyle(.borderedProminent)
@@ -54,103 +54,103 @@ struct EquipmentDraftForm: View {
     }
 
     @ViewBuilder
-    private var equipmentOptions: some View {
+    private var componentOptions: some View {
         switch draft.category {
         case .breaker:
-            Picker(L10n.equipmentBreakerAmps, selection: $draft.amps) {
+            Picker(L10n.componentBreakerAmps, selection: $draft.amps) {
                 ForEach(breakerAmps, id: \.self) { value in
-                    Text(L10n.equipmentAmpsValue(value)).tag(value)
+                    Text(L10n.componentAmpsValue(value)).tag(value)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
-            Picker(L10n.equipmentBreakerCurve, selection: $draft.curve) {
+            Picker(L10n.componentBreakerCurve, selection: $draft.curve) {
                 ForEach(ProjectsView.BreakerCurve.allCases) { curve in
                     Text(curve.rawValue).tag(curve)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         case .contactor:
-            Picker(L10n.equipmentPolesLabel, selection: $draft.poles) {
+            Picker(L10n.componentPolesLabel, selection: $draft.poles) {
                 ForEach(1...6, id: \.self) { value in
-                    Text(L10n.equipmentPolesValue(value)).tag(value)
+                    Text(L10n.componentPolesValue(value)).tag(value)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
-            Picker(L10n.equipmentContactorAmps, selection: $draft.amps) {
+            Picker(L10n.componentContactorAmps, selection: $draft.amps) {
                 ForEach(breakerAmps, id: \.self) { value in
-                    Text(L10n.equipmentAmpsValue(value)).tag(value)
+                    Text(L10n.componentAmpsValue(value)).tag(value)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         case .thermalProtection:
-            Picker(L10n.equipmentThermalSetting, selection: $draft.amps) {
+            Picker(L10n.componentThermalSetting, selection: $draft.amps) {
                 ForEach(breakerAmps, id: \.self) { value in
-                    Text(L10n.equipmentAmpsValue(value)).tag(value)
+                    Text(L10n.componentAmpsValue(value)).tag(value)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         case .transformer:
-            Picker(L10n.equipmentTransformerPower, selection: $draft.transformerWatts) {
+            Picker(L10n.componentTransformerPower, selection: $draft.transformerWatts) {
                 ForEach(transformerOptions, id: \.self) { value in
-                    Text(L10n.equipmentWattsValue(value)).tag(value)
+                    Text(L10n.componentWattsValue(value)).tag(value)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         case .boardSocket:
-            TextField(L10n.equipmentBoardSocketOption, text: $draft.optionNote)
+            TextField(L10n.componentBoardSocketOption, text: $draft.optionNote)
                 .textInputAutocapitalization(.never)
         case .switchPositions:
-            Picker(L10n.equipmentSwitchPositions, selection: $draft.switchPositions) {
+            Picker(L10n.componentSwitchPositions, selection: $draft.switchPositions) {
                 ForEach(2...6, id: \.self) { value in
-                    Text(L10n.equipmentPositionsValue(value)).tag(value)
+                    Text(L10n.componentPositionsValue(value)).tag(value)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         case .relay:
-            Picker(L10n.equipmentRelayVoltage, selection: $draft.relayVoltage) {
+            Picker(L10n.componentRelayVoltage, selection: $draft.relayVoltage) {
                 ForEach(relayVoltages, id: \.self) { value in
-                    Text(L10n.equipmentVoltageValue(value)).tag(value)
+                    Text(L10n.componentVoltageValue(value)).tag(value)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
-            Picker(L10n.equipmentRelayType, selection: $draft.relayCoil) {
+            Picker(L10n.componentRelayType, selection: $draft.relayCoil) {
                 ForEach(ProjectsView.RelayCoilType.allCases) { type in
                     Text(type.rawValue).tag(type)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         case .kwhMeter:
-            Picker(L10n.equipmentKwhOption, selection: $draft.kwhConfiguration) {
-                Text(L10n.equipmentKwhSingle).tag(1)
-                Text(L10n.equipmentKwhThree).tag(3)
+            Picker(L10n.componentKwhOption, selection: $draft.kwhConfiguration) {
+                Text(L10n.componentKwhSingle).tag(1)
+                Text(L10n.componentKwhThree).tag(3)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
-            TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
+            TextField(L10n.componentOptionNote, text: $draft.optionNote)
                 .textInputAutocapitalization(.never)
         case .plcCard:
-            TextField(L10n.equipmentPlcBrand, text: $draft.brand)
+            TextField(L10n.componentPlcBrand, text: $draft.brand)
                 .textInputAutocapitalization(.words)
             Divider()
-            TextField(L10n.equipmentPlcType, text: $draft.model)
+            TextField(L10n.componentPlcType, text: $draft.model)
                 .textInputAutocapitalization(.words)
             Divider()
-            TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
+            TextField(L10n.componentOptionNote, text: $draft.optionNote)
                 .textInputAutocapitalization(.sentences)
         case .circuitTerminal:
-            TextField(L10n.equipmentTerminalType, text: $draft.terminalType)
+            TextField(L10n.componentTerminalType, text: $draft.terminalType)
                 .textInputAutocapitalization(.words)
             Divider()
-            TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
+            TextField(L10n.componentOptionNote, text: $draft.optionNote)
                 .textInputAutocapitalization(.sentences)
         case .custom:
-            TextField(L10n.equipmentCustomLabel, text: $draft.customLabel)
+            TextField(L10n.componentCustomLabel, text: $draft.customLabel)
                 .textInputAutocapitalization(.sentences)
             Divider()
-            TextField(L10n.equipmentOptionNote, text: $draft.optionNote)
+            TextField(L10n.componentOptionNote, text: $draft.optionNote)
                 .textInputAutocapitalization(.sentences)
         }
     }
@@ -158,7 +158,7 @@ struct EquipmentDraftForm: View {
     private func saveItem() {
         guard draft.canSave else { return }
 
-        let item = ProjectsView.EquipmentItem(
+        let item = ProjectsView.ComponentItem(
             name: draft.displayName,
             tag: {
                 let cleaned = draft.tag.trimmingCharacters(in: .whitespacesAndNewlines)

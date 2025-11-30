@@ -635,14 +635,49 @@ struct ProjectsView: View {
         var name: String
         var voltage: String
         var notes: String
-        var equipment: [EquipmentItem]
+        var components: [ComponentItem]
+
+        enum CodingKeys: String, CodingKey {
+            case id, name, voltage, notes, components
+            case legacyComponents = "component"
+        }
+
+        init(id: UUID = UUID(), name: String, voltage: String, notes: String, components: [ComponentItem]) {
+            self.id = id
+            self.name = name
+            self.voltage = voltage
+            self.notes = notes
+            self.components = components
+        }
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+            name = try container.decode(String.self, forKey: .name)
+            voltage = try container.decode(String.self, forKey: .voltage)
+            notes = try container.decode(String.self, forKey: .notes)
+            if let components = try container.decodeIfPresent([ComponentItem].self, forKey: .components) {
+                self.components = components
+            } else {
+                self.components = try container.decodeIfPresent([ComponentItem].self, forKey: .legacyComponents) ?? []
+            }
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(name, forKey: .name)
+            try container.encode(voltage, forKey: .voltage)
+            try container.encode(notes, forKey: .notes)
+            try container.encode(components, forKey: .components)
+        }
     }
 
-    struct EquipmentItem: Identifiable, Codable, Equatable {
+    struct ComponentItem: Identifiable, Codable, Equatable {
         var id: UUID = UUID()
         var name: String
         var tag: String?
-        var category: EquipmentCategory
+        var category: ComponentCategory
         var primary: String
         var secondary: String?
         var details: String
@@ -659,7 +694,7 @@ struct ProjectsView: View {
             var parts: [String] = []
 
             if !tagText.isEmpty {
-                parts.append(L10n.equipmentTagValue(tagText))
+                parts.append(L10n.componentTagValue(tagText))
             }
 
             if !optionText.isEmpty {
@@ -674,7 +709,7 @@ struct ProjectsView: View {
         }
     }
 
-    enum EquipmentCategory: String, CaseIterable, Identifiable, Codable, Equatable {
+    enum ComponentCategory: String, CaseIterable, Identifiable, Codable, Equatable {
         case breaker
         case contactor
         case thermalProtection
@@ -692,27 +727,27 @@ struct ProjectsView: View {
         var title: String {
             switch self {
             case .breaker:
-                return L10n.equipmentBreaker
+                return L10n.componentBreaker
             case .contactor:
-                return L10n.equipmentContactor
+                return L10n.componentContactor
             case .thermalProtection:
-                return L10n.equipmentThermal
+                return L10n.componentThermal
             case .transformer:
-                return L10n.equipmentTransformer
+                return L10n.componentTransformer
             case .boardSocket:
-                return L10n.equipmentBoardSocket
+                return L10n.componentBoardSocket
             case .switchPositions:
-                return L10n.equipmentSwitch
+                return L10n.componentSwitch
             case .relay:
-                return L10n.equipmentRelay
+                return L10n.componentRelay
             case .kwhMeter:
-                return L10n.equipmentKwh
+                return L10n.componentKwh
             case .plcCard:
-                return L10n.equipmentPlc
+                return L10n.componentPlc
             case .circuitTerminal:
-                return L10n.equipmentTerminals
+                return L10n.componentTerminals
             case .custom:
-                return L10n.equipmentCustom
+                return L10n.componentCustom
             }
         }
     }
@@ -734,8 +769,8 @@ struct ProjectsView: View {
         var id: String { rawValue }
     }
 
-    struct EquipmentDraft: Codable {
-        var category: EquipmentCategory = .breaker
+    struct ComponentDraft: Codable {
+        var category: ComponentCategory = .breaker
         var amps: Int = 63
         var curve: BreakerCurve = .c
         var poles: Int = 3
@@ -766,21 +801,21 @@ struct ProjectsView: View {
         var primaryDescription: String {
             switch category {
             case .breaker:
-                return L10n.equipmentAmpsValue(amps)
+                return L10n.componentAmpsValue(amps)
             case .contactor:
-                return [L10n.equipmentPolesValue(poles), L10n.equipmentAmpsValue(amps)].joined(separator: " · ")
+                return [L10n.componentPolesValue(poles), L10n.componentAmpsValue(amps)].joined(separator: " · ")
             case .thermalProtection:
-                return L10n.equipmentAmpsValue(amps)
+                return L10n.componentAmpsValue(amps)
             case .transformer:
-                return L10n.equipmentWattsValue(transformerWatts)
+                return L10n.componentWattsValue(transformerWatts)
             case .boardSocket:
                 return optionNote.trimmingCharacters(in: .whitespacesAndNewlines)
             case .switchPositions:
-                return L10n.equipmentPositionsValue(switchPositions)
+                return L10n.componentPositionsValue(switchPositions)
             case .relay:
-                return L10n.equipmentVoltageValue(relayVoltage)
+                return L10n.componentVoltageValue(relayVoltage)
             case .kwhMeter:
-                return kwhConfiguration == 1 ? L10n.equipmentKwhSingle : L10n.equipmentKwhThree
+                return kwhConfiguration == 1 ? L10n.componentKwhSingle : L10n.componentKwhThree
             case .plcCard:
                 let brandComponent = brand.trimmingCharacters(in: .whitespacesAndNewlines)
                 let modelComponent = model.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -831,7 +866,7 @@ struct ProjectsView: View {
             }
         }
 
-        mutating func reset() { self = EquipmentDraft() }
+        mutating func reset() { self = ComponentDraft() }
     }
 
     @AppStorage("storedProjects") private var storedProjectsData: Data = Data()
@@ -839,9 +874,9 @@ struct ProjectsView: View {
     @State private var newName: String = ""
     @State private var newVoltage: String = ""
     @State private var newNotes: String = ""
-    @State private var equipmentItems: [EquipmentItem] = []
-    @State private var equipmentDraft = EquipmentDraft()
-    @State private var projectDrafts: [Project.ID: EquipmentDraft] = [:]
+    @State private var componentItems: [ComponentItem] = []
+    @State private var componentDraft = ComponentDraft()
+    @State private var projectDrafts: [Project.ID: ComponentDraft] = [:]
     @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
     @State private var isPresentingAddProject = false
     @State private var selection = Set<Project.ID>()
@@ -882,7 +917,7 @@ struct ProjectsView: View {
                     }
                 }
 
-                equipmentChecklistSection
+                componentChecklistSection
 
             }
             .navigationTitle(L10n.projectsHeader)
@@ -925,7 +960,7 @@ struct ProjectsView: View {
                             TextField(L10n.projectNotes, text: $newNotes, axis: .vertical)
                                 .lineLimit(2, reservesSpace: true)
 
-                            EquipmentDraftSection(equipmentItems: $equipmentItems, draft: $equipmentDraft, tint: themeColor.color)
+                            ComponentDraftSection(componentItems: $componentItems, draft: $componentDraft, tint: themeColor.color)
 
                             Button(action: addProjectAndDismiss) {
                                 Label(L10n.projectAdd, systemImage: "plus")
@@ -954,10 +989,10 @@ struct ProjectsView: View {
     }
 
     @ViewBuilder
-    private var equipmentChecklistSection: some View {
-        EquipmentDraftSection(
-            equipmentItems: $equipmentItems,
-            draft: $equipmentDraft,
+    private var componentChecklistSection: some View {
+        ComponentDraftSection(
+            componentItems: $componentItems,
+            draft: $componentDraft,
             tint: themeColor.color
         )
     }
@@ -973,15 +1008,15 @@ struct ProjectsView: View {
             name: trimmedName,
             voltage: trimmedVoltage.isEmpty ? "" : trimmedVoltage,
             notes: notes,
-            equipment: equipmentItems
+            components: componentItems
         )
         projects.append(project)
 
         newName = ""
         newVoltage = ""
         newNotes = ""
-        equipmentItems.removeAll()
-        equipmentDraft.reset()
+        componentItems.removeAll()
+        componentDraft.reset()
     }
 
     private func addProjectAndDismiss() {
@@ -991,9 +1026,9 @@ struct ProjectsView: View {
         isPresentingAddProject = false
     }
 
-    private func bindingForProjectDraft(_ projectID: Project.ID) -> Binding<EquipmentDraft> {
+    private func bindingForProjectDraft(_ projectID: Project.ID) -> Binding<ComponentDraft> {
         Binding(
-            get: { projectDrafts[projectID] ?? EquipmentDraft() },
+            get: { projectDrafts[projectID] ?? ComponentDraft() },
             set: { projectDrafts[projectID] = $0 }
         )
     }
@@ -1124,22 +1159,22 @@ struct ProjectSelectionRow: View {
     }
 }
 
-struct EquipmentDraftSection: View {
-    @Binding var equipmentItems: [ProjectsView.EquipmentItem]
-    @Binding var draft: ProjectsView.EquipmentDraft
+struct ComponentDraftSection: View {
+    @Binding var componentItems: [ProjectsView.ComponentItem]
+    @Binding var draft: ProjectsView.ComponentDraft
     var tint: Color
 
     var body: some View {
-        Section(header: Text(L10n.projectEquipmentHeader)) {
-            if equipmentItems.isEmpty {
-                Text(L10n.projectEquipmentEmpty)
+        Section(header: Text(L10n.projectComponentHeader)) {
+            if componentItems.isEmpty {
+                Text(L10n.projectComponentEmpty)
                     .foregroundStyle(.secondary)
             } else {
-                ForEach(Array($equipmentItems.enumerated()), id: \.element.id) { index, $item in
-                    EquipmentRow(item: $item, tint: tint)
+                ForEach(Array($componentItems.enumerated()), id: \.element.id) { index, $item in
+                    ComponentRow(item: $item, tint: tint)
                         .swipeActions {
                             Button(role: .destructive) {
-                                equipmentItems.remove(at: index)
+                                componentItems.remove(at: index)
                             } label: {
                                 Label(L10n.delete, systemImage: "trash")
                             }
@@ -1148,8 +1183,8 @@ struct EquipmentDraftSection: View {
 
                 Divider()
             }
-            EquipmentDraftForm(draft: $draft, tint: tint) { item in
-                equipmentItems.append(item)
+            ComponentDraftForm(draft: $draft, tint: tint) { item in
+                componentItems.append(item)
             }
         }
     }

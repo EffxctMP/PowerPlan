@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ProjectDisclosureRow: View {
     @Binding var project: ProjectsView.Project
-    var draft: Binding<ProjectsView.EquipmentDraft>
+    var draft: Binding<ProjectsView.ComponentDraft>
     @Binding var isEditing: Bool
     var tint: Color
     var isSelecting: Bool = false
@@ -53,15 +53,15 @@ struct ProjectDisclosureRow: View {
 
                 Divider()
 
-                if project.equipment.isEmpty {
-                    Text(L10n.projectEquipmentProjectEmpty)
+                if project.components.isEmpty {
+                    Text(L10n.projectComponentProjectEmpty)
                         .foregroundStyle(.secondary)
                 } else {
-                    ForEach(Array(project.equipment.enumerated()), id: \.element.id) { index, _ in
-                        EquipmentRow(item: $project.equipment[index], tint: tint)
+                    ForEach(Array(project.components.enumerated()), id: \.element.id) { index, _ in
+                        ComponentRow(item: $project.components[index], tint: tint)
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
-                                    project.equipment.remove(at: index)
+                                    project.components.remove(at: index)
                                 } label: {
                                     Label(L10n.delete, systemImage: "trash")
                                 }
@@ -71,11 +71,11 @@ struct ProjectDisclosureRow: View {
 
                 Divider()
 
-                EquipmentDraftForm(
+                ComponentDraftForm(
                     draft: draft,
                     tint: tint
                 ) { newItem in
-                    project.equipment.append(newItem)
+                    project.components.append(newItem)
                 }
             }
         } label: {

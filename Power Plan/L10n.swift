@@ -91,58 +91,63 @@ enum L10n {
     static var projectNotes: String { NSLocalizedString("projects.notes", comment: "Project notes field") }
     static var projectAdd: String { NSLocalizedString("projects.add", comment: "Add project button") }
     static var projectDetails: String { NSLocalizedString("projects.details", comment: "Project details header") }
-    static var projectEquipmentHeader: String { NSLocalizedString("projects.equipment", comment: "Equipment header") }
-    static var projectEquipmentEmpty: String { NSLocalizedString("projects.equipment.empty", comment: "No equipment for draft") }
-    static var projectEquipmentProjectEmpty: String { NSLocalizedString("projects.equipment.empty.project", comment: "No equipment for saved project") }
-    static var projectEquipmentAddTitle: String { NSLocalizedString("projects.equipment.add.title", comment: "Add equipment title") }
-    static var projectEquipmentType: String { NSLocalizedString("projects.equipment.type", comment: "Equipment type picker") }
-    static var projectEquipmentInfo: String { NSLocalizedString("projects.equipment.info", comment: "Equipment info field") }
-    static func projectEquipmentQuantity(_ qty: Int) -> String { String(format: NSLocalizedString("projects.equipment.quantity", comment: "Quantity"), qty) }
-    static var projectEquipmentSave: String { NSLocalizedString("projects.equipment.save", comment: "Save equipment") }
+    static var projectComponentHeader: String { NSLocalizedString("projects.component", comment: "Component header") }
+    static var projectComponentActions: String { NSLocalizedString("projects.component.actions", comment: "Component actions label") }
+    static var projectComponentEmpty: String { NSLocalizedString("projects.component.empty", comment: "No component for draft") }
+    static var projectComponentProjectEmpty: String { NSLocalizedString("projects.component.empty.project", comment: "No component for saved project") }
+    static var projectComponentAddTitle: String { NSLocalizedString("projects.component.add.title", comment: "Add component title") }
+    static var projectComponentType: String { NSLocalizedString("projects.component.type", comment: "Component type picker") }
+    static var projectComponentInfo: String { NSLocalizedString("projects.component.info", comment: "Component info field") }
+    static func projectComponentQuantity(_ qty: Int) -> String { String(format: NSLocalizedString("projects.component.quantity", comment: "Quantity"), qty) }
+    static var projectComponentSave: String { NSLocalizedString("projects.component.save", comment: "Save component") }
+    static var componentSelectionStart: String { NSLocalizedString("projects.component.selection.start", comment: "Start selecting components") }
+    static var componentSelectionDone: String { NSLocalizedString("projects.component.selection.done", comment: "Finish selecting components") }
+    static var componentDeleteSelected: String { NSLocalizedString("projects.component.selection.delete", comment: "Delete selected components") }
 
-    static var equipmentPlaceholder: String { NSLocalizedString("equipment.placeholder", comment: "Equipment placeholder") }
-    static var equipmentAdd: String { NSLocalizedString("equipment.add", comment: "Add equipment button") }
-    static var equipmentEmpty: String { NSLocalizedString("equipment.empty", comment: "Empty equipment message") }
-    static var equipmentChecklist: String { NSLocalizedString("projects.equipment.checklist", comment: "Equipment checklist") }
+    static var componentPlaceholder: String { NSLocalizedString("component.placeholder", comment: "Component placeholder") }
+    static var componentAdd: String { NSLocalizedString("component.add", comment: "Add component button") }
+    static var componentEmpty: String { NSLocalizedString("component.empty", comment: "Empty component message") }
+    static var componentChecklist: String { NSLocalizedString("projects.component.checklist", comment: "Component checklist") }
 
-    static var equipmentBreaker: String { NSLocalizedString("equipment.breaker", comment: "Breaker label") }
-    static var equipmentBreakerAmps: String { NSLocalizedString("equipment.breaker.amps", comment: "Breaker amp picker") }
-    static var equipmentBreakerCurve: String { NSLocalizedString("equipment.breaker.curve", comment: "Breaker curve") }
-    static var equipmentContactor: String { NSLocalizedString("equipment.contactor", comment: "Contactor label") }
-    static var equipmentContactorAmps: String { NSLocalizedString("equipment.contactor.amps", comment: "Contactor amps") }
-    static var equipmentPolesLabel: String { NSLocalizedString("equipment.poles", comment: "Poles label") }
-    static var equipmentThermal: String { NSLocalizedString("equipment.thermal", comment: "Thermal protection") }
-    static var equipmentThermalSetting: String { NSLocalizedString("equipment.thermal.setting", comment: "Thermal setting") }
-    static var equipmentTransformer: String { NSLocalizedString("equipment.transformer", comment: "Transformer") }
-    static var equipmentTransformerPower: String { NSLocalizedString("equipment.transformer.watts", comment: "Transformer watts") }
-    static var equipmentBoardSocket: String { NSLocalizedString("equipment.socket", comment: "Board socket") }
-    static var equipmentBoardSocketOption: String { NSLocalizedString("equipment.socket.option", comment: "Board socket option") }
-    static var equipmentSwitch: String { NSLocalizedString("equipment.switch", comment: "Switch") }
-    static var equipmentSwitchPositions: String { NSLocalizedString("equipment.switch.positions", comment: "Switch positions") }
-    static var equipmentRelay: String { NSLocalizedString("equipment.relay", comment: "Relay") }
-    static var equipmentRelayVoltage: String { NSLocalizedString("equipment.relay.voltage", comment: "Relay voltage") }
-    static var equipmentRelayType: String { NSLocalizedString("equipment.relay.type", comment: "Relay coil type") }
-    static var equipmentTagLabel: String { NSLocalizedString("equipment.tag.label", comment: "Sticker tag label") }
-    static var equipmentKwh: String { NSLocalizedString("equipment.kwh", comment: "kWh meter") }
-    static var equipmentKwhOption: String { NSLocalizedString("equipment.kwh.option", comment: "kWh option") }
-    static var equipmentKwhSingle: String { NSLocalizedString("equipment.kwh.single", comment: "Single phase") }
-    static var equipmentKwhThree: String { NSLocalizedString("equipment.kwh.three", comment: "Three phase") }
-    static var equipmentPlc: String { NSLocalizedString("equipment.plc", comment: "PLC cards") }
-    static var equipmentPlcBrand: String { NSLocalizedString("equipment.plc.brand", comment: "PLC brand") }
-    static var equipmentPlcType: String { NSLocalizedString("equipment.plc.type", comment: "PLC type") }
-    static var equipmentTerminals: String { NSLocalizedString("equipment.terminals", comment: "Circuit terminals") }
-    static var equipmentTerminalType: String { NSLocalizedString("equipment.terminals.type", comment: "Terminal type") }
-    static var equipmentCustom: String { NSLocalizedString("equipment.custom", comment: "Custom equipment") }
-    static var equipmentCustomLabel: String { NSLocalizedString("equipment.custom.label", comment: "Custom label") }
-    static var equipmentOptionNote: String { NSLocalizedString("equipment.option.note", comment: "Option note") }
-    static var equipmentMarkHint: String { NSLocalizedString("equipment.mark", comment: "Tap to mark on hand") }
-    static func equipmentQuantityValue(_ qty: Int) -> String { String(format: NSLocalizedString("equipment.quantity", comment: "Quantity value"), qty) }
-    static func equipmentAmpsValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.amps", comment: "Amps value"), value) }
-    static func equipmentPolesValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.poles", comment: "Poles value"), value) }
-    static func equipmentWattsValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.watts", comment: "Watts value"), value) }
-    static func equipmentPositionsValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.positions", comment: "Positions value"), value) }
-    static func equipmentVoltageValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.voltage", comment: "Voltage value"), value) }
-    static func equipmentTagValue(_ value: String) -> String { String(format: NSLocalizedString("equipment.value.tag", comment: "Equipment tag value"), value) }
+    static var componentBreaker: String { NSLocalizedString("component.breaker", comment: "Breaker label") }
+    static var componentBreakerAmps: String { NSLocalizedString("component.breaker.amps", comment: "Breaker amp picker") }
+    static var componentBreakerCurve: String { NSLocalizedString("component.breaker.curve", comment: "Breaker curve") }
+    static var componentContactor: String { NSLocalizedString("component.contactor", comment: "Contactor label") }
+    static var componentContactorAmps: String { NSLocalizedString("component.contactor.amps", comment: "Contactor amps") }
+    static var componentPolesLabel: String { NSLocalizedString("component.poles", comment: "Poles label") }
+    static var componentThermal: String { NSLocalizedString("component.thermal", comment: "Thermal protection") }
+    static var componentThermalSetting: String { NSLocalizedString("component.thermal.setting", comment: "Thermal setting") }
+    static var componentTransformer: String { NSLocalizedString("component.transformer", comment: "Transformer") }
+    static var componentTransformerPower: String { NSLocalizedString("component.transformer.watts", comment: "Transformer watts") }
+    static var componentBoardSocket: String { NSLocalizedString("component.socket", comment: "Board socket") }
+    static var componentBoardSocketOption: String { NSLocalizedString("component.socket.option", comment: "Board socket option") }
+    static var componentSwitch: String { NSLocalizedString("component.switch", comment: "Switch") }
+    static var componentSwitchPositions: String { NSLocalizedString("component.switch.positions", comment: "Switch positions") }
+    static var componentRelay: String { NSLocalizedString("component.relay", comment: "Relay") }
+    static var componentRelayVoltage: String { NSLocalizedString("component.relay.voltage", comment: "Relay voltage") }
+    static var componentRelayType: String { NSLocalizedString("component.relay.type", comment: "Relay coil type") }
+    static var componentTagLabel: String { NSLocalizedString("component.tag.label", comment: "Sticker tag label") }
+    static var componentKwh: String { NSLocalizedString("component.kwh", comment: "kWh meter") }
+    static var componentKwhOption: String { NSLocalizedString("component.kwh.option", comment: "kWh option") }
+    static var componentKwhSingle: String { NSLocalizedString("component.kwh.single", comment: "Single phase") }
+    static var componentKwhThree: String { NSLocalizedString("component.kwh.three", comment: "Three phase") }
+    static var componentPlc: String { NSLocalizedString("component.plc", comment: "PLC cards") }
+    static var componentPlcBrand: String { NSLocalizedString("component.plc.brand", comment: "PLC brand") }
+    static var componentPlcType: String { NSLocalizedString("component.plc.type", comment: "PLC type") }
+    static var componentTerminals: String { NSLocalizedString("component.terminals", comment: "Circuit terminals") }
+    static var componentTerminalType: String { NSLocalizedString("component.terminals.type", comment: "Terminal type") }
+    static var componentCustom: String { NSLocalizedString("component.custom", comment: "Custom component") }
+    static var componentCustomLabel: String { NSLocalizedString("component.custom.label", comment: "Custom label") }
+    static var componentOptionNote: String { NSLocalizedString("component.option.note", comment: "Option note") }
+    static var componentMarkHint: String { NSLocalizedString("component.mark", comment: "Tap to mark on hand") }
+    static var componentSelectionHint: String { NSLocalizedString("component.selection.hint", comment: "Tap to select for removal") }
+    static func componentQuantityValue(_ qty: Int) -> String { String(format: NSLocalizedString("component.quantity", comment: "Quantity value"), qty) }
+    static func componentAmpsValue(_ value: Int) -> String { String(format: NSLocalizedString("component.value.amps", comment: "Amps value"), value) }
+    static func componentPolesValue(_ value: Int) -> String { String(format: NSLocalizedString("component.value.poles", comment: "Poles value"), value) }
+    static func componentWattsValue(_ value: Int) -> String { String(format: NSLocalizedString("component.value.watts", comment: "Watts value"), value) }
+    static func componentPositionsValue(_ value: Int) -> String { String(format: NSLocalizedString("component.value.positions", comment: "Positions value"), value) }
+    static func componentVoltageValue(_ value: Int) -> String { String(format: NSLocalizedString("component.value.voltage", comment: "Voltage value"), value) }
+    static func componentTagValue(_ value: String) -> String { String(format: NSLocalizedString("component.value.tag", comment: "Component tag value"), value) }
 
     static var delete: String { NSLocalizedString("action.delete", comment: "Delete button") }
     static var cancel: String { NSLocalizedString("action.cancel", comment: "Cancel button") }

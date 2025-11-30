@@ -9,14 +9,14 @@ struct ProjectsView: View {
         var name: String
         var voltage: String
         var notes: String
-        var equipment: [EquipmentItem]
+        var components: [ComponentItem]
     }
 
-    struct EquipmentItem: Identifiable {
+    struct ComponentItem: Identifiable {
         let id = UUID()
         var name: String
         var tag: String?
-        var category: EquipmentCategory
+        var category: ComponentCategory
         var primary: String
         var secondary: String?
         var details: String
@@ -33,7 +33,7 @@ struct ProjectsView: View {
             var parts: [String] = []
 
             if !tagText.isEmpty {
-                parts.append(L10n.equipmentTagValue(tagText))
+                parts.append(L10n.componentTagValue(tagText))
             }
 
             if !optionText.isEmpty {
@@ -48,7 +48,7 @@ struct ProjectsView: View {
         }
     }
 
-    enum EquipmentCategory: String, CaseIterable, Identifiable {
+    enum ComponentCategory: String, CaseIterable, Identifiable {
         case breaker, contactor, thermalProtection, transformer
         case boardSocket, switchPositions, relay, kwhMeter
         case plcCard, circuitTerminal, custom
@@ -57,17 +57,17 @@ struct ProjectsView: View {
 
         var title: String {
             switch self {
-            case .breaker: return L10n.equipmentBreaker
-            case .contactor: return L10n.equipmentContactor
-            case .thermalProtection: return L10n.equipmentThermal
-            case .transformer: return L10n.equipmentTransformer
-            case .boardSocket: return L10n.equipmentBoardSocket
-            case .switchPositions: return L10n.equipmentSwitch
-            case .relay: return L10n.equipmentRelay
-            case .kwhMeter: return L10n.equipmentKwh
-            case .plcCard: return L10n.equipmentPlc
-            case .circuitTerminal: return L10n.equipmentTerminals
-            case .custom: return L10n.equipmentCustom
+            case .breaker: return L10n.componentBreaker
+            case .contactor: return L10n.componentContactor
+            case .thermalProtection: return L10n.componentThermal
+            case .transformer: return L10n.componentTransformer
+            case .boardSocket: return L10n.componentBoardSocket
+            case .switchPositions: return L10n.componentSwitch
+            case .relay: return L10n.componentRelay
+            case .kwhMeter: return L10n.componentKwh
+            case .plcCard: return L10n.componentPlc
+            case .circuitTerminal: return L10n.componentTerminals
+            case .custom: return L10n.componentCustom
             }
         }
     }
@@ -84,8 +84,8 @@ struct ProjectsView: View {
 
     // MARK: - DRAFT
 
-    struct EquipmentDraft {
-        var category: EquipmentCategory = .breaker
+    struct ComponentDraft {
+        var category: ComponentCategory = .breaker
         var amps: Int = 63
         var curve: BreakerCurve = .c
         var poles: Int = 3
@@ -116,21 +116,21 @@ struct ProjectsView: View {
         var primaryDescription: String {
             switch category {
             case .breaker:
-                return L10n.equipmentAmpsValue(amps)
+                return L10n.componentAmpsValue(amps)
             case .contactor:
-                return [L10n.equipmentPolesValue(poles), L10n.equipmentAmpsValue(amps)].joined(separator: " · ")
+                return [L10n.componentPolesValue(poles), L10n.componentAmpsValue(amps)].joined(separator: " · ")
             case .thermalProtection:
-                return L10n.equipmentAmpsValue(amps)
+                return L10n.componentAmpsValue(amps)
             case .transformer:
-                return L10n.equipmentWattsValue(transformerWatts)
+                return L10n.componentWattsValue(transformerWatts)
             case .boardSocket:
                 return optionNote
             case .switchPositions:
-                return L10n.equipmentPositionsValue(switchPositions)
+                return L10n.componentPositionsValue(switchPositions)
             case .relay:
-                return L10n.equipmentVoltageValue(relayVoltage)
+                return L10n.componentVoltageValue(relayVoltage)
             case .kwhMeter:
-                return kwhConfiguration == 1 ? L10n.equipmentKwhSingle : L10n.equipmentKwhThree
+                return kwhConfiguration == 1 ? L10n.componentKwhSingle : L10n.componentKwhThree
             case .plcCard:
                 return [brand, model].filter { !$0.isEmpty }.joined(separator: " · ")
             case .circuitTerminal:
@@ -156,7 +156,7 @@ struct ProjectsView: View {
         }
 
         mutating func reset() {
-            self = EquipmentDraft()
+            self = ComponentDraft()
         }
     }
 
@@ -167,11 +167,11 @@ struct ProjectsView: View {
     @State private var newVoltage: String = ""
     @State private var newNotes: String = ""
 
-    @State private var equipmentItems: [EquipmentItem] = []
-    @State private var equipmentDraft = EquipmentDraft()
-    @State private var projectDrafts: [UUID: EquipmentDraft] = [:]
+    @State private var componentItems: [ComponentItem] = []
+    @State private var componentDraft = ComponentDraft()
+    @State private var projectDrafts: [UUID: ComponentDraft] = [:]
 
-    @State private var newEquipmentName: String = ""
+    @State private var newComponentName: String = ""
     @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
 
     // MARK: - BODY
@@ -181,7 +181,7 @@ struct ProjectsView: View {
             Form {    // ← **DIT IS NU 100% GELDIG**
                 existingProjectsSection
                 newProjectSection
-                equipmentChecklistSection
+                componentChecklistSection
             }
             .navigationTitle(L10n.projectsHeader)
         }
@@ -212,9 +212,9 @@ struct ProjectsView: View {
             TextField(L10n.projectVoltage, text: $newVoltage)
             TextField(L10n.projectNotes, text: $newNotes, axis: .vertical)
 
-            EquipmentDraftSection(
-                equipmentItems: $equipmentItems,
-                draft: $equipmentDraft,
+            ComponentDraftSection(
+                componentItems: $componentItems,
+                draft: $componentDraft,
                 tint: themeColor.color
             )
 
@@ -226,13 +226,13 @@ struct ProjectsView: View {
         }
     }
 
-    private var equipmentChecklistSection: some View {
+    private var componentChecklistSection: some View {
         Section(header: Text("Checklist")) {
-            if equipmentItems.isEmpty {
+            if componentItems.isEmpty {
                 Text("No items")
                     .foregroundStyle(.secondary)
             } else {
-                ForEach($equipmentItems) { $item in
+                ForEach($componentItems) { $item in
                     Toggle(isOn: $item.acquired) {
                         Text(item.primary)
                     }
@@ -241,11 +241,11 @@ struct ProjectsView: View {
             }
 
             HStack {
-                TextField("Add custom item", text: $newEquipmentName)
-                Button(action: addEquipmentItem) {
+                TextField("Add custom item", text: $newComponentName)
+                Button(action: addComponentItem) {
                     Label("Add", systemImage: "plus")
                 }
-                .disabled(newEquipmentName.trimmingCharacters(in: .whitespaces).isEmpty)
+                .disabled(newComponentName.trimmingCharacters(in: .whitespaces).isEmpty)
             }
         }
     }
@@ -257,7 +257,7 @@ struct ProjectsView: View {
             name: newName.trimmingCharacters(in: .whitespaces),
             voltage: newVoltage.trimmingCharacters(in: .whitespaces),
             notes: newNotes.trimmingCharacters(in: .whitespaces),
-            equipment: equipmentItems
+            components: componentItems
         )
 
         projects.append(p)
@@ -265,15 +265,15 @@ struct ProjectsView: View {
         newName = ""
         newVoltage = ""
         newNotes = ""
-        equipmentItems.removeAll()
-        equipmentDraft.reset()
+        componentItems.removeAll()
+        componentDraft.reset()
     }
 
-    private func addEquipmentItem() {
-        let trimmed = newEquipmentName.trimmingCharacters(in: .whitespaces)
+    private func addComponentItem() {
+        let trimmed = newComponentName.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
 
-        equipmentItems.append(.init(
+        componentItems.append(.init(
             name: trimmed,
             tag: nil,
             category: .custom,
@@ -284,12 +284,12 @@ struct ProjectsView: View {
             acquired: false
         ))
 
-        newEquipmentName = ""
+        newComponentName = ""
     }
 
-    private func bindingForProjectDraft(_ id: UUID) -> Binding<EquipmentDraft> {
+    private func bindingForProjectDraft(_ id: UUID) -> Binding<ComponentDraft> {
         Binding(
-            get: { projectDrafts[id] ?? EquipmentDraft() },
+            get: { projectDrafts[id] ?? ComponentDraft() },
             set: { projectDrafts[id] = $0 }
         )
     }
