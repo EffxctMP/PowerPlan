@@ -821,10 +821,12 @@ struct ProjectsView: View {
     @State private var projectDrafts: [Project.ID: EquipmentDraft] = [:]
     @AppStorage("themeColor") private var themeColor: ThemeColor = .electricBlue
     @State private var isPresentingAddProject = false
+    @State private var selection = Set<Project.ID>()
+    @State private var editMode: EditMode = .inactive
 
     var body: some View {
         NavigationStack {
-            Form {
+            List(selection: $selection) {
                 Section(header: Text(L10n.projectsExisting)) {
                     if projects.isEmpty {
                         Text(L10n.projectsEmpty)
@@ -852,6 +854,25 @@ struct ProjectsView: View {
                         Image(systemName: "plus")
                     }
                     .accessibilityLabel(L10n.projectAdd)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button {
+                            toggleSelectionMode()
+                        } label: {
+                            Label(editMode.isEditing ? L10n.projectsSelectionDone : L10n.projectsSelectionStart, systemImage: "checklist")
+                        }
+
+                        Button(role: .destructive) {
+                            deleteSelectedProjects()
+                        } label: {
+                            Label(L10n.projectsDeleteSelected, systemImage: "trash")
+                        }
+                        .disabled(selection.isEmpty)
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                    .accessibilityLabel(L10n.projectsMoreActions)
                 }
             }
             .sheet(isPresented: $isPresentingAddProject) {
@@ -888,6 +909,7 @@ struct ProjectsView: View {
             .persistProjectsOnChange(projects) {
                 persistProjects()
             }
+            .environment(\.editMode, $editMode)
         }
     }
 
@@ -947,6 +969,26 @@ struct ProjectsView: View {
     private func persistProjects() {
         guard let encoded = try? JSONEncoder().encode(projects) else { return }
         storedProjectsData = encoded
+    }
+
+    private func toggleSelectionMode() {
+        withAnimation {
+            if editMode.isEditing {
+                editMode = .inactive
+                selection.removeAll()
+            } else {
+                editMode = .active
+            }
+        }
+    }
+
+    private func deleteSelectedProjects() {
+        guard !selection.isEmpty else { return }
+        withAnimation {
+            projects.removeAll { selection.contains($0.id) }
+            selection.removeAll()
+            editMode = .inactive
+        }
     }
 }
 
