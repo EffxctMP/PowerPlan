@@ -136,6 +136,7 @@ enum L10n {
     static func equipmentVoltageValue(_ value: Int) -> String { String(format: NSLocalizedString("equipment.value.voltage", comment: "Voltage value"), value) }
 
     static var delete: String { NSLocalizedString("action.delete", comment: "Delete button") }
+    static var cancel: String { NSLocalizedString("action.cancel", comment: "Cancel button") }
 
     static var offlineReady: String { NSLocalizedString("badge.offline", comment: "Offline badge") }
     static var proFormulas: String { NSLocalizedString("badge.formulas", comment: "Pro formulas badge") }
