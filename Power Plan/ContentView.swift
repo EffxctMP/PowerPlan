@@ -857,15 +857,27 @@ struct ProjectsView: View {
                             .foregroundStyle(.secondary)
                     } else {
                         ForEach($projects) { $project in
-                            ProjectDisclosureRow(
-                                project: $project,
-                                draft: bindingForProjectDraft(project.id),
-                                isEditing: bindingForProjectEditing(project.id),
-                                tint: themeColor.color,
-                                isSelecting: editMode.isEditing,
-                                isSelected: selection.contains(project.id),
-                                toggleSelection: { toggleSelection(for: project.id) }
-                            )
+                            if editMode.isEditing {
+                                ProjectSelectionRow(
+                                    project: project,
+                                    tint: themeColor.color,
+                                    isSelected: selection.contains(project.id),
+                                    toggleSelection: { toggleSelection(for: project.id) }
+                                )
+                                .contentShape(Rectangle())
+                                .onTapGesture { toggleSelection(for: project.id) }
+                            } else {
+                                NavigationLink {
+                                    ProjectDetailView(
+                                        project: $project,
+                                        draft: bindingForProjectDraft(project.id),
+                                        isEditing: bindingForProjectEditing(project.id),
+                                        tint: themeColor.color
+                                    )
+                                } label: {
+                                    ProjectListRow(project: project)
+                                }
+                            }
                         }
                     }
                 }
@@ -1055,6 +1067,60 @@ private extension View {
                 action()
             }
         }
+    }
+}
+
+struct ProjectListRow: View {
+    let project: ProjectsView.Project
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(project.name)
+                    .font(.headline)
+                if !project.voltage.isEmpty {
+                    Text(project.voltage)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .foregroundStyle(.secondary)
+                .imageScale(.small)
+        }
+        .padding(.vertical, 6)
+    }
+}
+
+struct ProjectSelectionRow: View {
+    let project: ProjectsView.Project
+    let tint: Color
+    let isSelected: Bool
+    var toggleSelection: () -> Void
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Button(action: toggleSelection) {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(isSelected ? tint : .secondary)
+                    .imageScale(.large)
+            }
+            .buttonStyle(.plain)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(project.name)
+                    .font(.headline)
+                if !project.voltage.isEmpty {
+                    Text(project.voltage)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .padding(.vertical, 6)
     }
 }
 
