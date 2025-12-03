@@ -18,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
@@ -263,43 +262,11 @@ private fun ProjectsTab() {
 
 @Composable
 private fun ReferenceTab() {
-    Column(
+    ReferenceView(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Text(
-            text = "Reference",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Card {
-            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Quick constants", style = MaterialTheme.typography.titleMedium)
-                ReferenceRow(Icons.Default.Functions, "Copper resistivity: 0.0175 Ω·mm²/m")
-                ReferenceRow(Icons.Default.Bolt, "Power factor typical range: 0.8 - 1.0")
-                ReferenceRow(Icons.Default.Functions, "3ϕ power multiplier: √3")
-            }
-        }
-
-        Card {
-            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Usage tips", style = MaterialTheme.typography.titleMedium)
-                Text("• Use at least two known values in Ohm's Law to solve the circuit.")
-                Text("• Power calculator suggests a breaker sized at 125% of load current.")
-                Text("• Voltage drop assumes copper conductors at 20°C with round-trip length.")
-            }
-        }
-    }
-}
-
-@Composable
-private fun ReferenceRow(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-        Text(text)
-    }
+            .padding(16.dp)
+    )
 }
 
 @Composable
