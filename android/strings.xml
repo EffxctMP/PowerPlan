@@ -159,4 +159,37 @@
     <string name="component_transformer_watts">Power (W)</string>
     <string name="component_socket">Board Socket</string>
     <string name="component_socket_option">Socket option (e.g. 16 A, 32 A)</string>
+    <string name="component_switch">Switch</string>
+    <string name="component_switch_positions">Number of positions</string>
+    <string name="component_relay">Relay</string>
+    <string name="component_relay_voltage">Coil voltage (12-230 V AC/DC)</string>
+    <string name="component_relay_type">Coil type</string>
+    <string name="component_tag_label">Sticker label (e.g. 3F1)</string>
+    <string name="component_kwh">kWh meter</string>
+    <string name="component_kwh_option">Configuration</string>
+    <string name="component_kwh_single">Single-phase</string>
+    <string name="component_kwh_three">Three-phase</string>
+    <string name="component_plc">PLC cards</string>
+    <string name="component_plc_brand">Brand</string>
+    <string name="component_plc_type">Type/model</string>
+    <string name="component_terminals">Terminals</string>
+    <string name="component_terminals_type">Terminal type</string>
+    <string name="component_custom">Custom item</string>
+    <string name="component_custom_label">Custom description</string>
+    <string name="component_option_note">Option/extra info</string>
+    <string name="component_placeholder">Component placeholder</string>
+    <string name="component_add">Add component</string>
+    <string name="component_empty">No components added yet.</string>
+    <string name="component_mark">Tap to mark on hand</string>
+    <string name="component_selection_hint">Select this component to remove it</string>
+    <string name="component_quantity">Quantity %1$d</string>
+    <string name="component_value_amps">%1$d A</string>
+    <string name="component_value_poles">%1$d poles</string>
+    <string name="component_value_watts">%1$d W</string>
+    <string name="component_value_positions">%1$d positions</string>
+    <string name="component_value_voltage">%1$d V</string>
+    <string name="component_value_tag">Tag %1$s</string>
+
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
 </resources>
