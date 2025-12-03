@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.icons.Icons
@@ -24,8 +21,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.powerplan.components.NumericField
 import com.powerplan.util.formatWithUnit
 import com.powerplan.util.roundedToPlaces
 
@@ -62,17 +59,17 @@ fun VoltageDropView(modifier: Modifier = Modifier) {
         )
 
         InputCard(title = "Inputs") {
-            VoltageDropTextField(
+            NumericField(
                 label = "Length (m)",
                 value = length,
                 onValueChange = { length = it }
             )
-            VoltageDropTextField(
+            NumericField(
                 label = "Load Current (A)",
                 value = load,
                 onValueChange = { load = it }
             )
-            VoltageDropTextField(
+            NumericField(
                 label = "Supply Voltage (V)",
                 value = supply,
                 onValueChange = { supply = it }
@@ -121,23 +118,6 @@ fun VoltageDropView(modifier: Modifier = Modifier) {
             Text(resultMessage, style = MaterialTheme.typography.bodyLarge)
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun VoltageDropTextField(
-    label: String,
-    value: String,
-    onValueChange: (String) -> Unit
-) {
-    OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(label) },
-        value = value,
-        onValueChange = onValueChange,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
-    )
 }
 
 @Composable
