@@ -1,0 +1,162 @@
+<resources>
+    <string name="appearance_system">System</string>
+    <string name="appearance_light">Light</string>
+    <string name="appearance_dark">Dark</string>
+
+    <string name="language_system">System</string>
+    <string name="language_english">English</string>
+    <string name="language_dutch">Dutch</string>
+
+    <string name="tab_calculators">Calculators</string>
+    <string name="tab_reference">Reference</string>
+    <string name="tab_projects">Projects</string>
+
+    <string name="nav_title">Power Plan</string>
+    <string name="nav_ohms">Ohm&apos;s Law</string>
+    <string name="nav_power">Power &amp; Load</string>
+    <string name="nav_watt">Wattage</string>
+    <string name="nav_drop">Voltage Drop</string>
+    <string name="nav_reference">Reference</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_projects">Projects</string>
+    <string name="nav_settings_button">Settings</string>
+
+    <string name="hero_title">Electrician Toolkit</string>
+    <string name="hero_subtitle">Advanced calculators for sizing loads, validating runs, and checking energy costs.</string>
+    <string name="hero_offline">Offline ready</string>
+    <string name="hero_formulas">Pro formulas</string>
+
+    <string name="card_ohms_title">Ohm&apos;s Law</string>
+    <string name="card_ohms_subtitle">Solve for voltage, current, resistance, or power</string>
+    <string name="card_ohms_button">Open Ohm&apos;s Law</string>
+
+    <string name="card_power_title">Power &amp; Load</string>
+    <string name="card_power_subtitle">Single and three-phase power with power factor</string>
+    <string name="card_power_button">Open Power Calculator</string>
+
+    <string name="card_watt_title">Wattage</string>
+    <string name="card_watt_subtitle">Estimate watts from voltage, amps, and power factor</string>
+    <string name="card_watt_button">Open Watt Calculator</string>
+
+    <string name="card_drop_title">Voltage Drop</string>
+    <string name="card_drop_subtitle">Estimate drop based on conductor and load</string>
+    <string name="card_drop_button">Open Voltage Drop</string>
+
+    <string name="section_inputs">Inputs</string>
+    <string name="section_results">Results</string>
+    <string name="section_circuit">Circuit</string>
+    <string name="section_load">Load</string>
+    <string name="section_run">Run</string>
+    <string name="section_appearance">Appearance</string>
+    <string name="section_language">Language</string>
+
+    <string name="ohms_prompt">Provide any two values to solve the rest.</string>
+    <string name="ohms_validation">Enter at least two known values.</string>
+    <string name="ohms_result_voltage">Voltage: %1$s</string>
+    <string name="ohms_result_current">Current: %1$s</string>
+    <string name="ohms_result_resistance">Resistance: %1$s</string>
+    <string name="ohms_result_power">Power: %1$s</string>
+    <string name="ohms_button_calculate">Calculate</string>
+
+    <string name="power_phase">Phase</string>
+    <string name="power_single_phase">Single-phase</string>
+    <string name="power_three_phase">Three-phase</string>
+    <string name="power_factor">Power factor</string>
+    <string name="power_factor_info">Power factor shows how efficiently current turns into real power (0.00 - 1.00).</string>
+    <string name="power_button_estimate">Estimate Power</string>
+    <string name="power_prompt">Enter circuit details and tap Estimate.</string>
+    <string name="power_validation">Please enter valid voltage and current.</string>
+    <string name="power_result_power">Power: %1$.2f W (%2$.2f kW)</string>
+    <string name="power_result_breaker">Recommended breaker: %1$.2f A</string>
+    <string name="power_result_apparent">Apparent power: %1$.2f VA</string>
+
+    <string name="watt_button_calculate">Calculate Watts</string>
+    <string name="watt_prompt">Enter voltage and current, then calculate.</string>
+    <string name="watt_validation">Please enter valid numbers for voltage and current.</string>
+    <string name="watt_result_real">Real power: %1$.2f W (%2$.3f kW)</string>
+    <string name="watt_result_pf">Assuming PF: %1$.2f</string>
+
+    <string name="drop_button_estimate">Estimate Drop</string>
+    <string name="drop_prompt">Enter parameters to estimate voltage drop.</string>
+    <string name="drop_validation">Please provide valid numeric values.</string>
+    <string name="drop_result_voltage">Estimated drop: %1$.2f V</string>
+    <string name="drop_result_percent">Percentage of supply: %1$.2f%%</string>
+    <string name="drop_result_resistance">Loop resistance: %1$.3f Ω</string>
+
+    <string name="badge_offline">Offline ready</string>
+    <string name="badge_formulas">Pro formulas</string>
+
+    <string name="settings_theme_description">Choose System to follow device appearance or force Light/Dark modes.</string>
+    <string name="settings_theme_label">Theme</string>
+    <string name="settings_language_label">App language</string>
+    <string name="settings_language_description">Switch to Dutch to view the interface in Nederlands.</string>
+    <string name="settings_theme_color_label">Theme</string>
+    <string name="settings_theme_color_description">Choose an accent color to personalize the dashboard and the buttons.</string>
+
+    <string name="theme_blue">Blue (Standaard)</string>
+    <string name="theme_green">Green</string>
+    <string name="theme_orange">Orange</string>
+    <string name="theme_indigo">Indigo</string>
+    <string name="theme_purple">Purple</string>
+    <string name="theme_pink">Pink</string>
+    <string name="theme_red">Red</string>
+
+    <string name="reference_copper">Copper resistivity: 0.0175 Ω·mm²/m</string>
+    <string name="reference_pf_range">Power factor typical range: 0.8 - 1.0</string>
+    <string name="reference_multiplier">3ϕ power multiplier: √3</string>
+    <string name="reference_quick">Quick constants</string>
+    <string name="reference_tips">Usage tips</string>
+    <string name="reference_tip_ohms">• Use at least two known values in Ohm&apos;s Law to solve the circuit.</string>
+    <string name="reference_tip_breaker">• Power calculator suggests a breaker sized at 125% of load current.</string>
+    <string name="reference_tip_drop">• Voltage drop assumes copper conductors at 20°C with round-trip length.</string>
+
+    <string name="field_voltage">Voltage (V)</string>
+    <string name="field_current">Current (A)</string>
+    <string name="field_resistance">Resistance (Ω)</string>
+    <string name="field_power">Power (W)</string>
+    <string name="field_length">One-way length (m)</string>
+    <string name="field_load_current">Load current (A)</string>
+    <string name="field_supply_voltage">Supply voltage (V)</string>
+    <string name="field_conductor_area">Conductor area: %1$.1f mm²</string>
+
+    <string name="projects_existing">Industrial projects</string>
+    <string name="projects_new">Add a project</string>
+    <string name="projects_empty">No projects yet. Add your first job to start tracking notes.</string>
+    <string name="projects_actions">Project actions</string>
+    <string name="projects_selection_start">Select projects</string>
+    <string name="projects_selection_done">Done selecting</string>
+    <string name="projects_selection_delete">Delete selected</string>
+    <string name="projects_editing_start">Edit project</string>
+    <string name="projects_editing_done">Done editing</string>
+    <string name="projects_name">Project name</string>
+    <string name="projects_voltage">Supply voltage (e.g. 400 V)</string>
+    <string name="projects_notes">Notes, component, location</string>
+    <string name="projects_add">Add project</string>
+    <string name="projects_details">Project details</string>
+    <string name="projects_component">Board component</string>
+    <string name="projects_component_actions">Component actions</string>
+    <string name="projects_component_empty">No component added for this project yet.</string>
+    <string name="projects_component_empty_project">No component logged for this project.</string>
+    <string name="projects_component_add_title">Add component item</string>
+    <string name="projects_component_type">Component type</string>
+    <string name="projects_component_info">Additional information (optional)</string>
+    <string name="projects_component_quantity">Quantity: %1$d</string>
+    <string name="projects_component_save">Add component</string>
+    <string name="projects_component_selection_start">Select components to remove</string>
+    <string name="projects_component_selection_done">Done selecting components</string>
+    <string name="projects_component_selection_delete">Delete selected components</string>
+    <string name="projects_component_checklist">Component checklist</string>
+
+    <string name="component_breaker">Automatic Circuit Breaker</string>
+    <string name="component_breaker_amps">Rated current (1-1000 A)</string>
+    <string name="component_breaker_curve">Trip curve (B, C, D, K, Z)</string>
+    <string name="component_contactor">Contactor</string>
+    <string name="component_contactor_amps">Rated current (A)</string>
+    <string name="component_poles">Number of poles</string>
+    <string name="component_thermal">Thermal Protection (Motor Protection)</string>
+    <string name="component_thermal_setting">Setting (A)</string>
+    <string name="component_transformer">Transformer</string>
+    <string name="component_transformer_watts">Power (W)</string>
+    <string name="component_socket">Board Socket</string>
+    <string name="component_socket_option">Socket option (e.g. 16 A, 32 A)</string>
+</resources>
