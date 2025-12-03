@@ -1,0 +1,192 @@
+<resources>
+    <string name="appearance_system">Systeem</string>
+    <string name="appearance_light">Licht</string>
+    <string name="appearance_dark">Donker</string>
+
+    <string name="language_system">Systeem</string>
+    <string name="language_english">Engels</string>
+    <string name="language_dutch">Nederlands</string>
+
+    <string name="tab_calculators">Rekenmachines</string>
+    <string name="tab_reference">Referentie</string>
+    <string name="tab_projects">Projecten</string>
+
+    <string name="nav_title">Power Plan</string>
+    <string name="nav_ohms">Wet van Ohm</string>
+    <string name="nav_power">Vermogen en belasting</string>
+    <string name="nav_watt">Wattage</string>
+    <string name="nav_drop">Spanningsval</string>
+    <string name="nav_reference">Referentie</string>
+    <string name="nav_settings">Instellingen</string>
+    <string name="nav_projects">Projecten</string>
+    <string name="nav_settings_button">Instellingen</string>
+
+    <string name="hero_title">Elektricienspakket</string>
+    <string name="hero_subtitle">Geavanceerde calculators voor dimensionering, controles en energie-inschattingen.</string>
+    <string name="hero_offline">Offline beschikbaar</string>
+    <string name="hero_formulas">Professionele formules</string>
+
+    <string name="card_ohms_title">Wet van Ohm</string>
+    <string name="card_ohms_subtitle">Bereken spanning, stroom, weerstand of vermogen</string>
+    <string name="card_ohms_button">Open Wet van Ohm</string>
+
+    <string name="card_power_title">Vermogen en belasting</string>
+    <string name="card_power_subtitle">Enkel- en driefase vermogen met cos φ</string>
+    <string name="card_power_button">Open vermogenscalculator</string>
+
+    <string name="card_watt_title">Wattage</string>
+    <string name="card_watt_subtitle">Schat watt op basis van volt, ampère en cos φ</string>
+    <string name="card_watt_button">Open watt-calculator</string>
+
+    <string name="card_drop_title">Spanningsval</string>
+    <string name="card_drop_subtitle">Schat daling op basis van geleider en belasting</string>
+    <string name="card_drop_button">Open spanningsval</string>
+
+    <string name="section_inputs">Invoer</string>
+    <string name="section_results">Resultaten</string>
+    <string name="section_circuit">Circuit</string>
+    <string name="section_load">Belasting</string>
+    <string name="section_run">Traject</string>
+    <string name="section_appearance">Weergave</string>
+    <string name="section_language">Taal</string>
+
+    <string name="ohms_prompt">Geef minstens twee waarden in om de rest te berekenen.</string>
+    <string name="ohms_validation">Vul minstens twee bekende waarden in.</string>
+    <string name="ohms_result_voltage">Spanning: %1$s</string>
+    <string name="ohms_result_current">Stroom: %1$s</string>
+    <string name="ohms_result_resistance">Weerstand: %1$s</string>
+    <string name="ohms_result_power">Vermogen: %1$s</string>
+    <string name="ohms_button_calculate">Bereken</string>
+
+    <string name="power_phase">Fase</string>
+    <string name="power_single_phase">Enkelfase</string>
+    <string name="power_three_phase">Driefase</string>
+    <string name="power_factor">Vermogensfactor</string>
+    <string name="power_factor_info">Vermogensfactor geeft aan hoe efficiënt stroom wordt omgezet in werkelijk vermogen (0,00 - 1,00).</string>
+    <string name="power_button_estimate">Schat vermogen</string>
+    <string name="power_prompt">Vul de circuitgegevens in en tik op Schat.</string>
+    <string name="power_validation">Geef geldige spanning en stroom in.</string>
+    <string name="power_result_power">Vermogen: %1$.2f W (%2$.2f kW)</string>
+    <string name="power_result_breaker">Aanbevolen automaat: %1$.2f A</string>
+    <string name="power_result_apparent">Schijnbaar vermogen: %1$.2f VA</string>
+
+    <string name="watt_button_calculate">Bereken watt</string>
+    <string name="watt_prompt">Vul spanning en stroom in en bereken.</string>
+    <string name="watt_validation">Geef geldige getallen voor spanning en stroom in.</string>
+    <string name="watt_result_real">Reëel vermogen: %1$.2f W (%2$.3f kW)</string>
+    <string name="watt_result_pf">Uitgaande van cos φ: %1$.2f</string>
+
+    <string name="drop_button_estimate">Schat spanningsval</string>
+    <string name="drop_prompt">Vul parameters in om de spanningsval te schatten.</string>
+    <string name="drop_validation">Geef geldige numerieke waarden in.</string>
+    <string name="drop_result_voltage">Geschatte daling: %1$.2f V</string>
+    <string name="drop_result_percent">Percentage van voeding: %1$.2f%%</string>
+    <string name="drop_result_resistance">Lusweerstand: %1$.3f Ω</string>
+
+    <string name="badge_offline">Offline beschikbaar</string>
+    <string name="badge_formulas">Professionele formules</string>
+
+    <string name="settings_theme_description">Kies Systeem om de apparaatweergave te volgen of forceer Licht/Donker.</string>
+    <string name="settings_theme_label">Donkere modus</string>
+    <string name="settings_theme_color_label">Thema</string>
+    <string name="settings_theme_color_description">Kies een accentkleur om het dashboard en de knoppen te personaliseren.</string>
+    <string name="settings_language_label">App-taal</string>
+    <string name="settings_language_description">Schakel naar Nederlands om de interface in het Nederlands te bekijken.</string>
+
+    <string name="theme_blue">Blauw (Standaard)</string>
+    <string name="theme_green">Groen</string>
+    <string name="theme_orange">Oranje</string>
+    <string name="theme_indigo">Indigo</string>
+    <string name="theme_purple">Paars</string>
+    <string name="theme_pink">Roze</string>
+    <string name="theme_red">Rood</string>
+
+    <string name="reference_copper">Koperresistiviteit: 0,0175 Ω·mm²/m</string>
+    <string name="reference_pf_range">Vermogensfactor typisch bereik: 0,8 - 1,0</string>
+    <string name="reference_multiplier">3ϕ vermogensfactor: √3</string>
+    <string name="reference_quick">Snelle constanten</string>
+    <string name="reference_tips">Gebruikstips</string>
+    <string name="reference_tip_ohms">• Gebruik minstens twee bekende waarden in de wet van Ohm.</string>
+    <string name="reference_tip_breaker">• Vermogenscalculator stelt een automaat van 125% van de belasting voor.</string>
+    <string name="reference_tip_drop">• Spanningsval gaat uit van koperen geleiders op 20°C en heen-en-teruglengte.</string>
+
+    <string name="field_voltage">Spanning (V)</string>
+    <string name="field_current">Stroom (A)</string>
+    <string name="field_resistance">Weerstand (Ω)</string>
+    <string name="field_power">Vermogen (W)</string>
+    <string name="field_length">Enkelvoudige lengte (m)</string>
+    <string name="field_load_current">Belastingsstroom (A)</string>
+    <string name="field_supply_voltage">Voedingsspanning (V)</string>
+    <string name="field_conductor_area">Geleiderdoorsnede: %1$.1f mm²</string>
+
+    <string name="projects_existing">Industriële projecten</string>
+    <string name="projects_new">Project toevoegen</string>
+    <string name="projects_empty">Nog geen projecten. Voeg je eerste opdracht toe om notities bij te houden.</string>
+    <string name="projects_actions">Projectacties</string>
+    <string name="projects_selection_start">Projecten selecteren</string>
+    <string name="projects_selection_done">Selectie sluiten</string>
+    <string name="projects_selection_delete">Geselecteerde verwijderen</string>
+    <string name="projects_editing_start">Project bewerken</string>
+    <string name="projects_editing_done">Bewerken voltooid</string>
+    <string name="projects_name">Projectnaam</string>
+    <string name="projects_voltage">Voedingsspanning (bv. 400 V)</string>
+    <string name="projects_notes">Notities, materiaal, locatie</string>
+    <string name="projects_add">Project toevoegen</string>
+    <string name="projects_details">Projectdetails</string>
+    <string name="projects_component">Bordmateriaal</string>
+    <string name="projects_component_actions">Materiaalacties</string>
+    <string name="projects_component_empty">Nog geen materiaal toegevoegd voor dit project.</string>
+    <string name="projects_component_empty_project">Geen materiaal gekoppeld aan dit project.</string>
+    <string name="projects_component_add_title">Materiaal toevoegen</string>
+    <string name="projects_component_type">Materiaaltype</string>
+    <string name="projects_component_info">Extra info (optioneel)</string>
+    <string name="projects_component_quantity">Aantal: %1$d</string>
+    <string name="projects_component_save">Materiaal toevoegen</string>
+    <string name="projects_component_selection_start">Materiaal selecteren om te verwijderen</string>
+    <string name="projects_component_selection_done">Klaar met selecteren</string>
+    <string name="projects_component_selection_delete">Geselecteerd materiaal verwijderen</string>
+    <string name="projects_component_checklist">Materiaalchecklist</string>
+
+    <string name="component_breaker">Automatische zekering</string>
+    <string name="component_breaker_amps">Nominale stroom (1-1000 A)</string>
+    <string name="component_breaker_curve">Uitschakelcurve (B, C, D, K, Z)</string>
+    <string name="component_contactor">Contactor</string>
+    <string name="component_contactor_amps">Nominale stroom (A)</string>
+    <string name="component_poles">Aantal polen</string>
+    <string name="component_thermal">Thermische beveiliging (motor)</string>
+    <string name="component_thermal_setting">Instelling (A)</string>
+    <string name="component_transformer">Transformator</string>
+    <string name="component_transformer_watts">Vermogen (W)</string>
+    <string name="component_socket">Bordcontactdoos</string>
+    <string name="component_socket_option">Optie contactdoos (bv. 16 A, 32 A)</string>
+    <string name="component_switch">Schakelaar</string>
+    <string name="component_switch_positions">Aantal standen</string>
+    <string name="component_relay">Relais</string>
+    <string name="component_relay_voltage">Spoelspanning (12-230 V AC/DC)</string>
+    <string name="component_relay_type">Spoeltype</string>
+    <string name="component_tag_label">Stickerlabel (bv. 3F1)</string>
+    <string name="component_kwh">kWh-meter</string>
+    <string name="component_kwh_option">Configuratie</string>
+    <string name="component_kwh_single">Enkelfase</string>
+    <string name="component_kwh_three">Driefase</string>
+    <string name="component_plc">PLC-kaarten</string>
+    <string name="component_plc_brand">Merk</string>
+    <string name="component_plc_type">Type/model</string>
+    <string name="component_terminals">Klemmen</string>
+    <string name="component_terminals_type">Klemtype</string>
+    <string name="component_custom">Aangepast item</string>
+    <string name="component_custom_label">Eigen omschrijving</string>
+    <string name="component_option_note">Optie/extra info</string>
+    <string name="component_mark">Tik om aan te geven dat je het hebt</string>
+    <string name="component_selection_hint">Selecteer dit onderdeel om het te verwijderen</string>
+    <string name="component_quantity">Aantal %1$d</string>
+    <string name="component_value_amps">%1$d A</string>
+    <string name="component_value_poles">%1$d polen</string>
+    <string name="component_value_watts">%1$d W</string>
+    <string name="component_value_positions">%1$d standen</string>
+    <string name="component_value_voltage">%1$d V</string>
+    <string name="component_value_tag">Label %1$s</string>
+
+    <string name="action_delete">Verwijderen</string>
+    <string name="action_cancel">Annuleren</string>
+</resources>
