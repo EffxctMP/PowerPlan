@@ -177,6 +177,9 @@
     <string name="component_custom">Aangepast item</string>
     <string name="component_custom_label">Eigen omschrijving</string>
     <string name="component_option_note">Optie/extra info</string>
+    <string name="component_placeholder">Plaatsaanduiding onderdeel</string>
+    <string name="component_add">Onderdeel toevoegen</string>
+    <string name="component_empty">Nog geen onderdelen toegevoegd.</string>
     <string name="component_mark">Tik om aan te geven dat je het hebt</string>
     <string name="component_selection_hint">Selecteer dit onderdeel om het te verwijderen</string>
     <string name="component_quantity">Aantal %1$d</string>
